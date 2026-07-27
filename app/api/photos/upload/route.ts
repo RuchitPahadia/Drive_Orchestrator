@@ -3,6 +3,7 @@ import { query } from '@/lib/db';
 import { pickAccountForUpload } from '@/lib/storage-router';
 import { getDriveClient } from '@/lib/drive-client';
 import { Readable } from 'stream';
+import { queue } from '@/lib/queue';
 
 export async function POST(request: NextRequest) {
   try {
@@ -88,6 +89,16 @@ export async function POST(request: NextRequest) {
         file.size,
       ]
     );
+
+    // 7. Enqueue a background photo-indexing job
+    const photoId = photoResult.rows[0].id;
+    try {
+      console.log(`Enqueuing photo-indexing job for photo ID ${photoId}...`);
+      await queue.add('photo-indexing', { photoId });
+    } catch (queueError) {
+      console.error(`Failed to enqueue indexing job for photo ${photoId}:`, queueError);
+      // We don't fail the HTTP response if the queue enqueue fails, but we log it
+    }
 
     return NextResponse.json({
       message: 'Photo uploaded successfully',
