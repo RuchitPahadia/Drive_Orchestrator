@@ -1,0 +1,8 @@
+client_secret_*.json
+# Add other credentials, environment files, and local build artifacts here
+.env
+*.env
+node_modules/
+dist/
+build/
+.gemini/
