@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/db';
-import { pickAccountForUpload } from '@/lib/storage-router';
+import { pickAccountsForUpload } from '@/lib/storage-router';
 import { getDriveClient } from '@/lib/drive-client';
 import { Readable } from 'stream';
 import { queue } from '@/lib/queue';
+import { indexPhoto } from '@/lib/indexer';
 
 export async function POST(request: NextRequest) {
   try {
@@ -37,72 +38,120 @@ export async function POST(request: NextRequest) {
     }
     const userId = userResult.rows[0].id;
 
-    // 4. Select the best connected Google Drive account for the upload
-    let accountId: string;
+    // 4. Select all eligible connected Google Drive accounts for the upload
+    let accountIds: string[];
     try {
-      accountId = await pickAccountForUpload(userId, file.size);
+      accountIds = await pickAccountsForUpload(userId, file.size);
     } catch (routeError) {
-      const errorMsg = routeError instanceof Error ? routeError.message : 'Failed to determine target storage account';
+      const errorMsg = routeError instanceof Error ? routeError.message : 'Failed to determine target storage accounts';
       return NextResponse.json(
         { error: errorMsg },
         { status: 400 }
       );
     }
 
-    // 5. Get the Google Drive client and initiate the upload
-    const drive = await getDriveClient(accountId);
-    
-    // Convert the File (Blob) content to a node Readable stream for the googleapis client
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-    const stream = Readable.from(buffer);
+    // 5. Upload the file to all eligible accounts in parallel
+    const fileArrayBuffer = await file.arrayBuffer();
+    const fileBuffer = Buffer.from(fileArrayBuffer);
 
-    console.log(`Uploading file "${file.name}" (${file.size} bytes) to Google Drive account ${accountId}...`);
-    const driveResponse = await drive.files.create({
-      requestBody: {
-        name: file.name,
-        mimeType: file.type || 'application/octet-stream',
-      },
-      media: {
-        mimeType: file.type || 'application/octet-stream',
-        body: stream,
-      },
-      fields: 'id, name, mimeType, size',
+    console.log(`Starting replication upload of "${file.name}" to ${accountIds.length} accounts...`);
+    const uploadPromises = accountIds.map(async (accountId) => {
+      try {
+        const drive = await getDriveClient(accountId);
+        // Create a new stream from the buffer for each upload
+        const stream = Readable.from(fileBuffer);
+
+        console.log(`Uploading "${file.name}" to Google Drive account ${accountId}...`);
+        const driveResponse = await drive.files.create({
+          requestBody: {
+            name: file.name,
+            mimeType: file.type || 'application/octet-stream',
+          },
+          media: {
+            mimeType: file.type || 'application/octet-stream',
+            body: stream,
+          },
+          fields: 'id, name, mimeType, size',
+        });
+
+        const driveFileId = driveResponse.data.id;
+        if (!driveFileId) {
+          throw new Error('Google Drive API returned empty file ID');
+        }
+
+        return { accountId, driveFileId };
+      } catch (uploadError) {
+        console.error(`Failed to upload to account ${accountId}:`, uploadError);
+        return null;
+      }
     });
 
-    const driveFileId = driveResponse.data.id;
-    if (!driveFileId) {
-      throw new Error('Google Drive API completed upload but failed to return a file ID');
+    const uploadResults = (await Promise.all(uploadPromises)).filter(
+      (res): res is { accountId: string; driveFileId: string } => res !== null
+    );
+
+    if (uploadResults.length === 0) {
+      throw new Error('Upload failed: Could not upload the file to any of your connected Google Drive accounts.');
     }
 
-    // 6. Record metadata in the photos database table
+    console.log(`Successfully uploaded "${file.name}" to ${uploadResults.length} accounts.`);
+
+    // 6. Record metadata in the photos database table (logical photo)
     const photoResult = await query(
-      `INSERT INTO photos (user_id, account_id, drive_file_id, filename, mime_type, size_bytes) 
-       VALUES ($1, $2, $3, $4, $5, $6) 
-       RETURNING id, user_id, account_id, drive_file_id, filename, mime_type, size_bytes, created_at`,
+      `INSERT INTO photos (user_id, filename, mime_type, size_bytes) 
+       VALUES ($1, $2, $3, $4) 
+       RETURNING id, user_id, filename, mime_type, size_bytes, created_at`,
       [
         userId,
-        accountId,
-        driveFileId,
         file.name,
         file.type || 'application/octet-stream',
         file.size,
       ]
     );
 
-    // 7. Enqueue a background photo-indexing job
     const photoId = photoResult.rows[0].id;
-    try {
-      console.log(`Enqueuing photo-indexing job for photo ID ${photoId}...`);
-      await queue.add('photo-indexing', { photoId });
-    } catch (queueError) {
-      console.error(`Failed to enqueue indexing job for photo ${photoId}:`, queueError);
-      // We don't fail the HTTP response if the queue enqueue fails, but we log it
+
+    // 7. Record each physical copy in the photo_replicas table
+    for (const replica of uploadResults) {
+      await query(
+        `INSERT INTO photo_replicas (photo_id, account_id, drive_file_id) 
+         VALUES ($1, $2, $3)`,
+        [photoId, replica.accountId, replica.driveFileId]
+      );
     }
 
+    // 8. Enqueue a background photo-indexing job or run inline if Redis is not configured
+    const hasRedis = !!process.env.REDIS_URL;
+    if (hasRedis) {
+      try {
+        console.log(`Enqueuing photo-indexing job for photo ID ${photoId}...`);
+        await queue.add('photo-indexing', { photoId });
+      } catch (queueError) {
+        console.error(`Failed to enqueue indexing job for photo ${photoId}, falling back to inline indexing:`, queueError);
+        // Fallback to inline background processing if Redis connection fails
+        indexPhoto(photoId).catch(err => {
+          console.error(`[Inline Indexer Fail] Photo ${photoId}:`, err);
+        });
+      }
+    } else {
+      console.log(`Redis not configured (REDIS_URL is empty). Executing indexer inline for photo ID ${photoId}...`);
+      // Run indexing inline in the background (non-blocking for HTTP response)
+      indexPhoto(photoId).catch(err => {
+        console.error(`[Inline Indexer Fail] Photo ${photoId}:`, err);
+      });
+    }
+
+    // Return the response with compatibility fields (mapping first replica's details)
+    const compatibilityPhoto = {
+      ...photoResult.rows[0],
+      account_id: uploadResults[0].accountId,
+      drive_file_id: uploadResults[0].driveFileId,
+      replicasCount: uploadResults.length,
+    };
+
     return NextResponse.json({
-      message: 'Photo uploaded successfully',
-      photo: photoResult.rows[0],
+      message: `Photo uploaded successfully (replicated to ${uploadResults.length} accounts)`,
+      photo: compatibilityPhoto,
     });
   } catch (error) {
     console.error('Error handling upload request:', error);
@@ -110,3 +159,4 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: errorMsg }, { status: 500 });
   }
 }
+

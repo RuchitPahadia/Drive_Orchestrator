@@ -29,14 +29,14 @@ export async function GET(request: NextRequest) {
     const userId = userResult.rows[0].id;
 
     // 2. Build the WHERE conditions and query parameter values dynamically
-    const conditions: string[] = ['user_id = $1'];
+    const conditions: string[] = ['p.user_id = $1'];
     const values: (string | number | Date)[] = [userId];
 
     if (startDate) {
       const parsedStart = new Date(startDate);
       if (!isNaN(parsedStart.getTime())) {
         values.push(parsedStart);
-        conditions.push(`taken_at >= $${values.length}`);
+        conditions.push(`p.taken_at >= $${values.length}`);
       }
     }
 
@@ -44,24 +44,24 @@ export async function GET(request: NextRequest) {
       const parsedEnd = new Date(endDate);
       if (!isNaN(parsedEnd.getTime())) {
         values.push(parsedEnd);
-        conditions.push(`taken_at <= $${values.length}`);
+        conditions.push(`p.taken_at <= $${values.length}`);
       }
     }
 
     if (accountId) {
       values.push(accountId);
-      conditions.push(`account_id = $${values.length}`);
+      conditions.push(`EXISTS (SELECT 1 FROM photo_replicas pr WHERE pr.photo_id = p.id AND pr.account_id = $${values.length})`);
     }
 
     if (camera) {
       values.push(`%${camera}%`);
-      conditions.push(`camera_model ILIKE $${values.length}`);
+      conditions.push(`p.camera_model ILIKE $${values.length}`);
     }
 
     const whereClause = `WHERE ${conditions.join(' AND ')}`;
 
     // 3. Fetch the total count of matching photos for pagination
-    const countQuery = `SELECT COUNT(*) as total FROM photos ${whereClause}`;
+    const countQuery = `SELECT COUNT(*) as total FROM photos p ${whereClause}`;
     const countResult = await query(countQuery, values);
     const total = parseInt(countResult.rows[0].total, 10);
 
@@ -78,10 +78,13 @@ export async function GET(request: NextRequest) {
 
     // Order by taken_at DESC (as specified), with a secondary fallback to created_at DESC for deterministic sorting
     const dataQuery = `
-      SELECT id, account_id, drive_file_id, filename, mime_type, size_bytes, taken_at, gps_lat, gps_lng, camera_model, thumbnail_url, created_at 
-      FROM photos 
+      SELECT p.id, p.filename, p.mime_type, p.size_bytes, p.taken_at, p.gps_lat, p.gps_lng, p.camera_model, p.thumbnail_url, p.created_at,
+             (SELECT r.account_id FROM photo_replicas r WHERE r.photo_id = p.id LIMIT 1) as account_id,
+             (SELECT r.drive_file_id FROM photo_replicas r WHERE r.photo_id = p.id LIMIT 1) as drive_file_id,
+             ARRAY(SELECT r.account_id::text FROM photo_replicas r WHERE r.photo_id = p.id) as replica_account_ids
+      FROM photos p
       ${whereClause} 
-      ORDER BY taken_at DESC NULLS LAST, created_at DESC
+      ORDER BY p.taken_at DESC NULLS LAST, p.created_at DESC
       LIMIT ${limitPlaceholder} OFFSET ${offsetPlaceholder}
     `;
 

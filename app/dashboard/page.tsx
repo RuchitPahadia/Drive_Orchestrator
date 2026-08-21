@@ -1,9 +1,12 @@
 import Link from 'next/link';
 import { query } from '@/lib/db';
+import UploadButton from './UploadButton';
 
 interface Account {
   id: string;
   google_email: string;
+  quota_total_bytes: string | number | null;
+  quota_used_bytes: string | number | null;
   created_at: Date;
 }
 
@@ -27,7 +30,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
     try {
       // In a real app, we would query by logged in user ID. For now, get the testuser@example.com account
       const res = await query(
-        `SELECT a.id, a.google_email, a.created_at 
+        `SELECT a.id, a.google_email, a.quota_total_bytes, a.quota_used_bytes, a.created_at 
          FROM accounts a 
          JOIN users u ON a.user_id = u.id 
          WHERE u.email = $1 
@@ -41,12 +44,68 @@ export default async function DashboardPage({ searchParams }: PageProps) {
     }
   }
 
+  // Calculate aggregated storage space
+  let totalStorageBytes = 0;
+  let totalUsedBytes = 0;
+
+  accounts.forEach(acc => {
+    const total = typeof acc.quota_total_bytes === 'string' ? parseInt(acc.quota_total_bytes, 10) : (Number(acc.quota_total_bytes) || 0);
+    const used = typeof acc.quota_used_bytes === 'string' ? parseInt(acc.quota_used_bytes, 10) : (Number(acc.quota_used_bytes) || 0);
+    totalStorageBytes += total;
+    totalUsedBytes += used;
+  });
+
+  const totalFreeBytes = Math.max(0, totalStorageBytes - totalUsedBytes);
+  const totalUsedPercentage = totalStorageBytes > 0 ? (totalUsedBytes / totalStorageBytes) * 100 : 0;
+
+  // Helper to format file sizes nicely
+  const formatStorageSize = (bytes: number) => {
+    if (bytes === 0) return '0 B';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
+
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-50 font-sans selection:bg-indigo-500/30 selection:text-indigo-200">
       {/* Background radial glow */}
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(99,102,241,0.06),transparent_40%),radial-gradient(circle_at_70%_60%,rgba(168,85,247,0.04),transparent_50%)] pointer-events-none" />
 
-      <main className="max-w-6xl mx-auto px-6 py-12 relative z-10">
+      {/* Top Navbar */}
+      <nav className="sticky top-0 z-30 backdrop-blur-md bg-zinc-950/70 border-b border-zinc-800/80">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+          <Link href="/dashboard" className="flex items-center gap-2 group">
+            <span className="text-xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent group-hover:from-indigo-300 group-hover:to-pink-300 transition-all duration-300">
+              Photo Orchestrator
+            </span>
+          </Link>
+          <div className="flex gap-4">
+            <Link 
+              href="/dashboard" 
+              className="text-indigo-400 font-semibold text-sm transition-colors"
+            >
+              Dashboard
+            </Link>
+            <span className="text-zinc-600">|</span>
+            <Link 
+              href="/browse" 
+              className="text-zinc-400 hover:text-zinc-100 text-sm font-medium transition-colors"
+            >
+              Gallery
+            </Link>
+            <span className="text-zinc-600">|</span>
+            <Link 
+              href="/admin" 
+              className="text-zinc-400 hover:text-zinc-100 text-sm font-medium transition-colors"
+            >
+              Admin
+            </Link>
+          </div>
+        </div>
+      </nav>
+
+      <main className="max-w-6xl mx-auto px-6 py-10 relative z-10">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 pb-8 border-b border-zinc-800/80 mb-10">
           <div>
@@ -160,6 +219,11 @@ export default async function DashboardPage({ searchParams }: PageProps) {
           </div>
         )}
 
+        {/* Upload Section (visible only when accounts are connected) */}
+        {!dbError && !isDbUnconfigured && accounts.length > 0 && (
+          <UploadButton />
+        )}
+
         {/* Connected Accounts Section */}
         <section className="mt-4">
           <div className="flex items-center justify-between mb-6">
@@ -173,6 +237,35 @@ export default async function DashboardPage({ searchParams }: PageProps) {
               {accounts.length} Account{accounts.length !== 1 ? 's' : ''}
             </span>
           </div>
+
+          {/* Aggregated Storage Quota Slider/Bar */}
+          {!dbError && !isDbUnconfigured && accounts.length > 0 && (
+            <div className="mb-8 p-6 rounded-2xl bg-zinc-900/40 border border-zinc-800/80 backdrop-blur-md">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+                <div>
+                  <h3 className="text-lg font-bold text-zinc-100">Pooled Storage Capacity</h3>
+                  <p className="text-xs text-zinc-400 mt-0.5">Aggregated storage across all connected Google Drive accounts.</p>
+                </div>
+                <div className="text-left sm:text-right">
+                  <span className="text-xl font-extrabold text-indigo-400">{formatStorageSize(totalUsedBytes)}</span>
+                  <span className="text-zinc-500 text-sm font-semibold"> / {formatStorageSize(totalStorageBytes)} used</span>
+                </div>
+              </div>
+
+              {/* Slider/Progress Bar */}
+              <div className="w-full bg-zinc-950 rounded-full h-3 border border-zinc-800/80 overflow-hidden p-[1px]">
+                <div 
+                  className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 h-full rounded-full transition-all duration-500 ease-out shadow-[0_0_10px_rgba(99,102,241,0.3)]"
+                  style={{ width: `${Math.min(100, Math.max(1, totalUsedPercentage))}%` }}
+                />
+              </div>
+
+              <div className="flex justify-between items-center mt-3 text-xs">
+                <span className="text-zinc-500 font-medium">{totalUsedPercentage.toFixed(1)}% Utilized</span>
+                <span className="text-emerald-400 font-bold">{formatStorageSize(totalFreeBytes)} Available</span>
+              </div>
+            </div>
+          )}
 
           {!dbError && !isDbUnconfigured && accounts.length === 0 ? (
             /* Empty State */
@@ -197,35 +290,63 @@ export default async function DashboardPage({ searchParams }: PageProps) {
           ) : (
             /* Accounts Grid */
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {accounts.map((acc) => (
-                <div 
-                  key={acc.id}
-                  className="p-6 rounded-2xl bg-zinc-900/40 border border-zinc-800/80 backdrop-blur-sm flex flex-col justify-between hover:border-indigo-500/30 transition-all duration-300 group hover:shadow-lg hover:shadow-indigo-500/5"
-                >
-                  <div className="flex justify-between items-start gap-4">
-                    <div className="p-2 bg-indigo-500/10 rounded-xl text-indigo-400 group-hover:bg-indigo-500/20 transition-colors duration-300">
-                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 19v-8.93a2 2 0 01.89-1.664l8-5.333a2 2 0 012.22 0l8 5.333A2 2 0 0121 10.07V19M3 19a2 2 0 002 2h14a2 2 0 002-2M3 19l6.75-4.5M21 19l-6.75-4.5M3 10l6.75 4.5M21 10l-6.75 4.5m0 0l-5.625-3.75" />
-                      </svg>
-                    </div>
-                    
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
-                      Connected
-                    </span>
-                  </div>
+              {accounts.map((acc) => {
+                const total = typeof acc.quota_total_bytes === 'string' ? parseInt(acc.quota_total_bytes, 10) : (Number(acc.quota_total_bytes) || 0);
+                const used = typeof acc.quota_used_bytes === 'string' ? parseInt(acc.quota_used_bytes, 10) : (Number(acc.quota_used_bytes) || 0);
+                const free = Math.max(0, total - used);
+                const percentage = total > 0 ? (used / total) * 100 : 0;
 
-                  <div className="mt-4">
-                    <h4 className="text-lg font-bold text-zinc-100 break-all">{acc.google_email}</h4>
-                    <p className="text-zinc-500 text-xs mt-1">
-                      Connected on {new Date(acc.created_at).toLocaleDateString(undefined, { 
-                        year: 'numeric', 
-                        month: 'short', 
-                        day: 'numeric' 
-                      })}
-                    </p>
+                return (
+                  <div 
+                    key={acc.id}
+                    className="p-6 rounded-2xl bg-zinc-900/40 border border-zinc-800/80 backdrop-blur-sm flex flex-col justify-between hover:border-indigo-500/30 transition-all duration-300 group hover:shadow-lg hover:shadow-indigo-500/5"
+                  >
+                    <div>
+                      <div className="flex justify-between items-start gap-4">
+                        <div className="p-2 bg-indigo-500/10 rounded-xl text-indigo-400 group-hover:bg-indigo-500/20 transition-colors duration-300">
+                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 19v-8.93a2 2 0 01.89-1.664l8-5.333a2 2 0 012.22 0l8 5.333A2 2 0 0121 10.07V19M3 19a2 2 0 002 2h14a2 2 0 002-2M3 19l6.75-4.5M21 19l-6.75-4.5M3 10l6.75 4.5M21 10l-6.75 4.5m0 0l-5.625-3.75" />
+                          </svg>
+                        </div>
+                        
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
+                          Connected
+                        </span>
+                      </div>
+
+                      <div className="mt-4">
+                        <h4 className="text-lg font-bold text-zinc-100 break-all">{acc.google_email}</h4>
+                        <p className="text-zinc-550 text-[10px] mt-0.5">
+                          Connected on {new Date(acc.created_at).toLocaleDateString(undefined, { 
+                            year: 'numeric', 
+                            month: 'short', 
+                            day: 'numeric' 
+                          })}
+                        </p>
+                      </div>
+                    </div>
+
+                    {total > 0 && (
+                      <div className="mt-6 pt-4 border-t border-zinc-800/60">
+                        <div className="flex justify-between items-center text-xs mb-1.5">
+                          <span className="text-zinc-400 font-semibold">{formatStorageSize(used)} used</span>
+                          <span className="text-zinc-500 font-medium">of {formatStorageSize(total)}</span>
+                        </div>
+                        <div className="w-full bg-zinc-950 rounded-full h-1.5 border border-zinc-800/80 overflow-hidden">
+                          <div 
+                            className="bg-indigo-500 h-full rounded-full transition-all duration-500"
+                            style={{ width: `${Math.min(100, Math.max(1, percentage))}%` }}
+                          />
+                        </div>
+                        <div className="flex justify-between items-center text-[10px] text-zinc-500 mt-1.5">
+                          <span>{percentage.toFixed(1)}% full</span>
+                          <span className="text-zinc-450">{formatStorageSize(free)} free</span>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </section>

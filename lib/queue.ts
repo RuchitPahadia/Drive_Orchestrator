@@ -8,32 +8,43 @@ declare global {
   var redisConnection: Redis | undefined;
 }
 
-let connection: Redis;
-let queue: Queue;
-
-if (process.env.NODE_ENV === 'production') {
-  if (!redisUrl) {
-    throw new Error('REDIS_URL environment variable is missing.');
+let connection: Redis | undefined = undefined;
+let queue: Queue = {
+  add: async () => {
+    throw new Error('Redis Queue is disabled because REDIS_URL is not set.');
   }
-  // BullMQ requires maxRetriesPerRequest to be null on the connection it uses
-  connection = new Redis(redisUrl, { maxRetriesPerRequest: null });
-  queue = new Queue('photo-indexing', { connection });
-} else {
-  if (!global.redisConnection) {
-    if (!redisUrl) {
-      console.warn('Warning: REDIS_URL is not set. BullMQ connection will run in lazy/local fallback mode.');
-      // Initialize with lazyConnect so it doesn't try to connect immediately during build or linting
-      global.redisConnection = new Redis({ maxRetriesPerRequest: null, lazyConnect: true });
-    } else {
+} as unknown as Queue;
+
+if (redisUrl) {
+  if (process.env.NODE_ENV === 'production') {
+    connection = new Redis(redisUrl, { maxRetriesPerRequest: null });
+    queue = new Queue('photo-indexing', { connection });
+  } else {
+    if (!global.redisConnection) {
       global.redisConnection = new Redis(redisUrl, { maxRetriesPerRequest: null });
     }
-  }
-  connection = global.redisConnection;
+    connection = global.redisConnection;
 
-  if (!global.photoQueue) {
-    global.photoQueue = new Queue('photo-indexing', { connection });
+    if (!global.photoQueue) {
+      global.photoQueue = new Queue('photo-indexing', { connection });
+    }
+    queue = global.photoQueue;
   }
-  queue = global.photoQueue;
+} else {
+  if (process.env.NODE_ENV === 'production') {
+    console.warn('Warning: REDIS_URL environment variable is missing. Queue operates in fallback mock mode.');
+  } else {
+    if (!global.redisConnection) {
+      console.warn('Warning: REDIS_URL is not set. BullMQ connection will run in lazy/local fallback mode.');
+      global.redisConnection = new Redis({ maxRetriesPerRequest: null, lazyConnect: true });
+    }
+    connection = global.redisConnection;
+
+    if (!global.photoQueue) {
+      global.photoQueue = new Queue('photo-indexing', { connection });
+    }
+    queue = global.photoQueue;
+  }
 }
 
 export { queue, connection };

@@ -2,14 +2,14 @@ import { query } from './db';
 import { refreshAccountQuota } from './drive-client';
 
 /**
- * Evaluates the connected storage accounts for a user and chooses the most appropriate one
- * to receive a new file based on available storage space and lowest utilization ratio.
+ * Evaluates the connected storage accounts for a user and chooses all appropriate ones
+ * to receive a new file based on available storage space.
  *
  * @param userId The ID of the application user.
  * @param fileSizeBytes The size of the file to be uploaded, in bytes.
- * @returns The UUID of the selected account.
+ * @returns The UUIDs of the selected accounts.
  */
-export async function pickAccountForUpload(userId: string, fileSizeBytes: number): Promise<string> {
+export async function pickAccountsForUpload(userId: string, fileSizeBytes: number): Promise<string[]> {
   // 1. Fetch all connected accounts for the user
   const result = await query(
     `SELECT id, quota_total_bytes, quota_used_bytes, quota_checked_at 
@@ -59,13 +59,6 @@ export async function pickAccountForUpload(userId: string, fileSizeBytes: number
     throw new Error(`Insufficient storage space. None of your connected Google Drive accounts have ${sizeMB} MB of free space remaining.`);
   }
 
-  // 4. Return the account with the lowest utilization ratio (used / total)
-  // This balances storage usage evenly across connected accounts.
-  eligibleAccounts.sort((a, b) => {
-    const ratioA = a.total > 0 ? a.used / a.total : 1;
-    const ratioB = b.total > 0 ? b.used / b.total : 1;
-    return ratioA - ratioB;
-  });
-
-  return eligibleAccounts[0].id;
+  // 4. Return all eligible accounts to store the file in both/all of them
+  return eligibleAccounts.map(acc => acc.id);
 }
