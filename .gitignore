@@ -40,3 +40,8 @@ client_secret_*.json
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Graphify local state and cache
+graphify-out/cache/
+graphify-out/cost.json
+

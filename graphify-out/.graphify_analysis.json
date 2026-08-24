@@ -1,0 +1,350 @@
+{
+  "communities": {
+    "0": [
+      "app_api_accounts_route",
+      "app_api_accounts_route_get",
+      "app_api_admin_actions_route",
+      "app_api_admin_actions_route_post",
+      "app_api_photos_route",
+      "app_api_photos_route_get",
+      "app_api_photos_upload_route",
+      "app_api_photos_upload_route_post",
+      "lib_db",
+      "lib_db_query",
+      "lib_drive_client",
+      "lib_drive_client_getdriveclient",
+      "lib_drive_client_refreshaccountquota",
+      "lib_indexer",
+      "lib_indexer_indexphoto",
+      "lib_indexer_streamtobuffer",
+      "lib_queue",
+      "lib_queue_queue",
+      "lib_storage_router",
+      "lib_storage_router_pickaccountsforupload",
+      "workers_indexer",
+      "workers_indexer_worker"
+    ],
+    "1": [
+      "eslint",
+      "eslint_config_next",
+      "package_devdependencies",
+      "package_devdependencies_eslint",
+      "package_devdependencies_eslint_config_next",
+      "package_devdependencies_tailwindcss",
+      "package_devdependencies_tailwindcss_postcss",
+      "package_devdependencies_tsx",
+      "package_devdependencies_types_node",
+      "package_devdependencies_types_pg",
+      "package_devdependencies_types_react",
+      "package_devdependencies_types_react_dom",
+      "package_devdependencies_typescript",
+      "tailwindcss",
+      "tailwindcss_postcss",
+      "tsx",
+      "types_node",
+      "types_pg",
+      "types_react",
+      "types_react_dom",
+      "typescript"
+    ],
+    "2": [
+      "bullmq",
+      "exifr",
+      "googleapis",
+      "ioredis",
+      "next",
+      "package_dependencies",
+      "package_dependencies_bullmq",
+      "package_dependencies_exifr",
+      "package_dependencies_googleapis",
+      "package_dependencies_ioredis",
+      "package_dependencies_next",
+      "package_dependencies_pg",
+      "package_dependencies_react",
+      "package_dependencies_react_dom",
+      "package_dependencies_sharp",
+      "pg",
+      "react",
+      "react_dom",
+      "sharp"
+    ],
+    "3": [
+      "ref_dom",
+      "ref_dom_iterable",
+      "ref_esnext",
+      "tsconfig_compileroptions",
+      "tsconfig_compileroptions_allowjs",
+      "tsconfig_compileroptions_esmoduleinterop",
+      "tsconfig_compileroptions_incremental",
+      "tsconfig_compileroptions_isolatedmodules",
+      "tsconfig_compileroptions_jsx",
+      "tsconfig_compileroptions_lib",
+      "tsconfig_compileroptions_module",
+      "tsconfig_compileroptions_moduleresolution",
+      "tsconfig_compileroptions_noemit",
+      "tsconfig_compileroptions_paths",
+      "tsconfig_compileroptions_plugins",
+      "tsconfig_compileroptions_resolvejsonmodule",
+      "tsconfig_compileroptions_skiplibcheck",
+      "tsconfig_compileroptions_strict",
+      "tsconfig_compileroptions_target"
+    ],
+    "4": [
+      "app_api_accounts_callback_route",
+      "app_api_accounts_callback_route_get",
+      "app_api_accounts_connect_route",
+      "app_api_accounts_connect_route_get",
+      "lib_crypto",
+      "lib_crypto_decrypt",
+      "lib_crypto_encrypt",
+      "lib_crypto_getencryptionkey",
+      "lib_google_oauth",
+      "lib_google_oauth_generateauthurl",
+      "lib_google_oauth_getoauth2client"
+    ],
+    "5": [
+      "package",
+      "package_name",
+      "package_private",
+      "package_scripts",
+      "package_scripts_build",
+      "package_scripts_dev",
+      "package_scripts_lint",
+      "package_scripts_start",
+      "package_scripts_worker",
+      "package_version"
+    ],
+    "6": [
+      "ref_mts",
+      "ref_next_dev_types_ts",
+      "ref_next_env_d_ts",
+      "ref_next_types_ts",
+      "ref_node_modules",
+      "ref_ts",
+      "ref_tsx",
+      "tsconfig",
+      "tsconfig_exclude",
+      "tsconfig_include"
+    ],
+    "7": [
+      "app_admin_admindashboard",
+      "app_admin_admindashboard_accountrecord",
+      "app_admin_admindashboard_admindashboard",
+      "app_admin_admindashboard_admindashboardprops",
+      "app_admin_admindashboard_photorecord",
+      "app_admin_admindashboard_systemstats",
+      "app_admin_admindashboard_userrecord",
+      "app_admin_page",
+      "app_admin_page_adminpage"
+    ],
+    "8": [
+      "app_dashboard_page",
+      "app_dashboard_page_account",
+      "app_dashboard_page_dashboardpage",
+      "app_dashboard_page_pageprops",
+      "app_dashboard_uploadbutton",
+      "app_dashboard_uploadbutton_uploadbutton"
+    ],
+    "9": [
+      "app_browse_page",
+      "app_browse_page_account",
+      "app_browse_page_browsephotospage",
+      "app_browse_page_browsephotospage_fetchaccounts",
+      "app_browse_page_photo"
+    ],
+    "10": [
+      "app_layout",
+      "app_layout_geistmono",
+      "app_layout_geistsans",
+      "app_layout_metadata",
+      "app_layout_rootlayout"
+    ],
+    "11": [
+      "db_schema",
+      "db_schema_accounts",
+      "db_schema_photo_replicas",
+      "db_schema_photos",
+      "db_schema_users"
+    ],
+    "12": [
+      "app_page",
+      "app_page_home"
+    ],
+    "13": [
+      "eslint_config",
+      "eslint_config_eslintconfig"
+    ],
+    "14": [
+      "next_config",
+      "next_config_nextconfig"
+    ],
+    "15": [
+      "postcss_config",
+      "postcss_config_config"
+    ]
+  },
+  "cohesion": {
+    "0": 0.2813852813852814,
+    "1": 0.09523809523809523,
+    "2": 0.10526315789473684,
+    "3": 0.10526315789473684,
+    "4": 0.34545454545454546,
+    "5": 0.2,
+    "6": 0.2,
+    "7": 0.25,
+    "8": 0.4,
+    "9": 0.4,
+    "10": 0.4,
+    "11": 0.8,
+    "12": 1.0,
+    "13": 1.0,
+    "14": 1.0,
+    "15": 1.0
+  },
+  "gods": [
+    {
+      "id": "lib_db_query",
+      "label": "query()",
+      "degree": 22
+    },
+    {
+      "id": "tsconfig_compileroptions",
+      "label": "compilerOptions",
+      "degree": 16
+    },
+    {
+      "id": "lib_drive_client_getdriveclient",
+      "label": "getDriveClient()",
+      "degree": 12
+    },
+    {
+      "id": "lib_indexer_indexphoto",
+      "label": "indexPhoto()",
+      "degree": 10
+    },
+    {
+      "id": "lib_drive_client_refreshaccountquota",
+      "label": "refreshAccountQuota()",
+      "degree": 7
+    },
+    {
+      "id": "tsconfig_include",
+      "label": "include",
+      "degree": 7
+    },
+    {
+      "id": "lib_crypto_encrypt",
+      "label": "encrypt()",
+      "degree": 6
+    },
+    {
+      "id": "lib_google_oauth_getoauth2client",
+      "label": "getOAuth2Client()",
+      "degree": 6
+    },
+    {
+      "id": "package_scripts",
+      "label": "scripts",
+      "degree": 6
+    },
+    {
+      "id": "app_api_admin_actions_route_post",
+      "label": "POST()",
+      "degree": 5
+    }
+  ],
+  "surprises": [
+    {
+      "source": "AdminPage()",
+      "target": "query()",
+      "source_files": [
+        "app/admin/page.tsx",
+        "lib/db.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities; peripheral node `AdminPage()` unexpectedly reaches hub `query()`"
+    },
+    {
+      "source": "DashboardPage()",
+      "target": "query()",
+      "source_files": [
+        "app/dashboard/page.tsx",
+        "lib/db.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities; peripheral node `DashboardPage()` unexpectedly reaches hub `query()`"
+    },
+    {
+      "source": "GET()",
+      "target": "query()",
+      "source_files": [
+        "app/api/accounts/route.ts",
+        "lib/db.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; peripheral node `GET()` unexpectedly reaches hub `query()`"
+    },
+    {
+      "source": "GET()",
+      "target": "query()",
+      "source_files": [
+        "app/api/photos/route.ts",
+        "lib/db.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; peripheral node `GET()` unexpectedly reaches hub `query()`"
+    },
+    {
+      "source": "GET()",
+      "target": "query()",
+      "source_files": [
+        "app/api/accounts/callback/route.ts",
+        "lib/db.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `devDependencies` connect `devDependencies` to `package.json`?",
+      "why": "High betweenness centrality (0.069) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `dependencies` connect `dependencies` to `package.json`?",
+      "why": "High betweenness centrality (0.064) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `query()` connect `query` to `dashboard/page.tsx`, `callback/route.ts`, `AdminDashboard.tsx`?",
+      "why": "High betweenness centrality (0.047) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `AccountRecord`, `AdminDashboardProps`, `PhotoRecord` to the rest of the system?",
+      "why": "66 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `devDependencies` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.09523809523809523 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `dependencies` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `compilerOptions` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected."
+    }
+  ]
+}
