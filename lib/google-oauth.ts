@@ -25,7 +25,7 @@ export function generateAuthUrl() {
     access_type: 'offline', // Ensure we get a refresh token
     prompt: 'consent',      // Force consent screen to always get a refresh token on reconnect
     scope: [
-      'https://www.googleapis.com/auth/drive.readonly',
+      'https://www.googleapis.com/auth/drive.file',
       'https://www.googleapis.com/auth/userinfo.email',
     ],
   });

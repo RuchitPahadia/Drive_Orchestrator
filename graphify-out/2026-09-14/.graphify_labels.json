@@ -5,7 +5,7 @@
   "3": "compilerOptions",
   "4": "drive-client.ts",
   "5": "package.json",
-  "6": "Photo Orchestrator — Action Steps & Roadmap",
+  "6": "include",
   "7": "AdminDashboard.tsx",
   "8": "dashboard/page.tsx",
   "9": "browse/page.tsx",
@@ -16,12 +16,5 @@
   "14": "next.config.ts",
   "15": "postcss.config.mjs",
   "16": "rules/graphify.md",
-  "17": "workflows/graphify.md",
-  "18": "Antigravity Build Prompts — Photo Orchestrator",
-  "19": "🚀 Phase 8 — Semantic Image Search (CLIP Embeddings)",
-  "20": "Getting Started",
-  "21": "📅 Session: 2026-08-14",
-  "22": "Photo Orchestrator - Project Context",
-  "23": "AGENTS.md",
-  "24": "CLAUDE.md"
+  "17": "workflows/graphify.md"
 }

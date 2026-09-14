@@ -102,10 +102,10 @@
     "semantic_hash": "664be71766c9d58998f15c2cde35cba9"
   },
   "lib/google-oauth.ts": {
-    "mtime": 1789377469.6041875,
-    "seen": 1789381206.437169,
-    "ast_hash": "4db61ac9445d1da69ce3d7cf966baf40",
-    "semantic_hash": ""
+    "mtime": 1785129584.4262042,
+    "seen": 1787576234.5626295,
+    "ast_hash": "27aae8bf0f71c82ca656d3503ea15c70",
+    "semantic_hash": "27aae8bf0f71c82ca656d3503ea15c70"
   },
   "lib/indexer.ts": {
     "mtime": 1786796178.8926067,
@@ -160,83 +160,5 @@
     "seen": 1787576263.1684082,
     "ast_hash": "5e6b11ecdb06d786b70fff6a03b74dcf",
     "semantic_hash": "5e6b11ecdb06d786b70fff6a03b74dcf"
-  },
-  ".agents/rules/graphify.md": {
-    "mtime": 1787576217.3014715,
-    "seen": 1787576604.290051,
-    "ast_hash": "a0e4d192b9e2e17256124dbfc8e24e6a",
-    "semantic_hash": ""
-  },
-  ".agents/workflows/graphify.md": {
-    "mtime": 1787576217.304916,
-    "seen": 1787576604.290051,
-    "ast_hash": "a831cf3669f1e6ab85d8a80ebe655f99",
-    "semantic_hash": ""
-  },
-  "AGENTS.md": {
-    "mtime": 1785128147.035275,
-    "seen": 1787576604.290051,
-    "ast_hash": "9e09241799026ac05be315a2f0b50055",
-    "semantic_hash": ""
-  },
-  "CLAUDE.md": {
-    "mtime": 1785128147.036376,
-    "seen": 1787576604.290051,
-    "ast_hash": "5c27369b226fcf2be8a6cfe52224e767",
-    "semantic_hash": ""
-  },
-  "README.md": {
-    "mtime": 1785160733.4842448,
-    "seen": 1787576604.290051,
-    "ast_hash": "34718bb2ae3e8171f3293494bd50a539",
-    "semantic_hash": ""
-  },
-  "antigravity-build-prompts.md": {
-    "mtime": 1785127931.715,
-    "seen": 1787576604.290051,
-    "ast_hash": "2fd01fedf3eed726a8fd7452b02ce4b3",
-    "semantic_hash": ""
-  },
-  "context.md": {
-    "mtime": 1786697757.5079775,
-    "seen": 1787576604.290051,
-    "ast_hash": "bcc7f5b7175e02adde6b3794841b840e",
-    "semantic_hash": ""
-  },
-  "steps.md": {
-    "mtime": 1789377905.6266136,
-    "seen": 1789381206.437169,
-    "ast_hash": "8c51ce09b890534bb1746eb3f7938538",
-    "semantic_hash": ""
-  },
-  "public/file.svg": {
-    "mtime": 1785128004.4023001,
-    "seen": 1787576604.290051,
-    "ast_hash": "d09f95206c3fa0bb9bd9fefabfd0ea71",
-    "semantic_hash": ""
-  },
-  "public/globe.svg": {
-    "mtime": 1785128004.4356637,
-    "seen": 1787576604.290051,
-    "ast_hash": "2aaafa6a49b6563925fe440891e32717",
-    "semantic_hash": ""
-  },
-  "public/next.svg": {
-    "mtime": 1785128004.4901884,
-    "seen": 1787576604.290051,
-    "ast_hash": "8e061864f388b47f33a1c3780831193e",
-    "semantic_hash": ""
-  },
-  "public/vercel.svg": {
-    "mtime": 1785128004.5385826,
-    "seen": 1787576604.290051,
-    "ast_hash": "c0af2f507b369b085b35ef4bbe3bcf1e",
-    "semantic_hash": ""
-  },
-  "public/window.svg": {
-    "mtime": 1785128004.557814,
-    "seen": 1787576604.290051,
-    "ast_hash": "a2760511c65806022ad20adf74370ff3",
-    "semantic_hash": ""
   }
 }

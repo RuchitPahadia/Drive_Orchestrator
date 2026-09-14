@@ -1,15 +1,16 @@
-# Graph Report - Photo_Orchestrator  (2026-08-24)
+# Graph Report - Photo_Orchestrator  (2026-09-14)
 
 ## Corpus Check
-- cluster-only mode — file stats not available
+- 35 files · ~16,626 words
+- Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 150 nodes · 213 edges · 16 communities (13 shown, 3 thin omitted)
+- 229 nodes · 284 edges · 25 communities (19 shown, 6 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `ebfbed9f`
+- Built from commit: `4353866c`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -18,9 +19,9 @@
 - devDependencies
 - dependencies
 - compilerOptions
-- callback/route.ts
+- drive-client.ts
 - package.json
-- include
+- Photo Orchestrator — Action Steps & Roadmap
 - AdminDashboard.tsx
 - dashboard/page.tsx
 - browse/page.tsx
@@ -29,18 +30,26 @@
 - eslint.config.mjs
 - next.config.ts
 - postcss.config.mjs
+- rules/graphify.md
+- workflows/graphify.md
+- Antigravity Build Prompts — Photo Orchestrator
+- 🚀 Phase 8 — Semantic Image Search (CLIP Embeddings)
+- Getting Started
+- 📅 Session: 2026-08-14
+- Photo Orchestrator - Project Context
+- AGENTS.md
 
 ## God Nodes (most connected - your core abstractions)
 1. `query()` - 22 edges
 2. `compilerOptions` - 16 edges
 3. `getDriveClient()` - 12 edges
 4. `indexPhoto()` - 10 edges
-5. `refreshAccountQuota()` - 7 edges
-6. `include` - 7 edges
-7. `encrypt()` - 6 edges
-8. `getOAuth2Client()` - 6 edges
-9. `scripts` - 6 edges
-10. `POST()` - 5 edges
+5. `Photo Orchestrator — Action Steps & Roadmap` - 10 edges
+6. `🚀 Phase 8 — Semantic Image Search (CLIP Embeddings)` - 10 edges
+7. `Antigravity Build Prompts — Photo Orchestrator` - 9 edges
+8. `refreshAccountQuota()` - 7 edges
+9. `include` - 7 edges
+10. `🚀 Phase 9 — Real User Authentication` - 7 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `AdminPage()` --calls--> `query()`  [EXTRACTED]
@@ -48,19 +57,19 @@
 - `DashboardPage()` --calls--> `query()`  [EXTRACTED]
   app/dashboard/page.tsx → lib/db.ts
 - `GET()` --calls--> `query()`  [EXTRACTED]
+  app/api/accounts/callback/route.ts → lib/db.ts
+- `GET()` --calls--> `query()`  [EXTRACTED]
   app/api/accounts/route.ts → lib/db.ts
 - `GET()` --calls--> `query()`  [EXTRACTED]
   app/api/photos/route.ts → lib/db.ts
-- `GET()` --calls--> `query()`  [EXTRACTED]
-  app/api/accounts/callback/route.ts → lib/db.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (16 total, 3 thin omitted)
+## Communities (25 total, 6 thin omitted)
 
 ### Community 0 - "query"
-Cohesion: 0.28
+Cohesion: 0.27
 Nodes (12): GET(), POST(), GET(), POST(), query(), getDriveClient(), refreshAccountQuota(), indexPhoto() (+4 more)
 
 ### Community 1 - "devDependencies"
@@ -72,20 +81,20 @@ Cohesion: 0.11
 Nodes (19): bullmq, exifr, googleapis, ioredis, next, dependencies, bullmq, exifr (+11 more)
 
 ### Community 3 - "compilerOptions"
-Cohesion: 0.11
-Nodes (19): dom, dom.iterable, esnext, compilerOptions, allowJs, esModuleInterop, incremental, isolatedModules (+11 more)
+Cohesion: 0.07
+Nodes (28): dom, dom.iterable, esnext, **/*.mts, .next/dev/types/**/*.ts, next-env.d.ts, .next/types/**/*.ts, node_modules (+20 more)
 
-### Community 4 - "callback/route.ts"
-Cohesion: 0.35
+### Community 4 - "drive-client.ts"
+Cohesion: 0.36
 Nodes (7): GET(), GET(), decrypt(), encrypt(), getEncryptionKey(), generateAuthUrl(), getOAuth2Client()
 
 ### Community 5 - "package.json"
 Cohesion: 0.20
 Nodes (9): name, private, scripts, build, dev, lint, start, worker (+1 more)
 
-### Community 6 - "include"
-Cohesion: 0.20
-Nodes (9): **/*.mts, .next/dev/types/**/*.ts, next-env.d.ts, .next/types/**/*.ts, node_modules, **/*.ts, **/*.tsx, exclude (+1 more)
+### Community 6 - "Photo Orchestrator — Action Steps & Roadmap"
+Cohesion: 0.06
+Nodes (30): ✅ Completed Phases Summary, 🚀 Phase 10 — Configurable Replication & Storage Management, 🚀 Phase 11 — Google Drive Sync (Import Existing Photos), 🚀 Phase 12 — Polish & Production Readiness, 🚀 Phase 9 — Real User Authentication, 📊 Phase Priority & Dependency Graph, Photo Orchestrator — Action Steps & Roadmap, 🔧 Pre-Phase: Stabilization & Bug Fixes (+22 more)
 
 ### Community 7 - "AdminDashboard.tsx"
 Cohesion: 0.25
@@ -107,25 +116,45 @@ Nodes (3): geistMono, geistSans, metadata
 Cohesion: 0.80
 Nodes (4): accounts, photo_replicas, photos, users
 
+### Community 18 - "Antigravity Build Prompts — Photo Orchestrator"
+Cohesion: 0.20
+Nodes (9): Antigravity Build Prompts — Photo Orchestrator, Notes for you (not for the agent), Phase 1 — Project scaffold, Phase 2 — Database schema, Phase 3 — OAuth connect + callback, Phase 4 — Storage router + upload, Phase 5 — Background indexing worker, Phase 6 — Search API (+1 more)
+
+### Community 19 - "🚀 Phase 8 — Semantic Image Search (CLIP Embeddings)"
+Cohesion: 0.20
+Nodes (10): Architecture Decision: Local Inference vs Cloud API, 🚀 Phase 8 — Semantic Image Search (CLIP Embeddings), Step 8.1 — Install Dependencies, Step 8.2 — Create `lib/embeddings.ts`, Step 8.3 — Integrate into `lib/indexer.ts`, Step 8.4 — Create Semantic Search API, Step 8.5 — Create "Find Similar" API, Step 8.6 — Frontend Search UI (+2 more)
+
+### Community 20 - "Getting Started"
+Cohesion: 0.25
+Nodes (7): 1. Environment Setup, 2. Database Schema Setup, 3. Running the Application Locally, Getting Started, Photo Orchestrator, Process 1: Next.js Development Server, Process 2: Background Indexer Worker
+
+### Community 21 - "📅 Session: 2026-08-14"
+Cohesion: 0.29
+Nodes (7): 📅 Session: 2026-08-14, 📅 Session: 2026-09-14, 📜 Session History, Step 1: Rebuilt Database Schema after Supabase Restart, Step 2: Fixed Default Next.js Landing Page Routing, Step 3: Created Documentation for Context and Steps Tracking, Step 4: Fixed Critical OAuth Scope Bug
+
+### Community 22 - "Photo Orchestrator - Project Context"
+Cohesion: 0.33
+Nodes (5): 📋 Current Implementation Status (Phases 1-7), ⚡ Current State (Post-Supabase Restart), Photo Orchestrator - Project Context, 🛠️ Technology Stack, 🎯 Things to Finish / Next Steps
+
 ## Knowledge Gaps
-- **66 isolated node(s):** `AccountRecord`, `AdminDashboardProps`, `PhotoRecord`, `SystemStats`, `UserRecord` (+61 more)
+- **122 isolated node(s):** `UserRecord`, `AccountRecord`, `PhotoRecord`, `SystemStats`, `AdminDashboardProps` (+117 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **3 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **6 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
+- **Why does `Photo Orchestrator — Action Steps & Roadmap` connect `Photo Orchestrator — Action Steps & Roadmap` to `🚀 Phase 8 — Semantic Image Search (CLIP Embeddings)`, `📅 Session: 2026-08-14`?**
+  _High betweenness centrality (0.037) - this node is a cross-community bridge._
 - **Why does `devDependencies` connect `devDependencies` to `package.json`?**
-  _High betweenness centrality (0.069) - this node is a cross-community bridge._
+  _High betweenness centrality (0.029) - this node is a cross-community bridge._
 - **Why does `dependencies` connect `dependencies` to `package.json`?**
-  _High betweenness centrality (0.064) - this node is a cross-community bridge._
-- **Why does `query()` connect `query` to `dashboard/page.tsx`, `callback/route.ts`, `AdminDashboard.tsx`?**
-  _High betweenness centrality (0.047) - this node is a cross-community bridge._
-- **What connects `AccountRecord`, `AdminDashboardProps`, `PhotoRecord` to the rest of the system?**
-  _66 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _High betweenness centrality (0.027) - this node is a cross-community bridge._
+- **What connects `UserRecord`, `AccountRecord`, `PhotoRecord` to the rest of the system?**
+  _122 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `devDependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.09523809523809523 - nodes in this community are weakly interconnected._
 - **Should `dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected._
 - **Should `compilerOptions` be split into smaller, more focused modules?**
-  _Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06896551724137931 - nodes in this community are weakly interconnected._

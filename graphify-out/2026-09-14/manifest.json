@@ -102,10 +102,10 @@
     "semantic_hash": "664be71766c9d58998f15c2cde35cba9"
   },
   "lib/google-oauth.ts": {
-    "mtime": 1789377469.6041875,
-    "seen": 1789381206.437169,
-    "ast_hash": "4db61ac9445d1da69ce3d7cf966baf40",
-    "semantic_hash": ""
+    "mtime": 1785129584.4262042,
+    "seen": 1787576234.5626295,
+    "ast_hash": "27aae8bf0f71c82ca656d3503ea15c70",
+    "semantic_hash": "27aae8bf0f71c82ca656d3503ea15c70"
   },
   "lib/indexer.ts": {
     "mtime": 1786796178.8926067,
@@ -204,9 +204,9 @@
     "semantic_hash": ""
   },
   "steps.md": {
-    "mtime": 1789377905.6266136,
-    "seen": 1789381206.437169,
-    "ast_hash": "8c51ce09b890534bb1746eb3f7938538",
+    "mtime": 1786697763.31914,
+    "seen": 1787576604.290051,
+    "ast_hash": "4ab5ec49c821036833053acf4d1d5dfc",
     "semantic_hash": ""
   },
   "public/file.svg": {
