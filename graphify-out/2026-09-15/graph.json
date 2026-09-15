@@ -373,18 +373,6 @@
       "source_location": "L4"
     },
     {
-      "id": "scripts_test_phase8_run",
-      "label": "run()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 25,
-      "community_name": "embeddings.ts",
-      "file_type": "code",
-      "norm_label": "run()",
-      "source_file": "scripts/test-phase8.ts",
-      "source_location": "L5"
-    },
-    {
       "id": "app_api_accounts_callback_route_get",
       "label": "GET()",
       "_callable": true,
@@ -1267,114 +1255,124 @@
       "source_location": "L195"
     },
     {
-      "id": "tsconfig",
-      "label": "tsconfig.json",
+      "id": "steps_architecture_decision_local_inference_vs_cloud_api",
+      "label": "Architecture Decision: Local Inference vs Cloud API",
       "_origin": "ast",
       "community": 19,
-      "community_name": "include",
-      "file_type": "code",
-      "norm_label": "tsconfig.json",
-      "source_file": "tsconfig.json",
-      "source_location": "L1"
+      "community_name": "\ud83d\ude80 Phase 8 \u2014 Semantic Image Search (CLIP Embeddings)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "architecture decision: local inference vs cloud api",
+      "source_file": "steps.md",
+      "source_location": "L116"
     },
     {
-      "id": "tsconfig_exclude",
-      "label": "exclude",
+      "id": "steps_phase_8_semantic_image_search_clip_embeddings",
+      "label": "\ud83d\ude80 Phase 8 \u2014 Semantic Image Search (CLIP Embeddings)",
       "_origin": "ast",
       "community": 19,
-      "community_name": "include",
-      "file_type": "code",
-      "norm_label": "exclude",
-      "source_file": "tsconfig.json",
-      "source_location": "L33"
+      "community_name": "\ud83d\ude80 Phase 8 \u2014 Semantic Image Search (CLIP Embeddings)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\ude80 phase 8 \u2014 semantic image search (clip embeddings)",
+      "source_file": "steps.md",
+      "source_location": "L112"
     },
     {
-      "id": "tsconfig_include",
-      "label": "include",
+      "id": "steps_step_8_1_install_dependencies",
+      "label": "Step 8.1 \u2014 Install Dependencies",
       "_origin": "ast",
       "community": 19,
-      "community_name": "include",
-      "file_type": "code",
-      "norm_label": "include",
-      "source_file": "tsconfig.json",
-      "source_location": "L25"
+      "community_name": "\ud83d\ude80 Phase 8 \u2014 Semantic Image Search (CLIP Embeddings)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "step 8.1 \u2014 install dependencies",
+      "source_file": "steps.md",
+      "source_location": "L125"
     },
     {
-      "id": "ref_mts",
-      "label": "**/*.mts",
+      "id": "steps_step_8_2_create_lib_embeddings_ts",
+      "label": "Step 8.2 \u2014 Create `lib/embeddings.ts`",
       "_origin": "ast",
       "community": 19,
-      "community_name": "include",
-      "file_type": "concept",
-      "norm_label": "**/*.mts",
-      "source_file": "tsconfig.json",
-      "source_location": "L25"
+      "community_name": "\ud83d\ude80 Phase 8 \u2014 Semantic Image Search (CLIP Embeddings)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "step 8.2 \u2014 create `lib/embeddings.ts`",
+      "source_file": "steps.md",
+      "source_location": "L130"
     },
     {
-      "id": "ref_next_dev_types_ts",
-      "label": ".next/dev/types/**/*.ts",
+      "id": "steps_step_8_3_integrate_into_lib_indexer_ts",
+      "label": "Step 8.3 \u2014 Integrate into `lib/indexer.ts`",
       "_origin": "ast",
       "community": 19,
-      "community_name": "include",
-      "file_type": "concept",
-      "norm_label": ".next/dev/types/**/*.ts",
-      "source_file": "tsconfig.json",
-      "source_location": "L25"
+      "community_name": "\ud83d\ude80 Phase 8 \u2014 Semantic Image Search (CLIP Embeddings)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "step 8.3 \u2014 integrate into `lib/indexer.ts`",
+      "source_file": "steps.md",
+      "source_location": "L144"
     },
     {
-      "id": "ref_next_env_d_ts",
-      "label": "next-env.d.ts",
+      "id": "steps_step_8_4_create_semantic_search_api",
+      "label": "Step 8.4 \u2014 Create Semantic Search API",
       "_origin": "ast",
       "community": 19,
-      "community_name": "include",
-      "file_type": "concept",
-      "norm_label": "next-env.d.ts",
-      "source_file": "tsconfig.json",
-      "source_location": "L25"
+      "community_name": "\ud83d\ude80 Phase 8 \u2014 Semantic Image Search (CLIP Embeddings)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "step 8.4 \u2014 create semantic search api",
+      "source_file": "steps.md",
+      "source_location": "L169"
     },
     {
-      "id": "ref_next_types_ts",
-      "label": ".next/types/**/*.ts",
+      "id": "steps_step_8_5_create_find_similar_api",
+      "label": "Step 8.5 \u2014 Create \"Find Similar\" API",
       "_origin": "ast",
       "community": 19,
-      "community_name": "include",
-      "file_type": "concept",
-      "norm_label": ".next/types/**/*.ts",
-      "source_file": "tsconfig.json",
-      "source_location": "L25"
+      "community_name": "\ud83d\ude80 Phase 8 \u2014 Semantic Image Search (CLIP Embeddings)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "step 8.5 \u2014 create \"find similar\" api",
+      "source_file": "steps.md",
+      "source_location": "L191"
     },
     {
-      "id": "ref_node_modules",
-      "label": "node_modules",
+      "id": "steps_step_8_6_frontend_search_ui",
+      "label": "Step 8.6 \u2014 Frontend Search UI",
       "_origin": "ast",
       "community": 19,
-      "community_name": "include",
-      "file_type": "concept",
-      "norm_label": "node_modules",
-      "source_file": "tsconfig.json",
-      "source_location": "L33"
+      "community_name": "\ud83d\ude80 Phase 8 \u2014 Semantic Image Search (CLIP Embeddings)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "step 8.6 \u2014 frontend search ui",
+      "source_file": "steps.md",
+      "source_location": "L202"
     },
     {
-      "id": "ref_ts",
-      "label": "**/*.ts",
+      "id": "steps_step_8_7_backfill_script_for_existing_photos",
+      "label": "Step 8.7 \u2014 Backfill Script for Existing Photos",
       "_origin": "ast",
       "community": 19,
-      "community_name": "include",
-      "file_type": "concept",
-      "norm_label": "**/*.ts",
-      "source_file": "tsconfig.json",
-      "source_location": "L25"
+      "community_name": "\ud83d\ude80 Phase 8 \u2014 Semantic Image Search (CLIP Embeddings)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "step 8.7 \u2014 backfill script for existing photos",
+      "source_file": "steps.md",
+      "source_location": "L210"
     },
     {
-      "id": "ref_tsx",
-      "label": "**/*.tsx",
+      "id": "steps_step_8_8_update_schema_file",
+      "label": "Step 8.8 \u2014 Update Schema File",
       "_origin": "ast",
       "community": 19,
-      "community_name": "include",
-      "file_type": "concept",
-      "norm_label": "**/*.tsx",
-      "source_file": "tsconfig.json",
-      "source_location": "L25"
+      "community_name": "\ud83d\ude80 Phase 8 \u2014 Semantic Image Search (CLIP Embeddings)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "step 8.8 \u2014 update schema file",
+      "source_file": "steps.md",
+      "source_location": "L217"
     },
     {
       "id": "package_dependencies",
@@ -1987,99 +1985,15 @@
       "source_location": "L1"
     },
     {
-      "id": "scripts_test_phase8",
-      "label": "test-phase8.ts",
+      "id": "tsconfig",
+      "label": "tsconfig.json",
       "_origin": "ast",
-      "community": 25,
-      "community_name": "embeddings.ts",
+      "community": 3,
+      "community_name": "compilerOptions",
       "file_type": "code",
-      "norm_label": "test-phase8.ts",
-      "source_file": "scripts/test-phase8.ts",
+      "norm_label": "tsconfig.json",
+      "source_file": "tsconfig.json",
       "source_location": "L1"
-    },
-    {
-      "id": "steps_phase_9_real_user_authentication",
-      "label": "\ud83d\ude80 Phase 9 \u2014 Real User Authentication",
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "\ud83d\ude80 Phase 9 \u2014 Real User Authentication",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "\ud83d\ude80 phase 9 \u2014 real user authentication",
-      "source_file": "steps.md",
-      "source_location": "L221"
-    },
-    {
-      "id": "steps_step_9_1_choose_auth_strategy",
-      "label": "Step 9.1 \u2014 Choose Auth Strategy",
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "\ud83d\ude80 Phase 9 \u2014 Real User Authentication",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "step 9.1 \u2014 choose auth strategy",
-      "source_file": "steps.md",
-      "source_location": "L225"
-    },
-    {
-      "id": "steps_step_9_2_install_configure_nextauth",
-      "label": "Step 9.2 \u2014 Install & Configure NextAuth",
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "\ud83d\ude80 Phase 9 \u2014 Real User Authentication",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "step 9.2 \u2014 install & configure nextauth",
-      "source_file": "steps.md",
-      "source_location": "L232"
-    },
-    {
-      "id": "steps_step_9_3_create_auth_middleware",
-      "label": "Step 9.3 \u2014 Create Auth Middleware",
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "\ud83d\ude80 Phase 9 \u2014 Real User Authentication",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "step 9.3 \u2014 create auth middleware",
-      "source_file": "steps.md",
-      "source_location": "L240"
-    },
-    {
-      "id": "steps_step_9_4_create_login_page",
-      "label": "Step 9.4 \u2014 Create Login Page",
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "\ud83d\ude80 Phase 9 \u2014 Real User Authentication",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "step 9.4 \u2014 create login page",
-      "source_file": "steps.md",
-      "source_location": "L244"
-    },
-    {
-      "id": "steps_step_9_5_replace_hardcoded_user_id",
-      "label": "Step 9.5 \u2014 Replace Hardcoded User ID",
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "\ud83d\ude80 Phase 9 \u2014 Real User Authentication",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "step 9.5 \u2014 replace hardcoded user id",
-      "source_file": "steps.md",
-      "source_location": "L248"
-    },
-    {
-      "id": "steps_step_9_6_role_based_access_for_admin",
-      "label": "Step 9.6 \u2014 Role-Based Access for Admin",
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "\ud83d\ude80 Phase 9 \u2014 Real User Authentication",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "step 9.6 \u2014 role-based access for admin",
-      "source_file": "steps.md",
-      "source_location": "L259"
     },
     {
       "id": "tsconfig_compileroptions",
@@ -2258,6 +2172,28 @@
       "source_location": "L3"
     },
     {
+      "id": "tsconfig_exclude",
+      "label": "exclude",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "compilerOptions",
+      "file_type": "code",
+      "norm_label": "exclude",
+      "source_file": "tsconfig.json",
+      "source_location": "L33"
+    },
+    {
+      "id": "tsconfig_include",
+      "label": "include",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "compilerOptions",
+      "file_type": "code",
+      "norm_label": "include",
+      "source_file": "tsconfig.json",
+      "source_location": "L25"
+    },
+    {
       "id": "ref_dom",
       "label": "dom",
       "_origin": "ast",
@@ -2289,6 +2225,83 @@
       "norm_label": "esnext",
       "source_file": "tsconfig.json",
       "source_location": "L4"
+    },
+    {
+      "id": "ref_mts",
+      "label": "**/*.mts",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "compilerOptions",
+      "file_type": "concept",
+      "norm_label": "**/*.mts",
+      "source_file": "tsconfig.json",
+      "source_location": "L25"
+    },
+    {
+      "id": "ref_next_dev_types_ts",
+      "label": ".next/dev/types/**/*.ts",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "compilerOptions",
+      "file_type": "concept",
+      "norm_label": ".next/dev/types/**/*.ts",
+      "source_file": "tsconfig.json",
+      "source_location": "L25"
+    },
+    {
+      "id": "ref_next_env_d_ts",
+      "label": "next-env.d.ts",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "compilerOptions",
+      "file_type": "concept",
+      "norm_label": "next-env.d.ts",
+      "source_file": "tsconfig.json",
+      "source_location": "L25"
+    },
+    {
+      "id": "ref_next_types_ts",
+      "label": ".next/types/**/*.ts",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "compilerOptions",
+      "file_type": "concept",
+      "norm_label": ".next/types/**/*.ts",
+      "source_file": "tsconfig.json",
+      "source_location": "L25"
+    },
+    {
+      "id": "ref_node_modules",
+      "label": "node_modules",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "compilerOptions",
+      "file_type": "concept",
+      "norm_label": "node_modules",
+      "source_file": "tsconfig.json",
+      "source_location": "L33"
+    },
+    {
+      "id": "ref_ts",
+      "label": "**/*.ts",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "compilerOptions",
+      "file_type": "concept",
+      "norm_label": "**/*.ts",
+      "source_file": "tsconfig.json",
+      "source_location": "L25"
+    },
+    {
+      "id": "ref_tsx",
+      "label": "**/*.tsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "compilerOptions",
+      "file_type": "concept",
+      "norm_label": "**/*.tsx",
+      "source_file": "tsconfig.json",
+      "source_location": "L25"
     },
     {
       "id": "app_api_accounts_callback_route",
@@ -2478,7 +2491,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\ude80 phase 10 \u2014 configurable replication & storage management",
       "source_file": "steps.md",
-      "source_location": "L265"
+      "source_location": "L268"
     },
     {
       "id": "steps_phase_11_google_drive_sync_import_existing_photos",
@@ -2490,7 +2503,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\ude80 phase 11 \u2014 google drive sync (import existing photos)",
       "source_file": "steps.md",
-      "source_location": "L285"
+      "source_location": "L288"
     },
     {
       "id": "steps_phase_12_polish_production_readiness",
@@ -2502,19 +2515,19 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\ude80 phase 12 \u2014 polish & production readiness",
       "source_file": "steps.md",
-      "source_location": "L313"
+      "source_location": "L316"
     },
     {
-      "id": "steps_phase_8_semantic_image_search_clip_embeddings_completed",
-      "label": "\u2705 Phase 8 \u2014 Semantic Image Search (CLIP Embeddings) [COMPLETED]",
+      "id": "steps_phase_9_real_user_authentication",
+      "label": "\ud83d\ude80 Phase 9 \u2014 Real User Authentication",
       "_origin": "ast",
       "community": 6,
       "community_name": "Photo Orchestrator \u2014 Action Steps & Roadmap",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "\u2705 phase 8 \u2014 semantic image search (clip embeddings) [completed]",
+      "norm_label": "\ud83d\ude80 phase 9 \u2014 real user authentication",
       "source_file": "steps.md",
-      "source_location": "L112"
+      "source_location": "L224"
     },
     {
       "id": "steps_phase_priority_dependency_graph",
@@ -2526,7 +2539,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\udcca phase priority & dependency graph",
       "source_file": "steps.md",
-      "source_location": "L344"
+      "source_location": "L347"
     },
     {
       "id": "steps_photo_orchestrator_action_steps_roadmap",
@@ -2601,18 +2614,6 @@
       "source_location": "L102"
     },
     {
-      "id": "steps_status_fully_implemented_tested",
-      "label": "Status: Fully Implemented & Tested",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "Photo Orchestrator \u2014 Action Steps & Roadmap",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "status: fully implemented & tested",
-      "source_file": "steps.md",
-      "source_location": "L116"
-    },
-    {
       "id": "steps_step_10_1_add_replication_factor_setting",
       "label": "Step 10.1 \u2014 Add Replication Factor Setting",
       "_origin": "ast",
@@ -2622,7 +2623,7 @@
       "node_kind": "heading",
       "norm_label": "step 10.1 \u2014 add replication factor setting",
       "source_file": "steps.md",
-      "source_location": "L269"
+      "source_location": "L272"
     },
     {
       "id": "steps_step_10_2_storage_settings_ui",
@@ -2634,7 +2635,7 @@
       "node_kind": "heading",
       "norm_label": "step 10.2 \u2014 storage settings ui",
       "source_file": "steps.md",
-      "source_location": "L273"
+      "source_location": "L276"
     },
     {
       "id": "steps_step_10_3_deduplication_check",
@@ -2646,7 +2647,7 @@
       "node_kind": "heading",
       "norm_label": "step 10.3 \u2014 deduplication check",
       "source_file": "steps.md",
-      "source_location": "L278"
+      "source_location": "L281"
     },
     {
       "id": "steps_step_11_1_drive_scanner_service",
@@ -2658,7 +2659,7 @@
       "node_kind": "heading",
       "norm_label": "step 11.1 \u2014 drive scanner service",
       "source_file": "steps.md",
-      "source_location": "L289"
+      "source_location": "L292"
     },
     {
       "id": "steps_step_11_2_sync_api_endpoint",
@@ -2670,7 +2671,7 @@
       "node_kind": "heading",
       "norm_label": "step 11.2 \u2014 sync api endpoint",
       "source_file": "steps.md",
-      "source_location": "L295"
+      "source_location": "L298"
     },
     {
       "id": "steps_step_11_3_sync_ui",
@@ -2682,7 +2683,7 @@
       "node_kind": "heading",
       "norm_label": "step 11.3 \u2014 sync ui",
       "source_file": "steps.md",
-      "source_location": "L302"
+      "source_location": "L305"
     },
     {
       "id": "steps_step_11_4_background_sync_worker",
@@ -2694,7 +2695,7 @@
       "node_kind": "heading",
       "norm_label": "step 11.4 \u2014 background sync worker",
       "source_file": "steps.md",
-      "source_location": "L307"
+      "source_location": "L310"
     },
     {
       "id": "steps_step_12_1_error_handling_retry_logic",
@@ -2706,7 +2707,7 @@
       "node_kind": "heading",
       "norm_label": "step 12.1 \u2014 error handling & retry logic",
       "source_file": "steps.md",
-      "source_location": "L315"
+      "source_location": "L318"
     },
     {
       "id": "steps_step_12_2_loading_empty_states",
@@ -2718,7 +2719,7 @@
       "node_kind": "heading",
       "norm_label": "step 12.2 \u2014 loading & empty states",
       "source_file": "steps.md",
-      "source_location": "L320"
+      "source_location": "L323"
     },
     {
       "id": "steps_step_12_3_navigation_layout",
@@ -2730,7 +2731,7 @@
       "node_kind": "heading",
       "norm_label": "step 12.3 \u2014 navigation & layout",
       "source_file": "steps.md",
-      "source_location": "L325"
+      "source_location": "L328"
     },
     {
       "id": "steps_step_12_4_performance",
@@ -2742,7 +2743,7 @@
       "node_kind": "heading",
       "norm_label": "step 12.4 \u2014 performance",
       "source_file": "steps.md",
-      "source_location": "L330"
+      "source_location": "L333"
     },
     {
       "id": "steps_step_12_5_deployment_preparation",
@@ -2754,91 +2755,79 @@
       "node_kind": "heading",
       "norm_label": "step 12.5 \u2014 deployment preparation",
       "source_file": "steps.md",
-      "source_location": "L335"
+      "source_location": "L338"
     },
     {
-      "id": "steps_step_8_2_create_lib_embeddings_ts",
-      "label": "Step 8.2 \u2014 Create `lib/embeddings.ts`",
+      "id": "steps_step_9_1_choose_auth_strategy",
+      "label": "Step 9.1 \u2014 Choose Auth Strategy",
       "_origin": "ast",
       "community": 6,
       "community_name": "Photo Orchestrator \u2014 Action Steps & Roadmap",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "step 8.2 \u2014 create `lib/embeddings.ts`",
+      "norm_label": "step 9.1 \u2014 choose auth strategy",
       "source_file": "steps.md",
-      "source_location": "L127"
+      "source_location": "L228"
     },
     {
-      "id": "steps_step_8_3_integrate_into_lib_indexer_ts",
-      "label": "Step 8.3 \u2014 Integrate into `lib/indexer.ts`",
+      "id": "steps_step_9_2_install_configure_nextauth",
+      "label": "Step 9.2 \u2014 Install & Configure NextAuth",
       "_origin": "ast",
       "community": 6,
       "community_name": "Photo Orchestrator \u2014 Action Steps & Roadmap",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "step 8.3 \u2014 integrate into `lib/indexer.ts`",
+      "norm_label": "step 9.2 \u2014 install & configure nextauth",
       "source_file": "steps.md",
-      "source_location": "L141"
+      "source_location": "L235"
     },
     {
-      "id": "steps_step_8_4_create_semantic_search_api",
-      "label": "Step 8.4 \u2014 Create Semantic Search API",
+      "id": "steps_step_9_3_create_auth_middleware",
+      "label": "Step 9.3 \u2014 Create Auth Middleware",
       "_origin": "ast",
       "community": 6,
       "community_name": "Photo Orchestrator \u2014 Action Steps & Roadmap",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "step 8.4 \u2014 create semantic search api",
+      "norm_label": "step 9.3 \u2014 create auth middleware",
       "source_file": "steps.md",
-      "source_location": "L166"
+      "source_location": "L243"
     },
     {
-      "id": "steps_step_8_5_create_find_similar_api",
-      "label": "Step 8.5 \u2014 Create \"Find Similar\" API",
+      "id": "steps_step_9_4_create_login_page",
+      "label": "Step 9.4 \u2014 Create Login Page",
       "_origin": "ast",
       "community": 6,
       "community_name": "Photo Orchestrator \u2014 Action Steps & Roadmap",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "step 8.5 \u2014 create \"find similar\" api",
+      "norm_label": "step 9.4 \u2014 create login page",
       "source_file": "steps.md",
-      "source_location": "L188"
+      "source_location": "L247"
     },
     {
-      "id": "steps_step_8_6_frontend_search_ui",
-      "label": "Step 8.6 \u2014 Frontend Search UI",
+      "id": "steps_step_9_5_replace_hardcoded_user_id",
+      "label": "Step 9.5 \u2014 Replace Hardcoded User ID",
       "_origin": "ast",
       "community": 6,
       "community_name": "Photo Orchestrator \u2014 Action Steps & Roadmap",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "step 8.6 \u2014 frontend search ui",
+      "norm_label": "step 9.5 \u2014 replace hardcoded user id",
       "source_file": "steps.md",
-      "source_location": "L199"
+      "source_location": "L251"
     },
     {
-      "id": "steps_step_8_7_backfill_script_for_existing_photos",
-      "label": "Step 8.7 \u2014 Backfill Script for Existing Photos",
+      "id": "steps_step_9_6_role_based_access_for_admin",
+      "label": "Step 9.6 \u2014 Role-Based Access for Admin",
       "_origin": "ast",
       "community": 6,
       "community_name": "Photo Orchestrator \u2014 Action Steps & Roadmap",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "step 8.7 \u2014 backfill script for existing photos",
+      "norm_label": "step 9.6 \u2014 role-based access for admin",
       "source_file": "steps.md",
-      "source_location": "L207"
-    },
-    {
-      "id": "steps_step_8_8_update_schema_file",
-      "label": "Step 8.8 \u2014 Update Schema File",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "Photo Orchestrator \u2014 Action Steps & Roadmap",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "step 8.8 \u2014 update schema file",
-      "source_file": "steps.md",
-      "source_location": "L214"
+      "source_location": "L262"
     },
     {
       "id": "app_admin_admindashboard",
@@ -3411,54 +3400,6 @@
       "context": "call",
       "source_file": "scripts/backfill-embeddings.ts",
       "source_location": "L6",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_test_phase8_run",
-      "target": "lib_embeddings_generatetextembedding",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "scripts/test-phase8.ts",
-      "source_location": "L13",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_test_phase8_run",
-      "target": "lib_embeddings_generateimageembedding",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "scripts/test-phase8.ts",
-      "source_location": "L36",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_test_phase8_run",
-      "target": "lib_embeddings_formatvectorforpostgres",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "scripts/test-phase8.ts",
-      "source_location": "L43",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_test_phase8_run",
-      "target": "lib_db_query",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "scripts/test-phase8.ts",
-      "source_location": "L47",
       "weight": 1.0
     },
     {
@@ -4290,54 +4231,6 @@
       "weight": 1.0
     },
     {
-      "source": "scripts_test_phase8",
-      "target": "lib_embeddings_formatvectorforpostgres",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "scripts/test-phase8.ts",
-      "source_location": "L2",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_test_phase8",
-      "target": "lib_embeddings_generateimageembedding",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "scripts/test-phase8.ts",
-      "source_location": "L2",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_test_phase8",
-      "target": "lib_embeddings_generatetextembedding",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "scripts/test-phase8.ts",
-      "source_location": "L2",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_test_phase8",
-      "target": "lib_db_query",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "scripts/test-phase8.ts",
-      "source_location": "L3",
-      "weight": 1.0
-    },
-    {
       "source": "workers_indexer",
       "target": "lib_indexer_indexphoto",
       "relation": "imports",
@@ -4719,30 +4612,6 @@
       "context": "import",
       "source_file": "scripts/backfill-embeddings.ts",
       "source_location": "L2",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_test_phase8",
-      "target": "lib_embeddings",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "scripts/test-phase8.ts",
-      "source_location": "L2",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_test_phase8",
-      "target": "lib_db",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "scripts/test-phase8.ts",
-      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -5969,17 +5838,6 @@
       "weight": 1.0
     },
     {
-      "source": "scripts_test_phase8",
-      "target": "scripts_test_phase8_run",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "scripts/test-phase8.ts",
-      "source_location": "L5",
-      "weight": 1.0
-    },
-    {
       "source": "steps",
       "target": "steps_photo_orchestrator_action_steps_roadmap",
       "relation": "contains",
@@ -5998,7 +5856,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L269",
+      "source_location": "L272",
       "weight": 1.0
     },
     {
@@ -6009,7 +5867,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L273",
+      "source_location": "L276",
       "weight": 1.0
     },
     {
@@ -6020,7 +5878,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L278",
+      "source_location": "L281",
       "weight": 1.0
     },
     {
@@ -6031,7 +5889,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L289",
+      "source_location": "L292",
       "weight": 1.0
     },
     {
@@ -6042,7 +5900,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L295",
+      "source_location": "L298",
       "weight": 1.0
     },
     {
@@ -6053,7 +5911,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L302",
+      "source_location": "L305",
       "weight": 1.0
     },
     {
@@ -6064,7 +5922,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L307",
+      "source_location": "L310",
       "weight": 1.0
     },
     {
@@ -6075,7 +5933,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L315",
+      "source_location": "L318",
       "weight": 1.0
     },
     {
@@ -6086,7 +5944,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L320",
+      "source_location": "L323",
       "weight": 1.0
     },
     {
@@ -6097,7 +5955,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L325",
+      "source_location": "L328",
       "weight": 1.0
     },
     {
@@ -6108,7 +5966,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L330",
+      "source_location": "L333",
       "weight": 1.0
     },
     {
@@ -6119,12 +5977,12 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L335",
+      "source_location": "L338",
       "weight": 1.0
     },
     {
-      "source": "steps_phase_8_semantic_image_search_clip_embeddings_completed",
-      "target": "steps_status_fully_implemented_tested",
+      "source": "steps_phase_8_semantic_image_search_clip_embeddings",
+      "target": "steps_architecture_decision_local_inference_vs_cloud_api",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -6134,80 +5992,91 @@
       "weight": 1.0
     },
     {
-      "source": "steps_phase_8_semantic_image_search_clip_embeddings_completed",
+      "source": "steps_phase_8_semantic_image_search_clip_embeddings",
+      "target": "steps_step_8_1_install_dependencies",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "steps.md",
+      "source_location": "L125",
+      "weight": 1.0
+    },
+    {
+      "source": "steps_phase_8_semantic_image_search_clip_embeddings",
       "target": "steps_step_8_2_create_lib_embeddings_ts",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L127",
+      "source_location": "L130",
       "weight": 1.0
     },
     {
-      "source": "steps_phase_8_semantic_image_search_clip_embeddings_completed",
+      "source": "steps_phase_8_semantic_image_search_clip_embeddings",
       "target": "steps_step_8_3_integrate_into_lib_indexer_ts",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L141",
+      "source_location": "L144",
       "weight": 1.0
     },
     {
-      "source": "steps_phase_8_semantic_image_search_clip_embeddings_completed",
+      "source": "steps_phase_8_semantic_image_search_clip_embeddings",
       "target": "steps_step_8_4_create_semantic_search_api",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L166",
+      "source_location": "L169",
       "weight": 1.0
     },
     {
-      "source": "steps_phase_8_semantic_image_search_clip_embeddings_completed",
+      "source": "steps_phase_8_semantic_image_search_clip_embeddings",
       "target": "steps_step_8_5_create_find_similar_api",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L188",
+      "source_location": "L191",
       "weight": 1.0
     },
     {
-      "source": "steps_phase_8_semantic_image_search_clip_embeddings_completed",
+      "source": "steps_phase_8_semantic_image_search_clip_embeddings",
       "target": "steps_step_8_6_frontend_search_ui",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L199",
+      "source_location": "L202",
       "weight": 1.0
     },
     {
-      "source": "steps_phase_8_semantic_image_search_clip_embeddings_completed",
+      "source": "steps_phase_8_semantic_image_search_clip_embeddings",
       "target": "steps_step_8_7_backfill_script_for_existing_photos",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L207",
+      "source_location": "L210",
       "weight": 1.0
     },
     {
-      "source": "steps_phase_8_semantic_image_search_clip_embeddings_completed",
+      "source": "steps_phase_8_semantic_image_search_clip_embeddings",
       "target": "steps_step_8_8_update_schema_file",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L214",
+      "source_location": "L217",
       "weight": 1.0
     },
     {
@@ -6218,7 +6087,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L225",
+      "source_location": "L228",
       "weight": 1.0
     },
     {
@@ -6229,7 +6098,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L232",
+      "source_location": "L235",
       "weight": 1.0
     },
     {
@@ -6240,7 +6109,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L240",
+      "source_location": "L243",
       "weight": 1.0
     },
     {
@@ -6251,7 +6120,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L244",
+      "source_location": "L247",
       "weight": 1.0
     },
     {
@@ -6262,7 +6131,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L248",
+      "source_location": "L251",
       "weight": 1.0
     },
     {
@@ -6273,12 +6142,12 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L259",
+      "source_location": "L262",
       "weight": 1.0
     },
     {
       "source": "steps_photo_orchestrator_action_steps_roadmap",
-      "target": "steps_phase_8_semantic_image_search_clip_embeddings_completed",
+      "target": "steps_phase_8_semantic_image_search_clip_embeddings",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -6295,7 +6164,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L221",
+      "source_location": "L224",
       "weight": 1.0
     },
     {
@@ -6306,7 +6175,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L265",
+      "source_location": "L268",
       "weight": 1.0
     },
     {
@@ -6317,7 +6186,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L285",
+      "source_location": "L288",
       "weight": 1.0
     },
     {
@@ -6328,7 +6197,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L313",
+      "source_location": "L316",
       "weight": 1.0
     },
     {
@@ -6339,7 +6208,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L344",
+      "source_location": "L347",
       "weight": 1.0
     },
     {

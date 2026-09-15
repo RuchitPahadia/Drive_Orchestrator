@@ -17,6 +17,7 @@ interface Photo {
   thumbnail_url: string | null;
   created_at: string;
   replica_account_ids?: string[];
+  similarity?: number;
 }
 
 interface Account {
@@ -31,7 +32,12 @@ export default function BrowsePhotosPage() {
   const [selectedAccountId, setSelectedAccountId] = useState('');
   const [cameraQuery, setCameraQuery] = useState('');
   const [page, setPage] = useState(1);
-  const pageSize = 20; // 20 per page fits cleanly in standard grids
+  const pageSize = 20;
+
+  // Semantic AI Search states
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeSearchQuery, setActiveSearchQuery] = useState('');
+  const [similarSourcePhoto, setSimilarSourcePhoto] = useState<Photo | null>(null);
 
   // Data states
   const [photos, setPhotos] = useState<Photo[]>([]);
@@ -58,37 +64,61 @@ export default function BrowsePhotosPage() {
     fetchAccounts();
   }, []);
 
-  // Fetch photos based on active filters and pagination
+  // Fetch photos based on active mode (semantic search vs standard filters)
   const fetchPhotos = useCallback(async () => {
     setLoading(true);
     setError(null);
+
     try {
-      const params = new URLSearchParams({
-        page: page.toString(),
-        pageSize: pageSize.toString(),
-      });
+      if (activeSearchQuery) {
+        // Mode 1: Semantic Text Search
+        const res = await fetch(`/api/photos/search?q=${encodeURIComponent(activeSearchQuery)}&limit=50`);
+        if (!res.ok) {
+          const errData = await res.json();
+          throw new Error(errData.error || 'Failed to search photos');
+        }
+        const data = await res.json();
+        setPhotos(data.photos || []);
+        setTotalPhotos(data.total || 0);
+      } else if (similarSourcePhoto) {
+        // Mode 2: Visual Similarity Search
+        const res = await fetch(`/api/photos/similar?photoId=${similarSourcePhoto.id}&limit=30`);
+        if (!res.ok) {
+          const errData = await res.json();
+          throw new Error(errData.error || 'Failed to find similar photos');
+        }
+        const data = await res.json();
+        setPhotos(data.photos || []);
+        setTotalPhotos(data.total || 0);
+      } else {
+        // Mode 3: Standard Metadata Filtering & Pagination
+        const params = new URLSearchParams({
+          page: page.toString(),
+          pageSize: pageSize.toString(),
+        });
 
-      if (startDate) params.append('startDate', startDate);
-      if (endDate) params.append('endDate', endDate);
-      if (selectedAccountId) params.append('accountId', selectedAccountId);
-      if (cameraQuery) params.append('camera', cameraQuery);
+        if (startDate) params.append('startDate', startDate);
+        if (endDate) params.append('endDate', endDate);
+        if (selectedAccountId) params.append('accountId', selectedAccountId);
+        if (cameraQuery) params.append('camera', cameraQuery);
 
-      const res = await fetch(`/api/photos?${params.toString()}`);
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.error || 'Failed to fetch photos');
+        const res = await fetch(`/api/photos?${params.toString()}`);
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.error || 'Failed to fetch photos');
+        }
+
+        const data = await res.json();
+        setPhotos(data.photos || []);
+        setTotalPhotos(data.total || 0);
       }
-
-      const data = await res.json();
-      setPhotos(data.photos);
-      setTotalPhotos(data.total);
     } catch (err) {
       console.error('Error fetching photos list:', err);
       setError(err instanceof Error ? err.message : 'An unknown error occurred');
     } finally {
       setLoading(false);
     }
-  }, [page, startDate, endDate, selectedAccountId, cameraQuery]);
+  }, [page, startDate, endDate, selectedAccountId, cameraQuery, activeSearchQuery, similarSourcePhoto]);
 
   // Trigger fetch when parameters change
   useEffect(() => {
@@ -98,12 +128,41 @@ export default function BrowsePhotosPage() {
     return () => clearTimeout(timer);
   }, [fetchPhotos]);
 
-  // Reset all filter controls
+  // Handle semantic search submit
+  const handleSemanticSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) return;
+    setSimilarSourcePhoto(null);
+    setActiveSearchQuery(searchQuery.trim());
+    setPage(1);
+  };
+
+  // Handle clear all search/similar modes
+  const handleClearSearch = () => {
+    setSearchQuery('');
+    setActiveSearchQuery('');
+    setSimilarSourcePhoto(null);
+    setPage(1);
+  };
+
+  // Handle "Find Visually Similar" from Lightbox
+  const handleFindSimilar = (photo: Photo) => {
+    setActivePhoto(null);
+    setSearchQuery('');
+    setActiveSearchQuery('');
+    setSimilarSourcePhoto(photo);
+    setPage(1);
+  };
+
+  // Reset standard filter controls
   const handleResetFilters = () => {
     setStartDate('');
     setEndDate('');
     setSelectedAccountId('');
     setCameraQuery('');
+    setSearchQuery('');
+    setActiveSearchQuery('');
+    setSimilarSourcePhoto(null);
     setPage(1);
   };
 
@@ -138,6 +197,8 @@ export default function BrowsePhotosPage() {
     const acc = accounts.find(a => a.id === accountId);
     return acc ? acc.google_email : 'Unknown Account';
   };
+
+  const isAIMode = Boolean(activeSearchQuery || similarSourcePhoto);
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-50 font-sans selection:bg-indigo-500/30 selection:text-indigo-200">
@@ -179,88 +240,152 @@ export default function BrowsePhotosPage() {
 
       <main className="max-w-7xl mx-auto px-6 py-10 relative z-10">
         {/* Title */}
-        <div className="mb-8">
+        <div className="mb-6">
           <h1 className="text-3xl font-extrabold text-zinc-100">Photo Library</h1>
-          <p className="text-zinc-400 mt-1">Browse, filter, and view photos aggregated from all your storage nodes.</p>
+          <p className="text-zinc-400 mt-1">Search photos semantically by meaning with CLIP AI, or filter by metadata across all storage accounts.</p>
+        </div>
+
+        {/* Semantic AI Search Bar */}
+        <div className="mb-6">
+          <form onSubmit={handleSemanticSearch} className="flex gap-3">
+            <div className="relative flex-1">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search photos by meaning (e.g. 'sunset over the ocean', 'family dinner', 'sports car')..."
+                className="w-full bg-zinc-900/60 border border-zinc-800/80 rounded-2xl pl-12 pr-4 py-3.5 text-zinc-100 placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 backdrop-blur-md transition-all shadow-inner"
+              />
+              <svg className="w-5 h-5 text-indigo-400 absolute left-4 top-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <button
+              type="submit"
+              disabled={loading || !searchQuery.trim()}
+              className="px-6 py-3.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold text-sm rounded-2xl transition-all shadow-lg shadow-indigo-500/20 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 shrink-0"
+            >
+              {loading && activeSearchQuery ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                  <span>Searching...</span>
+                </>
+              ) : (
+                <>
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  <span>AI Search</span>
+                </>
+              )}
+            </button>
+            {isAIMode && (
+              <button
+                type="button"
+                onClick={handleClearSearch}
+                className="px-4 py-3.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-medium text-sm rounded-2xl border border-zinc-700/80 transition-colors shrink-0"
+              >
+                Clear Search
+              </button>
+            )}
+          </form>
+
+          {/* Active AI Mode Banner */}
+          {activeSearchQuery && (
+            <div className="mt-3 flex items-center gap-2 text-xs text-indigo-300 bg-indigo-500/10 border border-indigo-500/25 px-4 py-2 rounded-xl w-fit">
+              <span className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
+              <span>Semantic Search: <strong>&ldquo;{activeSearchQuery}&rdquo;</strong> ({photos.length} matches ranked by pgvector cosine similarity)</span>
+              <button onClick={handleClearSearch} className="text-zinc-400 hover:text-white ml-2 font-bold">✕</button>
+            </div>
+          )}
+          {similarSourcePhoto && (
+            <div className="mt-3 flex items-center gap-2 text-xs text-purple-300 bg-purple-500/10 border border-purple-500/25 px-4 py-2 rounded-xl w-fit">
+              <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
+              <span>Visually similar to: <strong>&ldquo;{similarSourcePhoto.filename}&rdquo;</strong></span>
+              <button onClick={handleClearSearch} className="text-zinc-400 hover:text-white ml-2 font-bold">✕</button>
+            </div>
+          )}
         </div>
 
         {/* Filter Panel (Glassmorphism design) */}
-        <section className="p-6 rounded-2xl bg-zinc-900/40 border border-zinc-800/80 backdrop-blur-md mb-8">
-          <h3 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-4 flex items-center gap-2">
-            <svg className="w-4 h-4 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-            </svg>
-            Filter Controls
-          </h3>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* Start Date */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs text-zinc-400 font-medium">Start Date</label>
-              <input 
-                type="date"
-                value={startDate}
-                onChange={(e) => { setStartDate(e.target.value); setPage(1); }}
-                className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2.5 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all [color-scheme:dark]"
-              />
-            </div>
-
-            {/* End Date */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs text-zinc-400 font-medium">End Date</label>
-              <input 
-                type="date"
-                value={endDate}
-                onChange={(e) => { setEndDate(e.target.value); setPage(1); }}
-                className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2.5 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all [color-scheme:dark]"
-              />
-            </div>
-
-            {/* Account Selector */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs text-zinc-400 font-medium">Google Drive Node</label>
-              <select
-                value={selectedAccountId}
-                onChange={(e) => { setSelectedAccountId(e.target.value); setPage(1); }}
-                className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2.5 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all appearance-none"
-              >
-                <option value="">All Accounts</option>
-                {accounts.map(acc => (
-                  <option key={acc.id} value={acc.id}>{acc.google_email}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* Camera Model */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs text-zinc-400 font-medium">Camera / Device</label>
-              <div className="relative">
+        {!isAIMode && (
+          <section className="p-6 rounded-2xl bg-zinc-900/40 border border-zinc-800/80 backdrop-blur-md mb-8">
+            <h3 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+              <svg className="w-4 h-4 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+              </svg>
+              Filter Controls
+            </h3>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {/* Start Date */}
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs text-zinc-400 font-medium">Start Date</label>
                 <input 
-                  type="text"
-                  placeholder="e.g. Pixel 6, iPhone"
-                  value={cameraQuery}
-                  onChange={(e) => { setCameraQuery(e.target.value); setPage(1); }}
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl pl-9 pr-3 py-2.5 text-zinc-100 placeholder-zinc-600 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => { setStartDate(e.target.value); setPage(1); }}
+                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2.5 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all [color-scheme:dark]"
                 />
-                <svg className="w-4 h-4 text-zinc-500 absolute left-3 top-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
+              </div>
+
+              {/* End Date */}
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs text-zinc-400 font-medium">End Date</label>
+                <input 
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => { setEndDate(e.target.value); setPage(1); }}
+                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2.5 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all [color-scheme:dark]"
+                />
+              </div>
+
+              {/* Account Selector */}
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs text-zinc-400 font-medium">Storage Node</label>
+                <select
+                  value={selectedAccountId}
+                  onChange={(e) => { setSelectedAccountId(e.target.value); setPage(1); }}
+                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2.5 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
+                >
+                  <option value="">All Connected Accounts</option>
+                  {accounts.map(acc => (
+                    <option key={acc.id} value={acc.id}>{acc.google_email}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Camera Model */}
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs text-zinc-400 font-medium">Camera / Device</label>
+                <div className="relative">
+                  <input 
+                    type="text"
+                    placeholder="e.g. Pixel 6, iPhone"
+                    value={cameraQuery}
+                    onChange={(e) => { setCameraQuery(e.target.value); setPage(1); }}
+                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl pl-9 pr-3 py-2.5 text-zinc-100 placeholder-zinc-600 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
+                  />
+                  <svg className="w-4 h-4 text-zinc-500 absolute left-3 top-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Reset Filters Option */}
-          {(startDate || endDate || selectedAccountId || cameraQuery) && (
-            <div className="flex justify-end mt-4 animate-in fade-in slide-in-from-right-4 duration-200">
-              <button
-                onClick={handleResetFilters}
-                className="text-xs text-zinc-400 hover:text-zinc-150 underline hover:no-underline transition-colors flex items-center gap-1.5"
-              >
-                Clear Filters
-              </button>
-            </div>
-          )}
-        </section>
+            {/* Reset Filters Option */}
+            {(startDate || endDate || selectedAccountId || cameraQuery) && (
+              <div className="flex justify-end mt-4 animate-in fade-in slide-in-from-right-4 duration-200">
+                <button
+                  onClick={handleResetFilters}
+                  className="text-xs text-zinc-400 hover:text-zinc-150 underline hover:no-underline transition-colors flex items-center gap-1.5"
+                >
+                  Clear Filters
+                </button>
+              </div>
+            )}
+          </section>
+        )}
 
         {/* Gallery Content */}
         {error && (
@@ -290,11 +415,15 @@ export default function BrowsePhotosPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
-            <h3 className="text-xl font-bold text-zinc-200">No photos found</h3>
+            <h3 className="text-xl font-bold text-zinc-200">
+              {isAIMode ? 'No semantic matches found' : 'No photos found'}
+            </h3>
             <p className="text-zinc-500 mt-2 max-w-sm text-sm">
-              Try adjusting your date range, node selections, or camera query.
+              {isAIMode 
+                ? 'Try different search keywords or phrases like "nature", "outdoor", "car", or "people".'
+                : 'Try adjusting your date range, node selections, or camera query.'}
             </p>
-            {(startDate || endDate || selectedAccountId || cameraQuery) && (
+            {(startDate || endDate || selectedAccountId || cameraQuery || isAIMode) && (
               <button
                 onClick={handleResetFilters}
                 className="mt-5 bg-zinc-800 hover:bg-zinc-700 text-zinc-100 font-semibold px-4.5 py-2 rounded-xl border border-zinc-700 transition-colors text-sm"
@@ -313,6 +442,14 @@ export default function BrowsePhotosPage() {
                   onClick={() => setActivePhoto(photo)}
                   className="group relative aspect-square rounded-2xl overflow-hidden bg-zinc-900 border border-zinc-800/80 hover:border-indigo-500/40 cursor-pointer transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/5 transform hover:-translate-y-0.5"
                 >
+                  {/* Similarity Badge for AI Search */}
+                  {photo.similarity !== undefined && (
+                    <div className="absolute top-2.5 right-2.5 z-10 px-2 py-0.5 rounded-lg bg-zinc-950/85 backdrop-blur-md border border-indigo-500/40 text-[11px] font-bold text-indigo-300 shadow-md flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                      {Math.round(photo.similarity * 100)}% match
+                    </div>
+                  )}
+
                   {photo.thumbnail_url ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img 
@@ -342,32 +479,34 @@ export default function BrowsePhotosPage() {
               ))}
             </div>
 
-            {/* Pagination Controls */}
-            <div className="mt-12 flex items-center justify-between border-t border-zinc-900 pt-6">
-              <span className="text-xs text-zinc-500 font-medium">
-                Showing <strong className="text-zinc-350">{photos.length}</strong> of <strong className="text-zinc-350">{totalPhotos}</strong> photos
-              </span>
-              
-              <div className="flex gap-2">
-                <button
-                  disabled={page === 1}
-                  onClick={() => setPage(p => Math.max(1, p - 1))}
-                  className="px-4 py-2 text-xs font-semibold rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-350 disabled:opacity-30 disabled:hover:bg-zinc-900 hover:bg-zinc-850 hover:text-zinc-100 transition-colors disabled:cursor-not-allowed"
-                >
-                  Previous
-                </button>
-                <div className="flex items-center px-3 text-xs text-zinc-400 font-semibold">
-                  Page {page} of {totalPages}
+            {/* Pagination Controls (Only in standard filter mode) */}
+            {!isAIMode && (
+              <div className="mt-12 flex items-center justify-between border-t border-zinc-900 pt-6">
+                <span className="text-xs text-zinc-500 font-medium">
+                  Showing <strong className="text-zinc-350">{photos.length}</strong> of <strong className="text-zinc-350">{totalPhotos}</strong> photos
+                </span>
+                
+                <div className="flex gap-2">
+                  <button
+                    disabled={page === 1}
+                    onClick={() => setPage(p => Math.max(1, p - 1))}
+                    className="px-4 py-2 text-xs font-semibold rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-350 disabled:opacity-30 disabled:hover:bg-zinc-900 hover:bg-zinc-850 hover:text-zinc-100 transition-colors disabled:cursor-not-allowed"
+                  >
+                    Previous
+                  </button>
+                  <div className="flex items-center px-3 text-xs text-zinc-400 font-semibold">
+                    Page {page} of {totalPages}
+                  </div>
+                  <button
+                    disabled={page === totalPages}
+                    onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                    className="px-4 py-2 text-xs font-semibold rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-350 disabled:opacity-30 disabled:hover:bg-zinc-900 hover:bg-zinc-850 hover:text-zinc-100 transition-colors disabled:cursor-not-allowed"
+                  >
+                    Next
+                  </button>
                 </div>
-                <button
-                  disabled={page === totalPages}
-                  onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                  className="px-4 py-2 text-xs font-semibold rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-350 disabled:opacity-30 disabled:hover:bg-zinc-900 hover:bg-zinc-850 hover:text-zinc-100 transition-colors disabled:cursor-not-allowed"
-                >
-                  Next
-                </button>
               </div>
-            </div>
+            )}
           </>
         )}
       </main>
@@ -410,8 +549,15 @@ export default function BrowsePhotosPage() {
             <div className="w-full md:w-80 border-t md:border-t-0 md:border-l border-zinc-800/80 p-6 flex flex-col justify-between overflow-y-auto">
               <div>
                 {/* Header info */}
-                <div className="flex justify-between items-start gap-4 mb-6">
-                  <h2 className="text-lg font-bold text-zinc-100 break-all">{activePhoto.filename}</h2>
+                <div className="flex justify-between items-start gap-4 mb-4">
+                  <div>
+                    <h2 className="text-lg font-bold text-zinc-100 break-all">{activePhoto.filename}</h2>
+                    {activePhoto.similarity !== undefined && (
+                      <span className="inline-block mt-1 text-xs text-emerald-400 font-semibold bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20">
+                        {Math.round(activePhoto.similarity * 100)}% similarity match
+                      </span>
+                    )}
+                  </div>
                   <button 
                     onClick={() => setActivePhoto(null)}
                     className="p-1 text-zinc-500 hover:text-zinc-300 transition-colors hidden md:block"
@@ -421,6 +567,17 @@ export default function BrowsePhotosPage() {
                     </svg>
                   </button>
                 </div>
+
+                {/* Find Visually Similar Action Button */}
+                <button
+                  onClick={() => handleFindSimilar(activePhoto)}
+                  className="w-full mb-6 py-2.5 px-4 bg-gradient-to-r from-purple-600/20 to-indigo-600/20 hover:from-purple-600/40 hover:to-indigo-600/40 border border-indigo-500/30 text-indigo-300 text-xs font-semibold rounded-xl transition-all flex items-center justify-center gap-2 group shadow-sm"
+                >
+                  <svg className="w-4 h-4 text-indigo-400 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                  </svg>
+                  Find Visually Similar Photos
+                </button>
 
                 {/* Metadata Properties */}
                 <div className="space-y-4">

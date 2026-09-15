@@ -132,9 +132,9 @@
     "semantic_hash": "9b77af189a21a7a64e4bd7a426f64176"
   },
   "package.json": {
-    "mtime": 1789459262.5285635,
-    "seen": 1789465620.8300447,
-    "ast_hash": "15b1217d71c52fec5fca1403f2c1e6f7",
+    "mtime": 1789457087.7483191,
+    "seen": 1789458523.1373389,
+    "ast_hash": "d767afe7e7eec2cebf977db37c572e9f",
     "semantic_hash": ""
   },
   "postcss.config.mjs": {
@@ -204,9 +204,9 @@
     "semantic_hash": ""
   },
   "steps.md": {
-    "mtime": 1789465512.6001418,
-    "seen": 1789465620.8300447,
-    "ast_hash": "fd41e784f25b6a660e727522985261c9",
+    "mtime": 1789385132.0287302,
+    "seen": 1789385313.5096924,
+    "ast_hash": "7b8faeb216597d02c802aa579249ac57",
     "semantic_hash": ""
   },
   "public/file.svg": {
@@ -267,12 +267,6 @@
     "mtime": 1789458075.8409445,
     "seen": 1789458523.1373389,
     "ast_hash": "1e09cb7037a90f0f45aa76b7f60d9d8a",
-    "semantic_hash": ""
-  },
-  "scripts/test-phase8.ts": {
-    "mtime": 1789465236.3102324,
-    "seen": 1789465620.8300447,
-    "ast_hash": "6d2b6807ab49b4e934493eb625656ef8",
     "semantic_hash": ""
   }
 }

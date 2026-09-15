@@ -109,23 +109,20 @@ Before starting new features, these items need to be resolved:
 
 ---
 
-## 🚀 Phase 8 — Semantic Image Search (CLIP Embeddings)
+## ✅ Phase 8 — Semantic Image Search (CLIP Embeddings) [COMPLETED]
 
 **Goal**: Enable natural-language search across photos ("sunset on a beach", "group photo at dinner") using CLIP vision-language embeddings stored in pgvector.
 
-### Architecture Decision: Local Inference vs Cloud API
-
-| Approach | Library / Service | Dimension | Cost | Latency |
-|----------|------------------|-----------|------|---------|
-| **Local (recommended)** | `@huggingface/transformers` + `Xenova/clip-vit-base-patch32` | **512** (matches schema) | **$0** | ~150ms/photo on CPU |
-| Cloud alternative | Google Vertex AI `multimodalembedding@001` | 512 (configurable) | $0.10 / 1K images | ~200ms/photo |
-
-**Recommendation**: Use **local inference** with `@huggingface/transformers`. It's free, outputs 512-dim vectors (zero schema migration), and runs in the existing worker process. The quantized ONNX model is ~80MB.
-
-### Step 8.1 — Install Dependencies
-```bash
-npm install @huggingface/transformers onnxruntime-node
-```
+### Status: Fully Implemented & Tested
+- [x] **8.1 Dependencies**: Installed `@huggingface/transformers` and `onnxruntime-node`, unified on `sharp@0.34.5`.
+- [x] **8.2 Singleton Embeddings Module**: Created `lib/embeddings.ts` supporting `generateTextEmbedding`, `generateImageEmbedding`, and `formatVectorForPostgres` with ONNX runtime.
+- [x] **8.3 Worker & Indexer Pipeline**: Integrated thumbnail-based embedding extraction into `lib/indexer.ts` with direct pgvector storage.
+- [x] **8.4 Semantic Search API**: Implemented `GET /api/photos/search` with pgvector `<=>` cosine distance ranking.
+- [x] **8.5 Visual Similarity API**: Implemented `GET /api/photos/similar` for nearest-neighbor visual recommendations.
+- [x] **8.6 Browse UI**: Added AI Semantic Search input bar, active filter badges, similarity match % indicators, and lightbox visual similarity button.
+- [x] **8.7 Backfill Utility**: Created `scripts/backfill-embeddings.ts` for batch processing existing records.
+- [x] **8.8 Schema & Indexing**: Created production HNSW vector index (`photos_embedding_hnsw_idx`) and updated `db/schema.sql`.
+- [x] **8.9 Colab Exploration**: Provided and validated `notebooks/clip_semantic_search_walkthrough.ipynb` for GPU fine-tuning and contrastive training.
 
 ### Step 8.2 — Create `lib/embeddings.ts`
 A module that loads the CLIP model once (singleton) and exposes two functions:

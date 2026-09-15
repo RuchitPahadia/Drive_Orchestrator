@@ -3,6 +3,7 @@ import { getDriveClient } from './drive-client';
 import { Readable } from 'stream';
 import exifr from 'exifr';
 import sharp from 'sharp';
+import { generateImageEmbedding, formatVectorForPostgres } from './embeddings';
 
 /**
  * Helper to convert a Node.js Readable stream into a Buffer.
@@ -103,8 +104,9 @@ export async function indexPhoto(photoId: string): Promise<void> {
       console.warn(`[Indexer] [Warning] Failed to parse EXIF metadata for "${filename}": ${errorMsg}`);
     }
 
-    // 5. Generate a resized Base64 thumbnail URL using sharp
+    // 5. Generate a resized Base64 thumbnail URL using sharp and compute CLIP embedding
     let thumbnailUrl: string | null = null;
+    let embeddingVector: string | null = null;
     
     if (mimeType && mimeType.startsWith('image/')) {
       try {
@@ -115,6 +117,17 @@ export async function indexPhoto(photoId: string): Promise<void> {
           .toBuffer();
         
         thumbnailUrl = `data:image/jpeg;base64,${thumbnailBuffer.toString('base64')}`;
+
+        // Generate CLIP 512-dim embedding from thumbnail buffer
+        try {
+          console.log(`[Indexer] Generating CLIP image embedding for "${filename}"...`);
+          const rawVector = await generateImageEmbedding(thumbnailBuffer);
+          embeddingVector = formatVectorForPostgres(rawVector);
+          console.log(`[Indexer] Successfully generated 512-dim embedding for "${filename}".`);
+        } catch (embedError) {
+          const errorMsg = embedError instanceof Error ? embedError.message : String(embedError);
+          console.warn(`[Indexer] [Warning] Failed to generate embedding for "${filename}": ${errorMsg}`);
+        }
       } catch (sharpError) {
         const errorMsg = sharpError instanceof Error ? sharpError.message : String(sharpError);
         console.error(`[Indexer] Failed to generate thumbnail for "${filename}": ${errorMsg}`);
@@ -122,7 +135,7 @@ export async function indexPhoto(photoId: string): Promise<void> {
     }
 
     // 6. Update database record
-    console.log(`[Indexer] Saving metadata to photos table...`);
+    console.log(`[Indexer] Saving metadata and embedding to photos table...`);
     await query(
       `UPDATE photos 
        SET taken_at = $1, 
@@ -130,9 +143,10 @@ export async function indexPhoto(photoId: string): Promise<void> {
            gps_lng = $3, 
            camera_model = $4, 
            thumbnail_url = $5, 
+           embedding = CASE WHEN $6::text IS NOT NULL THEN $6::vector ELSE NULL END, 
            indexed_at = NOW() 
-       WHERE id = $6`,
-      [takenAt, gpsLat, gpsLng, cameraModel, thumbnailUrl, photoId]
+       WHERE id = $7`,
+      [takenAt, gpsLat, gpsLng, cameraModel, thumbnailUrl, embeddingVector, photoId]
     );
 
     console.log(`[Indexer] Finished indexing photo "${filename}" successfully.`);
