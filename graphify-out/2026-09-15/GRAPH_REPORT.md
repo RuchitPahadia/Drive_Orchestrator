@@ -1,11 +1,11 @@
 # Graph Report - Photo_Orchestrator  (2026-09-15)
 
 ## Corpus Check
-- 39 files · ~18,665 words
+- 40 files · ~19,015 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 249 nodes · 328 edges · 26 communities (20 shown, 6 thin omitted)
+- 250 nodes · 338 edges · 27 communities (21 shown, 6 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
@@ -33,24 +33,25 @@
 - rules/graphify.md
 - workflows/graphify.md
 - Antigravity Build Prompts — Photo Orchestrator
-- 🚀 Phase 8 — Semantic Image Search (CLIP Embeddings)
+- include
 - Getting Started
 - 📅 Session: 2026-09-14
 - Photo Orchestrator - Project Context
 - AGENTS.md
 - embeddings.ts
+- 🚀 Phase 9 — Real User Authentication
 
 ## God Nodes (most connected - your core abstractions)
-1. `query()` - 28 edges
+1. `query()` - 30 edges
 2. `compilerOptions` - 16 edges
 3. `getDriveClient()` - 12 edges
 4. `indexPhoto()` - 12 edges
 5. `Photo Orchestrator — Action Steps & Roadmap` - 10 edges
-6. `🚀 Phase 8 — Semantic Image Search (CLIP Embeddings)` - 10 edges
-7. `Antigravity Build Prompts — Photo Orchestrator` - 9 edges
-8. `refreshAccountQuota()` - 7 edges
-9. `generateImageEmbedding()` - 7 edges
-10. `formatVectorForPostgres()` - 7 edges
+6. `generateImageEmbedding()` - 9 edges
+7. `formatVectorForPostgres()` - 9 edges
+8. `Antigravity Build Prompts — Photo Orchestrator` - 9 edges
+9. `✅ Phase 8 — Semantic Image Search (CLIP Embeddings) [COMPLETED]` - 9 edges
+10. `refreshAccountQuota()` - 7 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `AdminPage()` --calls--> `query()`  [EXTRACTED]
@@ -67,7 +68,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (26 total, 6 thin omitted)
+## Communities (27 total, 6 thin omitted)
 
 ### Community 0 - "query"
 Cohesion: 0.25
@@ -82,8 +83,8 @@ Cohesion: 0.09
 Nodes (23): bullmq, exifr, googleapis, @huggingface/transformers, ioredis, next, onnxruntime-node, dependencies (+15 more)
 
 ### Community 3 - "compilerOptions"
-Cohesion: 0.07
-Nodes (28): dom, dom.iterable, esnext, **/*.mts, .next/dev/types/**/*.ts, next-env.d.ts, .next/types/**/*.ts, node_modules (+20 more)
+Cohesion: 0.11
+Nodes (19): dom, dom.iterable, esnext, compilerOptions, allowJs, esModuleInterop, incremental, isolatedModules (+11 more)
 
 ### Community 4 - "callback/route.ts"
 Cohesion: 0.35
@@ -95,7 +96,7 @@ Nodes (9): name, private, scripts, build, dev, lint, start, worker (+1 more)
 
 ### Community 6 - "Photo Orchestrator — Action Steps & Roadmap"
 Cohesion: 0.06
-Nodes (30): ✅ Completed Phases Summary, 🚀 Phase 10 — Configurable Replication & Storage Management, 🚀 Phase 11 — Google Drive Sync (Import Existing Photos), 🚀 Phase 12 — Polish & Production Readiness, 🚀 Phase 9 — Real User Authentication, 📊 Phase Priority & Dependency Graph, Photo Orchestrator — Action Steps & Roadmap, 🔧 Pre-Phase: Stabilization & Bug Fixes (+22 more)
+Nodes (32): ✅ Completed Phases Summary, 🚀 Phase 10 — Configurable Replication & Storage Management, 🚀 Phase 11 — Google Drive Sync (Import Existing Photos), 🚀 Phase 12 — Polish & Production Readiness, ✅ Phase 8 — Semantic Image Search (CLIP Embeddings) [COMPLETED], 📊 Phase Priority & Dependency Graph, Photo Orchestrator — Action Steps & Roadmap, 🔧 Pre-Phase: Stabilization & Bug Fixes (+24 more)
 
 ### Community 7 - "AdminDashboard.tsx"
 Cohesion: 0.25
@@ -121,9 +122,9 @@ Nodes (4): accounts, photo_replicas, photos, users
 Cohesion: 0.20
 Nodes (9): Antigravity Build Prompts — Photo Orchestrator, Notes for you (not for the agent), Phase 1 — Project scaffold, Phase 2 — Database schema, Phase 3 — OAuth connect + callback, Phase 4 — Storage router + upload, Phase 5 — Background indexing worker, Phase 6 — Search API (+1 more)
 
-### Community 19 - "🚀 Phase 8 — Semantic Image Search (CLIP Embeddings)"
+### Community 19 - "include"
 Cohesion: 0.20
-Nodes (10): Architecture Decision: Local Inference vs Cloud API, 🚀 Phase 8 — Semantic Image Search (CLIP Embeddings), Step 8.1 — Install Dependencies, Step 8.2 — Create `lib/embeddings.ts`, Step 8.3 — Integrate into `lib/indexer.ts`, Step 8.4 — Create Semantic Search API, Step 8.5 — Create "Find Similar" API, Step 8.6 — Frontend Search UI (+2 more)
+Nodes (9): **/*.mts, .next/dev/types/**/*.ts, next-env.d.ts, .next/types/**/*.ts, node_modules, **/*.ts, **/*.tsx, exclude (+1 more)
 
 ### Community 20 - "Getting Started"
 Cohesion: 0.25
@@ -138,28 +139,32 @@ Cohesion: 0.33
 Nodes (5): 📋 Current Implementation Status (Phases 1-7), ⚡ Current State (Post-Supabase Restart), Photo Orchestrator - Project Context, 🛠️ Technology Stack, 🎯 Things to Finish / Next Steps
 
 ### Community 25 - "embeddings.ts"
-Cohesion: 0.40
-Nodes (8): GET(), formatVectorForPostgres(), generateImageEmbedding(), generateTextEmbedding(), getTextModel(), getVisionModel(), normalize(), backfill()
+Cohesion: 0.38
+Nodes (9): GET(), formatVectorForPostgres(), generateImageEmbedding(), generateTextEmbedding(), getTextModel(), getVisionModel(), normalize(), backfill() (+1 more)
+
+### Community 26 - "🚀 Phase 9 — Real User Authentication"
+Cohesion: 0.29
+Nodes (7): 🚀 Phase 9 — Real User Authentication, Step 9.1 — Choose Auth Strategy, Step 9.2 — Install & Configure NextAuth, Step 9.3 — Create Auth Middleware, Step 9.4 — Create Login Page, Step 9.5 — Replace Hardcoded User ID, Step 9.6 — Role-Based Access for Admin
 
 ## Knowledge Gaps
-- **127 isolated node(s):** `UserRecord`, `AccountRecord`, `PhotoRecord`, `SystemStats`, `AdminDashboardProps` (+122 more)
+- **126 isolated node(s):** `UserRecord`, `AccountRecord`, `PhotoRecord`, `SystemStats`, `AdminDashboardProps` (+121 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **6 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Photo Orchestrator — Action Steps & Roadmap` connect `Photo Orchestrator — Action Steps & Roadmap` to `🚀 Phase 8 — Semantic Image Search (CLIP Embeddings)`, `📅 Session: 2026-09-14`?**
-  _High betweenness centrality (0.035) - this node is a cross-community bridge._
+- **Why does `Photo Orchestrator — Action Steps & Roadmap` connect `Photo Orchestrator — Action Steps & Roadmap` to `🚀 Phase 9 — Real User Authentication`, `📅 Session: 2026-09-14`?**
+  _High betweenness centrality (0.033) - this node is a cross-community bridge._
+- **Why does `query()` connect `query` to `dashboard/page.tsx`, `embeddings.ts`, `callback/route.ts`, `AdminDashboard.tsx`?**
+  _High betweenness centrality (0.031) - this node is a cross-community bridge._
 - **Why does `dependencies` connect `dependencies` to `package.json`?**
   _High betweenness centrality (0.029) - this node is a cross-community bridge._
-- **Why does `query()` connect `query` to `dashboard/page.tsx`, `embeddings.ts`, `callback/route.ts`, `AdminDashboard.tsx`?**
-  _High betweenness centrality (0.029) - this node is a cross-community bridge._
 - **What connects `UserRecord`, `AccountRecord`, `PhotoRecord` to the rest of the system?**
-  _127 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _126 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `devDependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.09523809523809523 - nodes in this community are weakly interconnected._
 - **Should `dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.08695652173913043 - nodes in this community are weakly interconnected._
 - **Should `compilerOptions` be split into smaller, more focused modules?**
-  _Cohesion score 0.06896551724137931 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected._
