@@ -1,0 +1,17 @@
+# PyTorch with NVIDIA CUDA 12.4 support (for RTX 3050 and other NVIDIA GPUs)
+--extra-index-url https://download.pytorch.org/whl/cu124
+torch==2.6.0+cu124
+torchvision==0.21.0+cu124
+
+# Vision-Language & Multimodal Models
+transformers
+pillow
+matplotlib
+numpy
+
+# Database & Environment
+psycopg2-binary
+python-dotenv
+
+# Jupyter Notebook Kernel Support
+ipykernel

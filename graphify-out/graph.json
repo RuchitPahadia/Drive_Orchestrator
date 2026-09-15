@@ -270,7 +270,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 4,
-      "community_name": "drive-client.ts",
+      "community_name": "callback/route.ts",
       "file_type": "code",
       "norm_label": "get()",
       "source_file": "app/api/accounts/callback/route.ts",
@@ -282,7 +282,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 4,
-      "community_name": "drive-client.ts",
+      "community_name": "callback/route.ts",
       "file_type": "code",
       "norm_label": "get()",
       "source_file": "app/api/accounts/connect/route.ts",
@@ -294,7 +294,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 4,
-      "community_name": "drive-client.ts",
+      "community_name": "callback/route.ts",
       "file_type": "code",
       "norm_label": "decrypt()",
       "source_file": "lib/crypto.ts",
@@ -306,7 +306,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 4,
-      "community_name": "drive-client.ts",
+      "community_name": "callback/route.ts",
       "file_type": "code",
       "norm_label": "encrypt()",
       "source_file": "lib/crypto.ts",
@@ -318,7 +318,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 4,
-      "community_name": "drive-client.ts",
+      "community_name": "callback/route.ts",
       "file_type": "code",
       "norm_label": "getencryptionkey()",
       "source_file": "lib/crypto.ts",
@@ -330,7 +330,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 4,
-      "community_name": "drive-client.ts",
+      "community_name": "callback/route.ts",
       "file_type": "code",
       "norm_label": "generateauthurl()",
       "source_file": "lib/google-oauth.ts",
@@ -342,7 +342,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 4,
-      "community_name": "drive-client.ts",
+      "community_name": "callback/route.ts",
       "file_type": "code",
       "norm_label": "getoauth2client()",
       "source_file": "lib/google-oauth.ts",
@@ -473,6 +473,17 @@
       "file_type": "code",
       "norm_label": "db.ts",
       "source_file": "lib/db.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "lib_drive_client",
+      "label": "drive-client.ts",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "drive-client.ts",
+      "source_file": "lib/drive-client.ts",
       "source_location": "L1"
     },
     {
@@ -1134,7 +1145,7 @@
       "node_kind": "heading",
       "norm_label": "architecture decision: local inference vs cloud api",
       "source_file": "steps.md",
-      "source_location": "L105"
+      "source_location": "L116"
     },
     {
       "id": "steps_phase_8_semantic_image_search_clip_embeddings",
@@ -1146,7 +1157,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\ude80 phase 8 \u2014 semantic image search (clip embeddings)",
       "source_file": "steps.md",
-      "source_location": "L101"
+      "source_location": "L112"
     },
     {
       "id": "steps_step_8_1_install_dependencies",
@@ -1158,7 +1169,7 @@
       "node_kind": "heading",
       "norm_label": "step 8.1 \u2014 install dependencies",
       "source_file": "steps.md",
-      "source_location": "L114"
+      "source_location": "L125"
     },
     {
       "id": "steps_step_8_2_create_lib_embeddings_ts",
@@ -1170,7 +1181,7 @@
       "node_kind": "heading",
       "norm_label": "step 8.2 \u2014 create `lib/embeddings.ts`",
       "source_file": "steps.md",
-      "source_location": "L119"
+      "source_location": "L130"
     },
     {
       "id": "steps_step_8_3_integrate_into_lib_indexer_ts",
@@ -1182,7 +1193,7 @@
       "node_kind": "heading",
       "norm_label": "step 8.3 \u2014 integrate into `lib/indexer.ts`",
       "source_file": "steps.md",
-      "source_location": "L133"
+      "source_location": "L144"
     },
     {
       "id": "steps_step_8_4_create_semantic_search_api",
@@ -1194,7 +1205,7 @@
       "node_kind": "heading",
       "norm_label": "step 8.4 \u2014 create semantic search api",
       "source_file": "steps.md",
-      "source_location": "L158"
+      "source_location": "L169"
     },
     {
       "id": "steps_step_8_5_create_find_similar_api",
@@ -1206,7 +1217,7 @@
       "node_kind": "heading",
       "norm_label": "step 8.5 \u2014 create \"find similar\" api",
       "source_file": "steps.md",
-      "source_location": "L180"
+      "source_location": "L191"
     },
     {
       "id": "steps_step_8_6_frontend_search_ui",
@@ -1218,7 +1229,7 @@
       "node_kind": "heading",
       "norm_label": "step 8.6 \u2014 frontend search ui",
       "source_file": "steps.md",
-      "source_location": "L191"
+      "source_location": "L202"
     },
     {
       "id": "steps_step_8_7_backfill_script_for_existing_photos",
@@ -1230,7 +1241,7 @@
       "node_kind": "heading",
       "norm_label": "step 8.7 \u2014 backfill script for existing photos",
       "source_file": "steps.md",
-      "source_location": "L199"
+      "source_location": "L210"
     },
     {
       "id": "steps_step_8_8_update_schema_file",
@@ -1242,7 +1253,7 @@
       "node_kind": "heading",
       "norm_label": "step 8.8 \u2014 update schema file",
       "source_file": "steps.md",
-      "source_location": "L206"
+      "source_location": "L217"
     },
     {
       "id": "package_dependencies",
@@ -1554,7 +1565,7 @@
       "label": "\ud83d\udcc5 Session: 2026-08-14",
       "_origin": "ast",
       "community": 21,
-      "community_name": "\ud83d\udcc5 Session: 2026-08-14",
+      "community_name": "\ud83d\udcc5 Session: 2026-09-14",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "\ud83d\udcc5 session: 2026-08-14",
@@ -1566,7 +1577,7 @@
       "label": "\ud83d\udcc5 Session: 2026-09-14",
       "_origin": "ast",
       "community": 21,
-      "community_name": "\ud83d\udcc5 Session: 2026-08-14",
+      "community_name": "\ud83d\udcc5 Session: 2026-09-14",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "\ud83d\udcc5 session: 2026-09-14",
@@ -1578,7 +1589,7 @@
       "label": "\ud83d\udcdc Session History",
       "_origin": "ast",
       "community": 21,
-      "community_name": "\ud83d\udcc5 Session: 2026-08-14",
+      "community_name": "\ud83d\udcc5 Session: 2026-09-14",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "\ud83d\udcdc session history",
@@ -1590,7 +1601,7 @@
       "label": "Step 1: Rebuilt Database Schema after Supabase Restart",
       "_origin": "ast",
       "community": 21,
-      "community_name": "\ud83d\udcc5 Session: 2026-08-14",
+      "community_name": "\ud83d\udcc5 Session: 2026-09-14",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "step 1: rebuilt database schema after supabase restart",
@@ -1602,7 +1613,7 @@
       "label": "Step 2: Fixed Default Next.js Landing Page Routing",
       "_origin": "ast",
       "community": 21,
-      "community_name": "\ud83d\udcc5 Session: 2026-08-14",
+      "community_name": "\ud83d\udcc5 Session: 2026-09-14",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "step 2: fixed default next.js landing page routing",
@@ -1614,7 +1625,7 @@
       "label": "Step 3: Created Documentation for Context and Steps Tracking",
       "_origin": "ast",
       "community": 21,
-      "community_name": "\ud83d\udcc5 Session: 2026-08-14",
+      "community_name": "\ud83d\udcc5 Session: 2026-09-14",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "step 3: created documentation for context and steps tracking",
@@ -1626,12 +1637,48 @@
       "label": "Step 4: Fixed Critical OAuth Scope Bug",
       "_origin": "ast",
       "community": 21,
-      "community_name": "\ud83d\udcc5 Session: 2026-08-14",
+      "community_name": "\ud83d\udcc5 Session: 2026-09-14",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "step 4: fixed critical oauth scope bug",
       "source_file": "steps.md",
       "source_location": "L35"
+    },
+    {
+      "id": "steps_step_5_live_database_reconnect_hnsw_vector_index_migration",
+      "label": "Step 5: Live Database Reconnect & HNSW Vector Index Migration",
+      "_origin": "ast",
+      "community": 21,
+      "community_name": "\ud83d\udcc5 Session: 2026-09-14",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "step 5: live database reconnect & hnsw vector index migration",
+      "source_file": "steps.md",
+      "source_location": "L41"
+    },
+    {
+      "id": "steps_step_6_interactive_clip_model_notebook",
+      "label": "Step 6: Interactive CLIP Model Notebook",
+      "_origin": "ast",
+      "community": 21,
+      "community_name": "\ud83d\udcc5 Session: 2026-09-14",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "step 6: interactive clip model notebook",
+      "source_file": "steps.md",
+      "source_location": "L51"
+    },
+    {
+      "id": "steps_step_7_dedicated_gpu_virtual_environment_cuda_12_4_setup",
+      "label": "Step 7: Dedicated GPU Virtual Environment & CUDA 12.4 Setup",
+      "_origin": "ast",
+      "community": 21,
+      "community_name": "\ud83d\udcc5 Session: 2026-09-14",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "step 7: dedicated gpu virtual environment & cuda 12.4 setup",
+      "source_file": "steps.md",
+      "source_location": "L57"
     },
     {
       "id": "context",
@@ -1745,12 +1792,195 @@
       "id": "tsconfig",
       "label": "tsconfig.json",
       "_origin": "ast",
-      "community": 3,
-      "community_name": "compilerOptions",
+      "community": 25,
+      "community_name": "include",
       "file_type": "code",
       "norm_label": "tsconfig.json",
       "source_file": "tsconfig.json",
       "source_location": "L1"
+    },
+    {
+      "id": "tsconfig_exclude",
+      "label": "exclude",
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "include",
+      "file_type": "code",
+      "norm_label": "exclude",
+      "source_file": "tsconfig.json",
+      "source_location": "L33"
+    },
+    {
+      "id": "tsconfig_include",
+      "label": "include",
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "include",
+      "file_type": "code",
+      "norm_label": "include",
+      "source_file": "tsconfig.json",
+      "source_location": "L25"
+    },
+    {
+      "id": "ref_mts",
+      "label": "**/*.mts",
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "include",
+      "file_type": "concept",
+      "norm_label": "**/*.mts",
+      "source_file": "tsconfig.json",
+      "source_location": "L25"
+    },
+    {
+      "id": "ref_next_dev_types_ts",
+      "label": ".next/dev/types/**/*.ts",
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "include",
+      "file_type": "concept",
+      "norm_label": ".next/dev/types/**/*.ts",
+      "source_file": "tsconfig.json",
+      "source_location": "L25"
+    },
+    {
+      "id": "ref_next_env_d_ts",
+      "label": "next-env.d.ts",
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "include",
+      "file_type": "concept",
+      "norm_label": "next-env.d.ts",
+      "source_file": "tsconfig.json",
+      "source_location": "L25"
+    },
+    {
+      "id": "ref_next_types_ts",
+      "label": ".next/types/**/*.ts",
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "include",
+      "file_type": "concept",
+      "norm_label": ".next/types/**/*.ts",
+      "source_file": "tsconfig.json",
+      "source_location": "L25"
+    },
+    {
+      "id": "ref_node_modules",
+      "label": "node_modules",
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "include",
+      "file_type": "concept",
+      "norm_label": "node_modules",
+      "source_file": "tsconfig.json",
+      "source_location": "L33"
+    },
+    {
+      "id": "ref_ts",
+      "label": "**/*.ts",
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "include",
+      "file_type": "concept",
+      "norm_label": "**/*.ts",
+      "source_file": "tsconfig.json",
+      "source_location": "L25"
+    },
+    {
+      "id": "ref_tsx",
+      "label": "**/*.tsx",
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "include",
+      "file_type": "concept",
+      "norm_label": "**/*.tsx",
+      "source_file": "tsconfig.json",
+      "source_location": "L25"
+    },
+    {
+      "id": "steps_phase_9_real_user_authentication",
+      "label": "\ud83d\ude80 Phase 9 \u2014 Real User Authentication",
+      "_origin": "ast",
+      "community": 26,
+      "community_name": "\ud83d\ude80 Phase 9 \u2014 Real User Authentication",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\ude80 phase 9 \u2014 real user authentication",
+      "source_file": "steps.md",
+      "source_location": "L224"
+    },
+    {
+      "id": "steps_step_9_1_choose_auth_strategy",
+      "label": "Step 9.1 \u2014 Choose Auth Strategy",
+      "_origin": "ast",
+      "community": 26,
+      "community_name": "\ud83d\ude80 Phase 9 \u2014 Real User Authentication",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "step 9.1 \u2014 choose auth strategy",
+      "source_file": "steps.md",
+      "source_location": "L228"
+    },
+    {
+      "id": "steps_step_9_2_install_configure_nextauth",
+      "label": "Step 9.2 \u2014 Install & Configure NextAuth",
+      "_origin": "ast",
+      "community": 26,
+      "community_name": "\ud83d\ude80 Phase 9 \u2014 Real User Authentication",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "step 9.2 \u2014 install & configure nextauth",
+      "source_file": "steps.md",
+      "source_location": "L235"
+    },
+    {
+      "id": "steps_step_9_3_create_auth_middleware",
+      "label": "Step 9.3 \u2014 Create Auth Middleware",
+      "_origin": "ast",
+      "community": 26,
+      "community_name": "\ud83d\ude80 Phase 9 \u2014 Real User Authentication",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "step 9.3 \u2014 create auth middleware",
+      "source_file": "steps.md",
+      "source_location": "L243"
+    },
+    {
+      "id": "steps_step_9_4_create_login_page",
+      "label": "Step 9.4 \u2014 Create Login Page",
+      "_origin": "ast",
+      "community": 26,
+      "community_name": "\ud83d\ude80 Phase 9 \u2014 Real User Authentication",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "step 9.4 \u2014 create login page",
+      "source_file": "steps.md",
+      "source_location": "L247"
+    },
+    {
+      "id": "steps_step_9_5_replace_hardcoded_user_id",
+      "label": "Step 9.5 \u2014 Replace Hardcoded User ID",
+      "_origin": "ast",
+      "community": 26,
+      "community_name": "\ud83d\ude80 Phase 9 \u2014 Real User Authentication",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "step 9.5 \u2014 replace hardcoded user id",
+      "source_file": "steps.md",
+      "source_location": "L251"
+    },
+    {
+      "id": "steps_step_9_6_role_based_access_for_admin",
+      "label": "Step 9.6 \u2014 Role-Based Access for Admin",
+      "_origin": "ast",
+      "community": 26,
+      "community_name": "\ud83d\ude80 Phase 9 \u2014 Real User Authentication",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "step 9.6 \u2014 role-based access for admin",
+      "source_file": "steps.md",
+      "source_location": "L262"
     },
     {
       "id": "tsconfig_compileroptions",
@@ -1929,28 +2159,6 @@
       "source_location": "L3"
     },
     {
-      "id": "tsconfig_exclude",
-      "label": "exclude",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "compilerOptions",
-      "file_type": "code",
-      "norm_label": "exclude",
-      "source_file": "tsconfig.json",
-      "source_location": "L33"
-    },
-    {
-      "id": "tsconfig_include",
-      "label": "include",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "compilerOptions",
-      "file_type": "code",
-      "norm_label": "include",
-      "source_file": "tsconfig.json",
-      "source_location": "L25"
-    },
-    {
       "id": "ref_dom",
       "label": "dom",
       "_origin": "ast",
@@ -1984,88 +2192,11 @@
       "source_location": "L4"
     },
     {
-      "id": "ref_mts",
-      "label": "**/*.mts",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "compilerOptions",
-      "file_type": "concept",
-      "norm_label": "**/*.mts",
-      "source_file": "tsconfig.json",
-      "source_location": "L25"
-    },
-    {
-      "id": "ref_next_dev_types_ts",
-      "label": ".next/dev/types/**/*.ts",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "compilerOptions",
-      "file_type": "concept",
-      "norm_label": ".next/dev/types/**/*.ts",
-      "source_file": "tsconfig.json",
-      "source_location": "L25"
-    },
-    {
-      "id": "ref_next_env_d_ts",
-      "label": "next-env.d.ts",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "compilerOptions",
-      "file_type": "concept",
-      "norm_label": "next-env.d.ts",
-      "source_file": "tsconfig.json",
-      "source_location": "L25"
-    },
-    {
-      "id": "ref_next_types_ts",
-      "label": ".next/types/**/*.ts",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "compilerOptions",
-      "file_type": "concept",
-      "norm_label": ".next/types/**/*.ts",
-      "source_file": "tsconfig.json",
-      "source_location": "L25"
-    },
-    {
-      "id": "ref_node_modules",
-      "label": "node_modules",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "compilerOptions",
-      "file_type": "concept",
-      "norm_label": "node_modules",
-      "source_file": "tsconfig.json",
-      "source_location": "L33"
-    },
-    {
-      "id": "ref_ts",
-      "label": "**/*.ts",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "compilerOptions",
-      "file_type": "concept",
-      "norm_label": "**/*.ts",
-      "source_file": "tsconfig.json",
-      "source_location": "L25"
-    },
-    {
-      "id": "ref_tsx",
-      "label": "**/*.tsx",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "compilerOptions",
-      "file_type": "concept",
-      "norm_label": "**/*.tsx",
-      "source_file": "tsconfig.json",
-      "source_location": "L25"
-    },
-    {
       "id": "app_api_accounts_callback_route",
       "label": "callback/route.ts",
       "_origin": "ast",
       "community": 4,
-      "community_name": "drive-client.ts",
+      "community_name": "callback/route.ts",
       "file_type": "code",
       "norm_label": "callback/route.ts",
       "source_file": "app/api/accounts/callback/route.ts",
@@ -2076,7 +2207,7 @@
       "label": "connect/route.ts",
       "_origin": "ast",
       "community": 4,
-      "community_name": "drive-client.ts",
+      "community_name": "callback/route.ts",
       "file_type": "code",
       "norm_label": "connect/route.ts",
       "source_file": "app/api/accounts/connect/route.ts",
@@ -2087,21 +2218,10 @@
       "label": "crypto.ts",
       "_origin": "ast",
       "community": 4,
-      "community_name": "drive-client.ts",
+      "community_name": "callback/route.ts",
       "file_type": "code",
       "norm_label": "crypto.ts",
       "source_file": "lib/crypto.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "lib_drive_client",
-      "label": "drive-client.ts",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "drive-client.ts",
-      "file_type": "code",
-      "norm_label": "drive-client.ts",
-      "source_file": "lib/drive-client.ts",
       "source_location": "L1"
     },
     {
@@ -2109,7 +2229,7 @@
       "label": "google-oauth.ts",
       "_origin": "ast",
       "community": 4,
-      "community_name": "drive-client.ts",
+      "community_name": "callback/route.ts",
       "file_type": "code",
       "norm_label": "google-oauth.ts",
       "source_file": "lib/google-oauth.ts",
@@ -2247,7 +2367,7 @@
       "node_kind": "heading",
       "norm_label": "\u2705 completed phases summary",
       "source_file": "steps.md",
-      "source_location": "L44"
+      "source_location": "L70"
     },
     {
       "id": "steps_phase_10_configurable_replication_storage_management",
@@ -2259,7 +2379,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\ude80 phase 10 \u2014 configurable replication & storage management",
       "source_file": "steps.md",
-      "source_location": "L257"
+      "source_location": "L268"
     },
     {
       "id": "steps_phase_11_google_drive_sync_import_existing_photos",
@@ -2271,7 +2391,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\ude80 phase 11 \u2014 google drive sync (import existing photos)",
       "source_file": "steps.md",
-      "source_location": "L277"
+      "source_location": "L288"
     },
     {
       "id": "steps_phase_12_polish_production_readiness",
@@ -2283,19 +2403,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\ude80 phase 12 \u2014 polish & production readiness",
       "source_file": "steps.md",
-      "source_location": "L305"
-    },
-    {
-      "id": "steps_phase_9_real_user_authentication",
-      "label": "\ud83d\ude80 Phase 9 \u2014 Real User Authentication",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "Photo Orchestrator \u2014 Action Steps & Roadmap",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "\ud83d\ude80 phase 9 \u2014 real user authentication",
-      "source_file": "steps.md",
-      "source_location": "L213"
+      "source_location": "L316"
     },
     {
       "id": "steps_phase_priority_dependency_graph",
@@ -2307,7 +2415,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\udcca phase priority & dependency graph",
       "source_file": "steps.md",
-      "source_location": "L336"
+      "source_location": "L347"
     },
     {
       "id": "steps_photo_orchestrator_action_steps_roadmap",
@@ -2331,43 +2439,43 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\udd27 pre-phase: stabilization & bug fixes",
       "source_file": "steps.md",
-      "source_location": "L59"
+      "source_location": "L85"
     },
     {
-      "id": "steps_s1_re_authenticate_google_accounts",
-      "label": "S1. Re-authenticate Google Accounts",
+      "id": "steps_s1_re_authenticate_google_accounts_completed",
+      "label": "S1. Re-authenticate Google Accounts \u2014 \u2705 COMPLETED",
       "_origin": "ast",
       "community": 6,
       "community_name": "Photo Orchestrator \u2014 Action Steps & Roadmap",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "s1. re-authenticate google accounts",
+      "norm_label": "s1. re-authenticate google accounts \u2014 \u2705 completed",
       "source_file": "steps.md",
-      "source_location": "L63"
+      "source_location": "L89"
     },
     {
-      "id": "steps_s2_replace_ivfflat_index_with_hnsw",
-      "label": "S2. Replace IVFFlat Index with HNSW",
+      "id": "steps_s2_replace_ivfflat_index_with_hnsw_completed",
+      "label": "S2. Replace IVFFlat Index with HNSW \u2014 \u2705 COMPLETED",
       "_origin": "ast",
       "community": 6,
       "community_name": "Photo Orchestrator \u2014 Action Steps & Roadmap",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "s2. replace ivfflat index with hnsw",
+      "norm_label": "s2. replace ivfflat index with hnsw \u2014 \u2705 completed",
       "source_file": "steps.md",
-      "source_location": "L68"
+      "source_location": "L93"
     },
     {
-      "id": "steps_s3_gitignore_the_client_secret_file",
-      "label": "S3. Gitignore the Client Secret File",
+      "id": "steps_s3_gitignore_the_client_secret_file_completed",
+      "label": "S3. Gitignore the Client Secret File \u2014 \u2705 COMPLETED",
       "_origin": "ast",
       "community": 6,
       "community_name": "Photo Orchestrator \u2014 Action Steps & Roadmap",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "s3. gitignore the client secret file",
+      "norm_label": "s3. gitignore the client secret file \u2014 \u2705 completed",
       "source_file": "steps.md",
-      "source_location": "L84"
+      "source_location": "L98"
     },
     {
       "id": "steps_s4_end_to_end_smoke_test",
@@ -2379,7 +2487,7 @@
       "node_kind": "heading",
       "norm_label": "s4. end-to-end smoke test",
       "source_file": "steps.md",
-      "source_location": "L91"
+      "source_location": "L102"
     },
     {
       "id": "steps_step_10_1_add_replication_factor_setting",
@@ -2391,7 +2499,7 @@
       "node_kind": "heading",
       "norm_label": "step 10.1 \u2014 add replication factor setting",
       "source_file": "steps.md",
-      "source_location": "L261"
+      "source_location": "L272"
     },
     {
       "id": "steps_step_10_2_storage_settings_ui",
@@ -2403,7 +2511,7 @@
       "node_kind": "heading",
       "norm_label": "step 10.2 \u2014 storage settings ui",
       "source_file": "steps.md",
-      "source_location": "L265"
+      "source_location": "L276"
     },
     {
       "id": "steps_step_10_3_deduplication_check",
@@ -2415,7 +2523,7 @@
       "node_kind": "heading",
       "norm_label": "step 10.3 \u2014 deduplication check",
       "source_file": "steps.md",
-      "source_location": "L270"
+      "source_location": "L281"
     },
     {
       "id": "steps_step_11_1_drive_scanner_service",
@@ -2427,7 +2535,7 @@
       "node_kind": "heading",
       "norm_label": "step 11.1 \u2014 drive scanner service",
       "source_file": "steps.md",
-      "source_location": "L281"
+      "source_location": "L292"
     },
     {
       "id": "steps_step_11_2_sync_api_endpoint",
@@ -2439,7 +2547,7 @@
       "node_kind": "heading",
       "norm_label": "step 11.2 \u2014 sync api endpoint",
       "source_file": "steps.md",
-      "source_location": "L287"
+      "source_location": "L298"
     },
     {
       "id": "steps_step_11_3_sync_ui",
@@ -2451,7 +2559,7 @@
       "node_kind": "heading",
       "norm_label": "step 11.3 \u2014 sync ui",
       "source_file": "steps.md",
-      "source_location": "L294"
+      "source_location": "L305"
     },
     {
       "id": "steps_step_11_4_background_sync_worker",
@@ -2463,7 +2571,7 @@
       "node_kind": "heading",
       "norm_label": "step 11.4 \u2014 background sync worker",
       "source_file": "steps.md",
-      "source_location": "L299"
+      "source_location": "L310"
     },
     {
       "id": "steps_step_12_1_error_handling_retry_logic",
@@ -2475,7 +2583,7 @@
       "node_kind": "heading",
       "norm_label": "step 12.1 \u2014 error handling & retry logic",
       "source_file": "steps.md",
-      "source_location": "L307"
+      "source_location": "L318"
     },
     {
       "id": "steps_step_12_2_loading_empty_states",
@@ -2487,7 +2595,7 @@
       "node_kind": "heading",
       "norm_label": "step 12.2 \u2014 loading & empty states",
       "source_file": "steps.md",
-      "source_location": "L312"
+      "source_location": "L323"
     },
     {
       "id": "steps_step_12_3_navigation_layout",
@@ -2499,7 +2607,7 @@
       "node_kind": "heading",
       "norm_label": "step 12.3 \u2014 navigation & layout",
       "source_file": "steps.md",
-      "source_location": "L317"
+      "source_location": "L328"
     },
     {
       "id": "steps_step_12_4_performance",
@@ -2511,7 +2619,7 @@
       "node_kind": "heading",
       "norm_label": "step 12.4 \u2014 performance",
       "source_file": "steps.md",
-      "source_location": "L322"
+      "source_location": "L333"
     },
     {
       "id": "steps_step_12_5_deployment_preparation",
@@ -2523,79 +2631,7 @@
       "node_kind": "heading",
       "norm_label": "step 12.5 \u2014 deployment preparation",
       "source_file": "steps.md",
-      "source_location": "L327"
-    },
-    {
-      "id": "steps_step_9_1_choose_auth_strategy",
-      "label": "Step 9.1 \u2014 Choose Auth Strategy",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "Photo Orchestrator \u2014 Action Steps & Roadmap",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "step 9.1 \u2014 choose auth strategy",
-      "source_file": "steps.md",
-      "source_location": "L217"
-    },
-    {
-      "id": "steps_step_9_2_install_configure_nextauth",
-      "label": "Step 9.2 \u2014 Install & Configure NextAuth",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "Photo Orchestrator \u2014 Action Steps & Roadmap",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "step 9.2 \u2014 install & configure nextauth",
-      "source_file": "steps.md",
-      "source_location": "L224"
-    },
-    {
-      "id": "steps_step_9_3_create_auth_middleware",
-      "label": "Step 9.3 \u2014 Create Auth Middleware",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "Photo Orchestrator \u2014 Action Steps & Roadmap",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "step 9.3 \u2014 create auth middleware",
-      "source_file": "steps.md",
-      "source_location": "L232"
-    },
-    {
-      "id": "steps_step_9_4_create_login_page",
-      "label": "Step 9.4 \u2014 Create Login Page",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "Photo Orchestrator \u2014 Action Steps & Roadmap",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "step 9.4 \u2014 create login page",
-      "source_file": "steps.md",
-      "source_location": "L236"
-    },
-    {
-      "id": "steps_step_9_5_replace_hardcoded_user_id",
-      "label": "Step 9.5 \u2014 Replace Hardcoded User ID",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "Photo Orchestrator \u2014 Action Steps & Roadmap",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "step 9.5 \u2014 replace hardcoded user id",
-      "source_file": "steps.md",
-      "source_location": "L240"
-    },
-    {
-      "id": "steps_step_9_6_role_based_access_for_admin",
-      "label": "Step 9.6 \u2014 Role-Based Access for Admin",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "Photo Orchestrator \u2014 Action Steps & Roadmap",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "step 9.6 \u2014 role-based access for admin",
-      "source_file": "steps.md",
-      "source_location": "L251"
+      "source_location": "L338"
     },
     {
       "id": "app_admin_admindashboard",
@@ -5143,7 +5179,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L261",
+      "source_location": "L272",
       "weight": 1.0
     },
     {
@@ -5154,7 +5190,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L265",
+      "source_location": "L276",
       "weight": 1.0
     },
     {
@@ -5165,7 +5201,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L270",
+      "source_location": "L281",
       "weight": 1.0
     },
     {
@@ -5176,7 +5212,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L281",
+      "source_location": "L292",
       "weight": 1.0
     },
     {
@@ -5187,7 +5223,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L287",
+      "source_location": "L298",
       "weight": 1.0
     },
     {
@@ -5198,7 +5234,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L294",
+      "source_location": "L305",
       "weight": 1.0
     },
     {
@@ -5209,7 +5245,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L299",
+      "source_location": "L310",
       "weight": 1.0
     },
     {
@@ -5220,7 +5256,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L307",
+      "source_location": "L318",
       "weight": 1.0
     },
     {
@@ -5231,7 +5267,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L312",
+      "source_location": "L323",
       "weight": 1.0
     },
     {
@@ -5242,7 +5278,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L317",
+      "source_location": "L328",
       "weight": 1.0
     },
     {
@@ -5253,7 +5289,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L322",
+      "source_location": "L333",
       "weight": 1.0
     },
     {
@@ -5264,7 +5300,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L327",
+      "source_location": "L338",
       "weight": 1.0
     },
     {
@@ -5275,7 +5311,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L105",
+      "source_location": "L116",
       "weight": 1.0
     },
     {
@@ -5286,7 +5322,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L114",
+      "source_location": "L125",
       "weight": 1.0
     },
     {
@@ -5297,7 +5333,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L119",
+      "source_location": "L130",
       "weight": 1.0
     },
     {
@@ -5308,7 +5344,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L133",
+      "source_location": "L144",
       "weight": 1.0
     },
     {
@@ -5319,7 +5355,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L158",
+      "source_location": "L169",
       "weight": 1.0
     },
     {
@@ -5330,7 +5366,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L180",
+      "source_location": "L191",
       "weight": 1.0
     },
     {
@@ -5341,7 +5377,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L191",
+      "source_location": "L202",
       "weight": 1.0
     },
     {
@@ -5352,7 +5388,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L199",
+      "source_location": "L210",
       "weight": 1.0
     },
     {
@@ -5363,7 +5399,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L206",
+      "source_location": "L217",
       "weight": 1.0
     },
     {
@@ -5374,7 +5410,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L217",
+      "source_location": "L228",
       "weight": 1.0
     },
     {
@@ -5385,7 +5421,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L224",
+      "source_location": "L235",
       "weight": 1.0
     },
     {
@@ -5396,7 +5432,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L232",
+      "source_location": "L243",
       "weight": 1.0
     },
     {
@@ -5407,7 +5443,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L236",
+      "source_location": "L247",
       "weight": 1.0
     },
     {
@@ -5418,7 +5454,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L240",
+      "source_location": "L251",
       "weight": 1.0
     },
     {
@@ -5429,7 +5465,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L251",
+      "source_location": "L262",
       "weight": 1.0
     },
     {
@@ -5440,7 +5476,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L101",
+      "source_location": "L112",
       "weight": 1.0
     },
     {
@@ -5451,7 +5487,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L213",
+      "source_location": "L224",
       "weight": 1.0
     },
     {
@@ -5462,7 +5498,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L257",
+      "source_location": "L268",
       "weight": 1.0
     },
     {
@@ -5473,7 +5509,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L277",
+      "source_location": "L288",
       "weight": 1.0
     },
     {
@@ -5484,7 +5520,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L305",
+      "source_location": "L316",
       "weight": 1.0
     },
     {
@@ -5495,29 +5531,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L336",
-      "weight": 1.0
-    },
-    {
-      "source": "steps_photo_orchestrator_action_steps_roadmap",
-      "target": "steps_completed_phases_summary",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "steps.md",
-      "source_location": "L44",
-      "weight": 1.0
-    },
-    {
-      "source": "steps_photo_orchestrator_action_steps_roadmap",
-      "target": "steps_pre_phase_stabilization_bug_fixes",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "steps.md",
-      "source_location": "L59",
+      "source_location": "L347",
       "weight": 1.0
     },
     {
@@ -5532,36 +5546,25 @@
       "weight": 1.0
     },
     {
-      "source": "steps_pre_phase_stabilization_bug_fixes",
-      "target": "steps_s1_re_authenticate_google_accounts",
+      "source": "steps_photo_orchestrator_action_steps_roadmap",
+      "target": "steps_completed_phases_summary",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L63",
+      "source_location": "L70",
       "weight": 1.0
     },
     {
-      "source": "steps_pre_phase_stabilization_bug_fixes",
-      "target": "steps_s2_replace_ivfflat_index_with_hnsw",
+      "source": "steps_photo_orchestrator_action_steps_roadmap",
+      "target": "steps_pre_phase_stabilization_bug_fixes",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L68",
-      "weight": 1.0
-    },
-    {
-      "source": "steps_pre_phase_stabilization_bug_fixes",
-      "target": "steps_s3_gitignore_the_client_secret_file",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "steps.md",
-      "source_location": "L84",
+      "source_location": "L85",
       "weight": 1.0
     },
     {
@@ -5572,7 +5575,40 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L91",
+      "source_location": "L102",
+      "weight": 1.0
+    },
+    {
+      "source": "steps_pre_phase_stabilization_bug_fixes",
+      "target": "steps_s1_re_authenticate_google_accounts_completed",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "steps.md",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "steps_pre_phase_stabilization_bug_fixes",
+      "target": "steps_s2_replace_ivfflat_index_with_hnsw_completed",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "steps.md",
+      "source_location": "L93",
+      "weight": 1.0
+    },
+    {
+      "source": "steps_pre_phase_stabilization_bug_fixes",
+      "target": "steps_s3_gitignore_the_client_secret_file_completed",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "steps.md",
+      "source_location": "L98",
       "weight": 1.0
     },
     {
@@ -5617,6 +5653,39 @@
       "confidence_score": 1.0,
       "source_file": "steps.md",
       "source_location": "L35",
+      "weight": 1.0
+    },
+    {
+      "source": "steps_session_2026_09_14",
+      "target": "steps_step_5_live_database_reconnect_hnsw_vector_index_migration",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "steps.md",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "steps_session_2026_09_14",
+      "target": "steps_step_6_interactive_clip_model_notebook",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "steps.md",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "steps_session_2026_09_14",
+      "target": "steps_step_7_dedicated_gpu_virtual_environment_cuda_12_4_setup",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "steps.md",
+      "source_location": "L57",
       "weight": 1.0
     },
     {
@@ -5896,5 +5965,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "4353866c9155d86a6d79b293deb4ff40ed0e0451"
+  "built_at_commit": "308e4463e3c9e88704a2554d3b23ba86a7f079e8"
 }

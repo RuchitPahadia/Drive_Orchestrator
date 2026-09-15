@@ -50,8 +50,8 @@ CREATE TABLE IF NOT EXISTS photo_replicas (
 );
 
 -- Indexes
--- ivfflat index on photos.embedding for cosine similarity search
-CREATE INDEX IF NOT EXISTS photos_embedding_cosine_idx ON photos USING ivfflat (embedding vector_cosine_ops) WITH (lists = 100);
+-- HNSW index on photos.embedding for cosine similarity search (CLIP embeddings)
+CREATE INDEX IF NOT EXISTS photos_embedding_hnsw_idx ON photos USING hnsw (embedding vector_cosine_ops) WITH (m = 16, ef_construction = 64);
 
 -- Regular index on (user_id, taken_at DESC)
 CREATE INDEX IF NOT EXISTS photos_user_taken_at_idx ON photos (user_id, taken_at DESC);

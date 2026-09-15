@@ -156,10 +156,10 @@
     "semantic_hash": "00d75dff9d1804fec8997f7f9fd23b73"
   },
   "db/schema.sql": {
-    "mtime": 1786696713.569489,
-    "seen": 1787576263.1684082,
-    "ast_hash": "5e6b11ecdb06d786b70fff6a03b74dcf",
-    "semantic_hash": "5e6b11ecdb06d786b70fff6a03b74dcf"
+    "mtime": 1789383058.4107864,
+    "seen": 1789383474.8534236,
+    "ast_hash": "285f0ea18e0093de065364cdce11f6c8",
+    "semantic_hash": ""
   },
   ".agents/rules/graphify.md": {
     "mtime": 1787576217.3014715,
@@ -204,9 +204,9 @@
     "semantic_hash": ""
   },
   "steps.md": {
-    "mtime": 1789377905.6266136,
-    "seen": 1789381206.437169,
-    "ast_hash": "8c51ce09b890534bb1746eb3f7938538",
+    "mtime": 1789385132.0287302,
+    "seen": 1789385313.5096924,
+    "ast_hash": "7b8faeb216597d02c802aa579249ac57",
     "semantic_hash": ""
   },
   "public/file.svg": {
@@ -237,6 +237,12 @@
     "mtime": 1785128004.557814,
     "seen": 1787576604.290051,
     "ast_hash": "a2760511c65806022ad20adf74370ff3",
+    "semantic_hash": ""
+  },
+  "requirements.txt": {
+    "mtime": 1789384540.7634323,
+    "seen": 1789385313.5096924,
+    "ast_hash": "132dd2d7f024e225383b1ea7fa1f07fb",
     "semantic_hash": ""
   }
 }

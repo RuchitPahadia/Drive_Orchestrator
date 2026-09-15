@@ -102,10 +102,10 @@
     "semantic_hash": "664be71766c9d58998f15c2cde35cba9"
   },
   "lib/google-oauth.ts": {
-    "mtime": 1785129584.4262042,
-    "seen": 1787576234.5626295,
-    "ast_hash": "27aae8bf0f71c82ca656d3503ea15c70",
-    "semantic_hash": "27aae8bf0f71c82ca656d3503ea15c70"
+    "mtime": 1789377469.6041875,
+    "seen": 1789381206.437169,
+    "ast_hash": "4db61ac9445d1da69ce3d7cf966baf40",
+    "semantic_hash": ""
   },
   "lib/indexer.ts": {
     "mtime": 1786796178.8926067,
@@ -156,10 +156,10 @@
     "semantic_hash": "00d75dff9d1804fec8997f7f9fd23b73"
   },
   "db/schema.sql": {
-    "mtime": 1786696713.569489,
-    "seen": 1787576263.1684082,
-    "ast_hash": "5e6b11ecdb06d786b70fff6a03b74dcf",
-    "semantic_hash": "5e6b11ecdb06d786b70fff6a03b74dcf"
+    "mtime": 1789383058.4107864,
+    "seen": 1789383474.8534236,
+    "ast_hash": "285f0ea18e0093de065364cdce11f6c8",
+    "semantic_hash": ""
   },
   ".agents/rules/graphify.md": {
     "mtime": 1787576217.3014715,
@@ -204,9 +204,9 @@
     "semantic_hash": ""
   },
   "steps.md": {
-    "mtime": 1786697763.31914,
-    "seen": 1787576604.290051,
-    "ast_hash": "4ab5ec49c821036833053acf4d1d5dfc",
+    "mtime": 1789383433.761406,
+    "seen": 1789383474.8534236,
+    "ast_hash": "08efa56f34b8ad95422f0535482a37f1",
     "semantic_hash": ""
   },
   "public/file.svg": {

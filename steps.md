@@ -37,7 +37,33 @@ This file tracks all operational steps taken and the detailed plan for upcoming 
 * **Actions**:
   1. Changed OAuth scope in [`lib/google-oauth.ts`](file:///C:/Users/toruc/OneDrive/Desktop/Projects/Photo_Orchestrator/lib/google-oauth.ts) from `drive.readonly` → `drive.file`.
 * **Status**: ✅ Completed
-* **Follow-up Required**: Both Google accounts must be re-authenticated to pick up the new scope.
+
+#### Step 5: Live Database Reconnect & HNSW Vector Index Migration
+* **Goal**: Restore database connection and upgrade vector indexing.
+* **Actions**:
+  1. Verified Supabase PostgreSQL connection after project unpause.
+  2. Confirmed 4 existing tables and connected accounts (`rucpah@gmail.com`, `rucpah1@gmail.com`).
+  3. Re-authenticated both accounts with fresh tokens under `drive.file` scope.
+  4. Executed live SQL migration replacing legacy `ivfflat` index with production `hnsw` index on `photos.embedding`.
+  5. Updated [`db/schema.sql`](file:///C:/Users/toruc/OneDrive/Desktop/Projects/Photo_Orchestrator/db/schema.sql) with HNSW index definition.
+* **Status**: ✅ Completed
+
+#### Step 6: Interactive CLIP Model Notebook
+* **Goal**: Create an exploratory `.ipynb` notebook explaining multimodal embeddings, image/text vector generation, cosine similarity, and pgvector HNSW database queries.
+* **Actions**:
+  1. Created [`notebooks/clip_semantic_search_walkthrough.ipynb`](file:///C:/Users/toruc/OneDrive/Desktop/Projects/Photo_Orchestrator/notebooks/clip_semantic_search_walkthrough.ipynb).
+* **Status**: ✅ Completed
+
+#### Step 7: Dedicated GPU Virtual Environment & CUDA 12.4 Setup
+* **Goal**: Create a dedicated virtual environment with PyTorch CUDA acceleration for the RTX 3050 GPU.
+* **Actions**:
+  1. Created `.venv` in the project root and added `.venv/` to `.gitignore`.
+  2. Installed PyTorch `2.6.0+cu124` and TorchVision `0.21.0+cu124` with NVIDIA CUDA 12.4 support.
+  3. Installed `transformers`, `pillow`, `matplotlib`, `numpy`, `psycopg2-binary`, `ipykernel`, and `python-dotenv`.
+  4. Registered Jupyter kernel `photo-orchestrator-venv` ("Python (.venv - RTX 3050 GPU)").
+  5. Created [`requirements.txt`](file:///C:/Users/toruc/OneDrive/Desktop/Projects/Photo_Orchestrator/requirements.txt) for reproducible installs.
+  6. Verified device detection: `CUDA Available: True`, `NVIDIA GeForce RTX 3050 Laptop GPU`.
+* **Status**: ✅ Completed
 
 ---
 
@@ -60,33 +86,18 @@ This file tracks all operational steps taken and the detailed plan for upcoming 
 
 Before starting new features, these items need to be resolved:
 
-### S1. Re-authenticate Google Accounts
-- Visit `/dashboard` → "Connect Google Account" for **both** accounts
-- The old tokens carry `drive.readonly`; new tokens will have `drive.file`
-- Verify by uploading a small test image
+### S1. Re-authenticate Google Accounts — ✅ COMPLETED
+- Both accounts (`rucpah@gmail.com` and `rucpah1@gmail.com`) re-authenticated with `drive.file` scope
+- Fresh tokens and expiration dates verified in database
 
-### S2. Replace IVFFlat Index with HNSW
-The current `ivfflat` index was created on an empty table, which causes catastrophic recall degradation. HNSW works correctly on dynamic/growing tables.
+### S2. Replace IVFFlat Index with HNSW — ✅ COMPLETED
+- Dropped legacy `photos_embedding_cosine_idx` (ivfflat)
+- Created `photos_embedding_hnsw_idx` (`USING hnsw (embedding vector_cosine_ops) WITH (m = 16, ef_construction = 64)`)
+- Updated [`db/schema.sql`](file:///C:/Users/toruc/OneDrive/Desktop/Projects/Photo_Orchestrator/db/schema.sql)
 
-**Migration SQL** (apply to Supabase):
-```sql
--- Drop the broken IVFFlat index
-DROP INDEX IF EXISTS photos_embedding_cosine_idx;
-
--- Create HNSW index (works on empty + growing tables)
-CREATE INDEX IF NOT EXISTS photos_embedding_hnsw_idx
-ON photos USING hnsw (embedding vector_cosine_ops)
-WITH (m = 16, ef_construction = 64);
-```
-
-**Update** [`db/schema.sql`](file:///C:/Users/toruc/OneDrive/Desktop/Projects/Photo_Orchestrator/db/schema.sql) to reflect this change.
-
-### S3. Gitignore the Client Secret File
-Add `client_secret_*.json` to `.gitignore` and remove from tracking:
-```bash
-echo "client_secret_*.json" >> .gitignore
-git rm --cached "client_secret_389097308504-*.json"
-```
+### S3. Gitignore the Client Secret File — ✅ COMPLETED
+- Added `client_secret_*.json` to `.gitignore`
+- Verified file is untracked by Git
 
 ### S4. End-to-End Smoke Test
 1. Start dev server: `npm run dev`
