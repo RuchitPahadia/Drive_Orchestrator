@@ -1,9 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { auth } from '@/auth';
 import { query } from '@/lib/db';
 import { generateTextEmbedding, formatVectorForPostgres } from '@/lib/embeddings';
 
 export async function GET(request: NextRequest) {
   try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    const userId = session.user.id;
+
     const searchParams = request.nextUrl.searchParams;
     const q = searchParams.get('q');
     const limitParam = searchParams.get('limit') || '30';
@@ -12,14 +19,6 @@ export async function GET(request: NextRequest) {
     if (!q || !q.trim()) {
       return NextResponse.json({ error: 'Search query parameter "q" is required' }, { status: 400 });
     }
-
-    // 1. Resolve user ID (currently default test user)
-    const testUserEmail = 'testuser@example.com';
-    const userResult = await query('SELECT id FROM users WHERE email = $1', [testUserEmail]);
-    if (userResult.rows.length === 0) {
-      return NextResponse.json({ photos: [], total: 0, query: q });
-    }
-    const userId = userResult.rows[0].id;
 
     // 2. Generate 512-dim embedding for the search query
     console.log(`[Semantic Search] Generating embedding for query: "${q.trim()}"...`);

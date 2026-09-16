@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { auth, signOut } from '@/auth';
 import { query } from '@/lib/db';
 import UploadButton from './UploadButton';
 
@@ -15,6 +17,11 @@ interface PageProps {
 }
 
 export default async function DashboardPage({ searchParams }: PageProps) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    redirect('/login');
+  }
+
   const resolvedParams = await searchParams;
   const successMessage = typeof resolvedParams.success === 'string' ? resolvedParams.success : null;
   const errorMessage = typeof resolvedParams.error === 'string' ? resolvedParams.error : null;
@@ -28,14 +35,12 @@ export default async function DashboardPage({ searchParams }: PageProps) {
     isDbUnconfigured = true;
   } else {
     try {
-      // In a real app, we would query by logged in user ID. For now, get the testuser@example.com account
       const res = await query(
         `SELECT a.id, a.google_email, a.quota_total_bytes, a.quota_used_bytes, a.created_at 
          FROM accounts a 
-         JOIN users u ON a.user_id = u.id 
-         WHERE u.email = $1 
+         WHERE a.user_id = $1 
          ORDER BY a.created_at DESC`,
-        ['testuser@example.com']
+        [session.user.id]
       );
       accounts = res.rows;
     } catch (e) {
@@ -80,7 +85,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
               Photo Orchestrator
             </span>
           </Link>
-          <div className="flex gap-4">
+          <div className="flex items-center gap-4">
             <Link 
               href="/dashboard" 
               className="text-indigo-400 font-semibold text-sm transition-colors"
@@ -94,13 +99,50 @@ export default async function DashboardPage({ searchParams }: PageProps) {
             >
               Gallery
             </Link>
-            <span className="text-zinc-600">|</span>
-            <Link 
-              href="/admin" 
-              className="text-zinc-400 hover:text-zinc-100 text-sm font-medium transition-colors"
-            >
-              Admin
-            </Link>
+            {session.user.role === 'admin' && (
+              <>
+                <span className="text-zinc-600">|</span>
+                <Link 
+                  href="/admin" 
+                  className="text-amber-400/90 hover:text-amber-300 text-sm font-medium transition-colors"
+                >
+                  Admin
+                </Link>
+              </>
+            )}
+
+            <div className="h-4 w-px bg-zinc-800 ml-2" />
+
+            {/* User Profile & Sign Out */}
+            <div className="flex items-center gap-3">
+              {session.user.image ? (
+                <img
+                  src={session.user.image}
+                  alt={session.user.name || 'User'}
+                  className="w-7 h-7 rounded-full ring-1 ring-zinc-700 object-cover"
+                />
+              ) : (
+                <div className="w-7 h-7 rounded-full bg-indigo-600/30 text-indigo-300 ring-1 ring-indigo-500/40 flex items-center justify-center text-xs font-semibold">
+                  {(session.user.email?.[0] || 'U').toUpperCase()}
+                </div>
+              )}
+              <span className="text-xs text-zinc-400 hidden sm:inline truncate max-w-[140px]">
+                {session.user.name || session.user.email}
+              </span>
+              <form
+                action={async () => {
+                  'use server';
+                  await signOut({ redirectTo: '/login' });
+                }}
+              >
+                <button
+                  type="submit"
+                  className="text-xs text-zinc-400 hover:text-red-400 border border-zinc-800 hover:border-red-900/60 bg-zinc-900/80 px-2.5 py-1 rounded-lg transition-colors cursor-pointer"
+                >
+                  Sign Out
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </nav>

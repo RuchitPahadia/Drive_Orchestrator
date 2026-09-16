@@ -1,7 +1,16 @@
+import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
 import { query } from '@/lib/db';
 import AdminDashboard from './AdminDashboard';
 
 export default async function AdminPage() {
+  const session = await auth();
+  if (!session?.user?.id) {
+    redirect('/login?callbackUrl=/admin');
+  }
+  if (session.user.role !== 'admin') {
+    redirect('/dashboard?error=UnauthorizedAdminOnly');
+  }
   let users = [];
   let accounts = [];
   let photos = [];

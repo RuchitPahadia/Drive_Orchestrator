@@ -1,8 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { auth } from '@/auth';
 import { query } from '@/lib/db';
 
 export async function GET(request: NextRequest) {
   try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    const userId = session.user.id;
+
     const searchParams = request.nextUrl.searchParams;
     const photoId = searchParams.get('photoId');
     const limitParam = searchParams.get('limit') || '20';
@@ -12,10 +19,10 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Parameter "photoId" is required' }, { status: 400 });
     }
 
-    // 1. Fetch source photo's embedding
+    // 1. Fetch source photo's embedding (scoped to authenticated user)
     const sourceRes = await query(
-      'SELECT id, filename, embedding FROM photos WHERE id = $1',
-      [photoId]
+      'SELECT id, filename, embedding FROM photos WHERE id = $1 AND user_id = $2',
+      [photoId, userId]
     );
 
     if (sourceRes.rows.length === 0) {
@@ -63,12 +70,13 @@ export async function GET(request: NextRequest) {
         ) AS replica_account_ids
       FROM photos p
       WHERE p.id != $2
+        AND p.user_id = $3
         AND p.embedding IS NOT NULL
       ORDER BY p.embedding <=> $1 ASC
-      LIMIT $3;
+      LIMIT $4;
     `;
 
-    const results = await query(sql, [sourcePhoto.embedding, photoId, limit]);
+    const results = await query(sql, [sourcePhoto.embedding, photoId, userId, limit]);
 
     return NextResponse.json({
       sourcePhotoId: photoId,

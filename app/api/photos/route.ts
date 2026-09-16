@@ -1,8 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { auth } from '@/auth';
 import { query } from '@/lib/db';
 
 export async function GET(request: NextRequest) {
   try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    const userId = session.user.id;
+
     const searchParams = request.nextUrl.searchParams;
     const startDate = searchParams.get('startDate');
     const endDate = searchParams.get('endDate');
@@ -12,21 +19,6 @@ export async function GET(request: NextRequest) {
     const pageSize = parseInt(searchParams.get('pageSize') || '50', 10);
 
     const offset = (page - 1) * pageSize;
-
-    // 1. Resolve the hardcoded test user ID
-    const testUserEmail = 'testuser@example.com';
-    const userResult = await query('SELECT id FROM users WHERE email = $1', [testUserEmail]);
-    
-    if (userResult.rows.length === 0) {
-      // Return empty response if the default test user doesn't exist yet
-      return NextResponse.json({
-        photos: [],
-        total: 0,
-        page,
-        pageSize,
-      });
-    }
-    const userId = userResult.rows[0].id;
 
     // 2. Build the WHERE conditions and query parameter values dynamically
     const conditions: string[] = ['p.user_id = $1'];

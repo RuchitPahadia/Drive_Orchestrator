@@ -17,7 +17,7 @@ This file tracks all completed operational actions, development sessions, and th
 | **Phase 7** | Frontend Browse UI | Responsive photo grid, metadata lightbox, filter controls | ✅ Done |
 | **Admin** | Admin Panel & Health Monitor | System stats, quota monitoring, pool health actions | ✅ Done |
 | **Phase 8** | Semantic Image Search (CLIP + pgvector) | 512-d CLIP ONNX embeddings, HNSW index, text search, similar photos | ✅ Done |
-| **Phase 9** | Real User Authentication | NextAuth.js v5 / Google provider, session middleware, route protection | 📋 Planned |
+| **Phase 9** | Real User Authentication | NextAuth.js v5 / Google provider, session middleware, route protection | ✅ Done |
 | **Phase 10** | Configurable Replication & Dedup | Custom replica factors, SHA-256 deduplication, storage controls | 📋 Planned |
 | **Phase 11** | Google Drive Library Sync | Existing Drive image scanning, automatic import, recurring sync worker | 📋 Planned |
 | **Phase 12** | Production Readiness & Polish | BullMQ retry policies, skeleton loaders, Docker & CI/CD | 📋 Planned |
@@ -63,7 +63,23 @@ This file tracks all completed operational actions, development sessions, and th
 * **Step 12: Documentation & Knowledge Graph Upgrades**:
   - Fully expanded [`README.md`](file:///C:/Users/toruc/OneDrive/Desktop/Projects/Photo_Orchestrator/README.md) with architecture diagrams, schema details, setup guide, and API reference.
   - Kept AST knowledge graph synchronized via `graphify update .`.
-  - Pushed commits `ae054c7` and `62d667e` to GitHub repository (`origin/main`).
+  - Pushed commits `ae054c7`, `62d667e`, and `7be5b19` to GitHub repository (`origin/main`).
+
+### 📅 Session: 2026-09-16
+* **Step 13: Implemented Phase 9 Real User Authentication (NextAuth.js v5)**:
+  - Confirmed completion of Phase 8 and committed final documentation deliverables.
+  - Installed `next-auth@5.0.0-beta.32` verified for Next.js 16 and React 19 compatibility.
+  - Executed database migration adding `name`, `avatar_url`, and `role TEXT DEFAULT 'user' NOT NULL` to the `users` table, and synchronized [`db/schema.sql`](file:///C:/Users/toruc/OneDrive/Desktop/Projects/Photo_Orchestrator/db/schema.sql).
+  - Configured generated `AUTH_SECRET` in `.env.local` for session token signing.
+  - Created [`types/next-auth.d.ts`](file:///C:/Users/toruc/OneDrive/Desktop/Projects/Photo_Orchestrator/types/next-auth.d.ts) for strict TypeScript session types (`id`, `role`).
+  - Created [`auth.ts`](file:///C:/Users/toruc/OneDrive/Desktop/Projects/Photo_Orchestrator/auth.ts) with Google OAuth provider and PostgreSQL user syncing/upserting callbacks.
+  - Created [`app/api/auth/[...nextauth]/route.ts`](file:///C:/Users/toruc/OneDrive/Desktop/Projects/Photo_Orchestrator/app/api/auth/[...nextauth]/route.ts) dynamic API handler.
+  - Implemented [`middleware.ts`](file:///C:/Users/toruc/OneDrive/Desktop/Projects/Photo_Orchestrator/middleware.ts) route guard protecting `/dashboard`, `/browse`, `/admin`, and API endpoints, redirecting unauthenticated users to `/login`.
+  - Built dedicated [`app/login/page.tsx`](file:///C:/Users/toruc/OneDrive/Desktop/Projects/Photo_Orchestrator/app/login/page.tsx) with "Continue with Google", error banners, and feature cards.
+  - Audited and eliminated all hardcoded `testuser@example.com` references across routes (`/api/accounts`, `/api/accounts/callback`, `/api/accounts/connect`, `/api/photos`, `/api/photos/upload`, `/api/photos/search`, `/api/photos/similar`, and `/dashboard`).
+  - Enforced role-based admin access on [`app/admin/page.tsx`](file:///C:/Users/toruc/OneDrive/Desktop/Projects/Photo_Orchestrator/app/admin/page.tsx) and `/api/admin/actions`.
+  - Added user profile display, initials fallback, and server-action Sign Out button to navbar.
+  - Verified clean TypeScript compilation with zero errors (`npx tsc --noEmit`).
 
 ---
 
@@ -100,26 +116,27 @@ All pre-phase prerequisites have been satisfied:
 
 ---
 
-### 🔐 Phase 9 — Real User Authentication
+## ✅ Phase 9 — Real User Authentication [COMPLETED]
+
 **Goal**: Replace the hardcoded test user (`testuser@example.com`) with a multi-tenant authentication system.
 
 #### Specification & Steps
-- [ ] **Step 9.1 — NextAuth.js Integration**:
+- [x] **Step 9.1 — NextAuth.js Integration**:
   - Install `next-auth@beta` (v5 App Router compatible).
   - Create `auth.ts` at project root with Google OAuth provider.
   - Create route handler `app/api/auth/[...nextauth]/route.ts`.
-- [ ] **Step 9.2 — Database User Mapping**:
-  - Ensure authenticated Google account maps or auto-creates a record in `users (id, email)`.
+- [x] **Step 9.2 — Database User Mapping**:
+  - Ensure authenticated Google account maps or auto-creates a record in `users (id, email, name, avatar_url, role)`.
   - Link multiple connected Google Drive accounts to the authenticated user ID.
-- [ ] **Step 9.3 — Route Protection Middleware**:
+- [x] **Step 9.3 — Route Protection Middleware**:
   - Create `middleware.ts` to guard `/dashboard`, `/browse`, `/admin`, and `/api/*` endpoints.
   - Redirect unauthenticated sessions to `/login`.
-- [ ] **Step 9.4 — Dedicated Login Page**:
+- [x] **Step 9.4 — Dedicated Login Page**:
   - Build `app/login/page.tsx` styled with Tailwind CSS, featuring "Sign in with Google".
-- [ ] **Step 9.5 — Audit & Replace Hardcoded User IDs**:
+- [x] **Step 9.5 — Audit & Replace Hardcoded User IDs**:
   - Audit all files referencing `testuser@example.com` (`app/api/accounts/callback/route.ts`, `app/api/photos/upload/route.ts`, `app/api/photos/route.ts`, `app/dashboard/page.tsx`, etc.).
   - Replace with `const session = await auth(); const userId = session.user.id;`.
-- [ ] **Step 9.6 — Role-Based Admin Access**:
+- [x] **Step 9.6 — Role-Based Admin Access**:
   - Add `role TEXT DEFAULT 'user'` to `users` table.
   - Restrict `/admin` page and `/api/admin/*` actions to `role = 'admin'`.
 
@@ -195,16 +212,16 @@ flowchart TD
         P5 --> P6[Phase 6: Search & Browse API]
         P6 --> P7[Phase 7: Frontend Browse UI]
         P7 --> P8[Phase 8: CLIP Semantic Search]
+        P8 --> P9[Phase 9: Real User Authentication]
     end
 
     subgraph Upcoming [Upcoming Roadmap]
-        P8 --> P9[Phase 9: Real User Authentication]
         P9 --> P10[Phase 10: Configurable Replication & Dedup]
-        P8 --> P11[Phase 11: Google Drive Library Sync]
+        P9 --> P11[Phase 11: Google Drive Library Sync]
         P10 --> P12[Phase 12: Production Polish & Docker]
         P11 --> P12
     end
 ```
 
 **Recommended Execution Sequence**:
-`Phase 9 (Real Auth)` ➔ `Phase 10 (Replication & Dedup)` ➔ `Phase 11 (Drive Sync)` ➔ `Phase 12 (Production Polish)`
+`Phase 10 (Replication & Dedup)` ➔ `Phase 11 (Drive Sync)` ➔ `Phase 12 (Production Polish)`

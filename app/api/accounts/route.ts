@@ -1,16 +1,14 @@
 import { NextResponse } from 'next/server';
+import { auth } from '@/auth';
 import { query } from '@/lib/db';
 
 export async function GET() {
   try {
-    // 1. Resolve the hardcoded test user ID
-    const testUserEmail = 'testuser@example.com';
-    const userResult = await query('SELECT id FROM users WHERE email = $1', [testUserEmail]);
-    
-    if (userResult.rows.length === 0) {
-      return NextResponse.json([]);
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    const userId = userResult.rows[0].id;
+    const userId = session.user.id;
 
     // 2. Fetch all accounts associated with this user
     const accountsResult = await query(

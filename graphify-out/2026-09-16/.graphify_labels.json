@@ -18,12 +18,10 @@
   "16": "rules/graphify.md",
   "17": "workflows/graphify.md",
   "18": "Antigravity Build Prompts — Photo Orchestrator",
-  "19": "next-auth.d.ts",
+  "19": "include",
   "20": "📸 Photo Orchestrator",
-  "21": "login/page.tsx",
   "22": "Photo Orchestrator - Project Context",
   "23": "AGENTS.md",
   "24": "CLAUDE.md",
-  "25": "embeddings.ts",
-  "26": "{ GET, POST }"
+  "25": "embeddings.ts"
 }

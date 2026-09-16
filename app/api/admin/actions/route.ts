@@ -1,10 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { auth } from '@/auth';
 import { query } from '@/lib/db';
 import { refreshAccountQuota, getDriveClient } from '@/lib/drive-client';
 import { indexPhoto } from '@/lib/indexer';
 
 export async function POST(request: NextRequest) {
   try {
+    const session = await auth();
+    if (!session?.user?.id || session.user.role !== 'admin') {
+      return NextResponse.json({ error: 'Unauthorized. Admin access required.' }, { status: 403 });
+    }
+
     const { action, photoId } = await request.json();
 
     if (action === 'refresh-quotas') {

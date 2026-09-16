@@ -1,8 +1,14 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { auth } from '@/auth';
 import { generateAuthUrl } from '@/lib/google-oauth';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.redirect(new URL('/login?error=PleaseSignInFirst', request.url));
+    }
+
     const authUrl = generateAuthUrl();
     return NextResponse.redirect(authUrl);
   } catch (error) {
