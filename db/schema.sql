@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
     name TEXT,
     avatar_url TEXT,
     role TEXT DEFAULT 'user' NOT NULL,
+    replication_factor INTEGER DEFAULT 2 NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
 );
 
@@ -38,6 +39,7 @@ CREATE TABLE IF NOT EXISTS photos (
     camera_model TEXT,
     thumbnail_url TEXT,
     embedding VECTOR(512),
+    file_hash TEXT,
     indexed_at TIMESTAMPTZ,
     created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
 );
@@ -61,3 +63,6 @@ CREATE INDEX IF NOT EXISTS photos_user_taken_at_idx ON photos (user_id, taken_at
 
 -- Index on photo_replicas for fast lookups by photo_id
 CREATE INDEX IF NOT EXISTS photo_replicas_photo_id_idx ON photo_replicas (photo_id);
+
+-- Index on (user_id, file_hash) for instant SHA-256 deduplication
+CREATE INDEX IF NOT EXISTS photos_user_file_hash_idx ON photos (user_id, file_hash);

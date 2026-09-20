@@ -75,6 +75,34 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
             </button>
           </form>
 
+          {/* Divider */}
+          <div className="relative flex items-center justify-center">
+            <div className="border-t border-slate-800 w-full" />
+            <span className="bg-slate-900 px-3 text-xs text-slate-500 uppercase tracking-wider">or</span>
+            <div className="border-t border-slate-800 w-full" />
+          </div>
+
+          {/* Instant 1-Click Test Sign-In */}
+          <form
+            action={async () => {
+              'use server';
+              await signIn('dev-login', {
+                email: 'toruchitpahadia@gmail.com',
+                redirectTo: callbackUrl,
+              });
+            }}
+          >
+            <button
+              type="submit"
+              className="w-full flex items-center justify-center gap-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold py-3 px-4 rounded-xl transition duration-150 shadow-lg hover:shadow-indigo-500/25 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 focus:ring-indigo-500 cursor-pointer text-sm"
+            >
+              <svg className="w-4 h-4 text-indigo-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              <span>Instant Test Sign-In (Mr. Ruchit - Admin)</span>
+            </button>
+          </form>
+
           {/* Feature Highlights */}
           <div className="pt-6 border-t border-slate-800/80 grid grid-cols-3 gap-2 text-center">
             <div className="p-2 rounded-lg bg-slate-800/40">

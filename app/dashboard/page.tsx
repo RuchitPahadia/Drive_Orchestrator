@@ -3,6 +3,8 @@ import { redirect } from 'next/navigation';
 import { auth, signOut } from '@/auth';
 import { query } from '@/lib/db';
 import UploadButton from './UploadButton';
+import RemoveAccountButton from './RemoveAccountButton';
+import StorageSettingsCard from './StorageSettingsCard';
 
 interface Account {
   id: string;
@@ -27,6 +29,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
   const errorMessage = typeof resolvedParams.error === 'string' ? resolvedParams.error : null;
 
   let accounts: Account[] = [];
+  let replicationFactor = 2;
   let dbError: string | null = null;
   let isDbUnconfigured = false;
 
@@ -35,14 +38,23 @@ export default async function DashboardPage({ searchParams }: PageProps) {
     isDbUnconfigured = true;
   } else {
     try {
-      const res = await query(
-        `SELECT a.id, a.google_email, a.quota_total_bytes, a.quota_used_bytes, a.created_at 
-         FROM accounts a 
-         WHERE a.user_id = $1 
-         ORDER BY a.created_at DESC`,
-        [session.user.id]
-      );
-      accounts = res.rows;
+      const [accountsRes, userRes] = await Promise.all([
+        query(
+          `SELECT a.id, a.google_email, a.quota_total_bytes, a.quota_used_bytes, a.created_at 
+           FROM accounts a 
+           WHERE a.user_id = $1 
+           ORDER BY a.created_at DESC`,
+          [session.user.id]
+        ),
+        query(
+          `SELECT replication_factor FROM users WHERE id = $1`,
+          [session.user.id]
+        ),
+      ]);
+      accounts = accountsRes.rows;
+      if (userRes.rows.length > 0 && typeof userRes.rows[0].replication_factor === 'number') {
+        replicationFactor = userRes.rows[0].replication_factor;
+      }
     } catch (e) {
       console.error('Database connection failed in dashboard:', e);
       dbError = e instanceof Error ? e.message : 'Failed to connect to the database.';
@@ -261,9 +273,9 @@ export default async function DashboardPage({ searchParams }: PageProps) {
           </div>
         )}
 
-        {/* Upload Section (visible only when accounts are connected) */}
-        {!dbError && !isDbUnconfigured && accounts.length > 0 && (
-          <UploadButton />
+        {/* Upload Section (always visible with status awareness) */}
+        {!dbError && !isDbUnconfigured && (
+          <UploadButton hasAccounts={accounts.length > 0} />
         )}
 
         {/* Connected Accounts Section */}
@@ -309,6 +321,18 @@ export default async function DashboardPage({ searchParams }: PageProps) {
             </div>
           )}
 
+          {/* Storage Redundancy & Replication Settings */}
+          {!dbError && !isDbUnconfigured && accounts.length > 0 && (
+            <div className="mb-8">
+              <StorageSettingsCard
+                initialReplicationFactor={replicationFactor}
+                connectedAccountsCount={accounts.length}
+                totalStorageBytes={totalStorageBytes}
+                totalUsedBytes={totalUsedBytes}
+              />
+            </div>
+          )}
+
           {!dbError && !isDbUnconfigured && accounts.length === 0 ? (
             /* Empty State */
             <div className="flex flex-col items-center justify-center p-12 text-center rounded-2xl bg-zinc-900/20 border border-zinc-800/80 backdrop-blur-sm min-h-[300px]">
@@ -351,9 +375,12 @@ export default async function DashboardPage({ searchParams }: PageProps) {
                           </svg>
                         </div>
                         
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
-                          Connected
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
+                            Connected
+                          </span>
+                          <RemoveAccountButton accountId={acc.id} accountEmail={acc.google_email} />
+                        </div>
                       </div>
 
                       <div className="mt-4">

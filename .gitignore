@@ -50,3 +50,7 @@ graphify-out/.graphify_python
 .venv/
 venv/
 
+# User test images
+Test_images/
+graphify-out/2026-*/
+

@@ -24,9 +24,9 @@
     "semantic_hash": ""
   },
   "app/api/accounts/route.ts": {
-    "mtime": 1789564537.1261334,
-    "seen": 1789564944.774005,
-    "ast_hash": "201b2bc73788340c7119083c1ef95eb1",
+    "mtime": 1789824031.375096,
+    "seen": 1789837702.347818,
+    "ast_hash": "40a2ebf669f4501ee6e040a2c574c044",
     "semantic_hash": ""
   },
   "app/api/admin/actions/route.ts": {
@@ -42,9 +42,9 @@
     "semantic_hash": ""
   },
   "app/api/photos/upload/route.ts": {
-    "mtime": 1789564598.1918938,
-    "seen": 1789564944.774005,
-    "ast_hash": "3a24ae2d11fe39d7e2383d73039ac73c",
+    "mtime": 1789901649.6608074,
+    "seen": 1789902535.2289941,
+    "ast_hash": "73ea77f6c6e6830594a11d1e792b9b6a",
     "semantic_hash": ""
   },
   "app/browse/page.tsx": {
@@ -54,15 +54,15 @@
     "semantic_hash": ""
   },
   "app/dashboard/UploadButton.tsx": {
-    "mtime": 1786697747.300159,
-    "seen": 1787576234.5626295,
-    "ast_hash": "59061cee958448a3732fc21ea98e8281",
-    "semantic_hash": "59061cee958448a3732fc21ea98e8281"
+    "mtime": 1789901678.0474813,
+    "seen": 1789902535.2289941,
+    "ast_hash": "dbcd1320e7ba03887504846583714758",
+    "semantic_hash": ""
   },
   "app/dashboard/page.tsx": {
-    "mtime": 1789564673.573665,
-    "seen": 1789564944.774005,
-    "ast_hash": "762daccc2cbac872f64e0a027db7089e",
+    "mtime": 1789901773.8021042,
+    "seen": 1789902535.2289941,
+    "ast_hash": "6d600c858d762b4e0220a277e32c20f7",
     "semantic_hash": ""
   },
   "app/layout.tsx": {
@@ -120,10 +120,10 @@
     "semantic_hash": "838702eba26f890ff06991306ce47449"
   },
   "lib/storage-router.ts": {
-    "mtime": 1786696771.1298742,
-    "seen": 1787576234.5626295,
-    "ast_hash": "1e5431d1e0597c779f7e3fcce0f654b8",
-    "semantic_hash": "1e5431d1e0597c779f7e3fcce0f654b8"
+    "mtime": 1789901978.1669357,
+    "seen": 1789902535.2289941,
+    "ast_hash": "9e50976856054cb2838dfb3ed527028b",
+    "semantic_hash": ""
   },
   "next.config.ts": {
     "mtime": 1785128004.59746,
@@ -156,9 +156,9 @@
     "semantic_hash": "00d75dff9d1804fec8997f7f9fd23b73"
   },
   "db/schema.sql": {
-    "mtime": 1789563280.3333926,
-    "seen": 1789564944.774005,
-    "ast_hash": "4049d3475f3f00194f63b8dd0d7157f3",
+    "mtime": 1789901571.8075733,
+    "seen": 1789902535.2289941,
+    "ast_hash": "d8b1635f18b523722684b6519fd5c85c",
     "semantic_hash": ""
   },
   ".agents/rules/graphify.md": {
@@ -174,9 +174,9 @@
     "semantic_hash": ""
   },
   "AGENTS.md": {
-    "mtime": 1785128147.035275,
-    "seen": 1787576604.290051,
-    "ast_hash": "9e09241799026ac05be315a2f0b50055",
+    "mtime": 1789565194.1145415,
+    "seen": 1789837702.347818,
+    "ast_hash": "01e8142356e15c3404e0d84c48187cd0",
     "semantic_hash": ""
   },
   "CLAUDE.md": {
@@ -186,9 +186,9 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1789466175.1267247,
-    "seen": 1789466315.9508102,
-    "ast_hash": "b90b12e3cb73307bcb1c3e487d313c90",
+    "mtime": 1789902505.9913094,
+    "seen": 1789902535.2295425,
+    "ast_hash": "cdbff6ff396681c61e307bd7375a5c48",
     "semantic_hash": ""
   },
   "antigravity-build-prompts.md": {
@@ -204,9 +204,9 @@
     "semantic_hash": ""
   },
   "steps.md": {
-    "mtime": 1789564911.5316937,
-    "seen": 1789564944.774005,
-    "ast_hash": "528b5ab9eb6cf1e2dfaf914e9c023cbb",
+    "mtime": 1789902490.117263,
+    "seen": 1789902535.2295425,
+    "ast_hash": "3b546f105e0b68d89d9bf76ad9f2aaf4",
     "semantic_hash": ""
   },
   "public/file.svg": {
@@ -282,27 +282,237 @@
     "semantic_hash": ""
   },
   "app/login/page.tsx": {
-    "mtime": 1789564491.6998887,
-    "seen": 1789564944.774005,
-    "ast_hash": "b04fdc0cbf7aca7c4117cce3925732eb",
+    "mtime": 1789823494.7910104,
+    "seen": 1789837702.347818,
+    "ast_hash": "b3373a9d28eb7adba1bc5b56dec32e2d",
     "semantic_hash": ""
   },
   "auth.ts": {
-    "mtime": 1789563566.1664505,
-    "seen": 1789564944.774005,
-    "ast_hash": "dc3051456212baedc9c55283f85eb977",
+    "mtime": 1789823474.0801547,
+    "seen": 1789837702.347818,
+    "ast_hash": "68a4c3cdcd3cc8d607207aa3377adee5",
     "semantic_hash": ""
   },
   "middleware.ts": {
-    "mtime": 1789564473.1936183,
-    "seen": 1789564944.774005,
-    "ast_hash": "55b3474e74233878163b959917f47241",
+    "mtime": 1789565256.514085,
+    "seen": 1789837702.347818,
+    "ast_hash": "1978b2949deaeef434e7c413afcfeaf6",
     "semantic_hash": ""
   },
   "types/next-auth.d.ts": {
     "mtime": 1789563557.8762355,
     "seen": 1789564944.774005,
     "ast_hash": "32c0a3d931bbfc162123ee0b2fcd210f",
+    "semantic_hash": ""
+  },
+  "app/dashboard/RemoveAccountButton.tsx": {
+    "mtime": 1789824069.3937957,
+    "seen": 1789837702.347818,
+    "ast_hash": "22ee38764ecfda92fa93e568046d2fd8",
+    "semantic_hash": ""
+  },
+  "auth.config.ts": {
+    "mtime": 1789565243.497619,
+    "seen": 1789837702.347818,
+    "ast_hash": "d296be4efcae92d56424fd7d605c7236",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.57.46 PM (1).jpeg": {
+    "mtime": 1789825018.7330635,
+    "seen": 1789837702.347818,
+    "ast_hash": "c8e8aa907b4b105a54d1a6c4fd49f020",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.57.46 PM.jpeg": {
+    "mtime": 1789825018.574343,
+    "seen": 1789837702.347818,
+    "ast_hash": "701d955fd839a9d8c434a37a989fa613",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.57.47 PM (1).jpeg": {
+    "mtime": 1789825018.503376,
+    "seen": 1789837702.347818,
+    "ast_hash": "fe7072c667db07b3642ca0110135cbde",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.57.47 PM (2).jpeg": {
+    "mtime": 1789825018.6205614,
+    "seen": 1789837702.347818,
+    "ast_hash": "474c886fb1008462cc22fc385d863049",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.57.47 PM (3).jpeg": {
+    "mtime": 1789825018.6714723,
+    "seen": 1789837702.347818,
+    "ast_hash": "850b3de9c03531c2bfb1174c6d4d12fe",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.57.47 PM.jpeg": {
+    "mtime": 1789825018.4195745,
+    "seen": 1789837702.347818,
+    "ast_hash": "cd57a7d3d7102b40e68b729687a20b5e",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.57.48 PM (1).jpeg": {
+    "mtime": 1789825018.3761032,
+    "seen": 1789837702.347818,
+    "ast_hash": "3eaecf4e96e5b7d0c41109b9760e44a3",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.57.48 PM.jpeg": {
+    "mtime": 1789825018.3360374,
+    "seen": 1789837702.347818,
+    "ast_hash": "f70b8b0f1795eb481c4d89817ea91303",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.57.55 PM.jpeg": {
+    "mtime": 1789825018.3040452,
+    "seen": 1789837702.347818,
+    "ast_hash": "0dafab5d54c04c3f2794e0674b2e28c3",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.57.59 PM (1).jpeg": {
+    "mtime": 1789825018.2673738,
+    "seen": 1789837702.347818,
+    "ast_hash": "1791fc7a6e109eddf4b8729ae798c3d2",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.57.59 PM.jpeg": {
+    "mtime": 1789825018.2353857,
+    "seen": 1789837702.347818,
+    "ast_hash": "d0d9a2e135032ab710e45b542c735e8e",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.58.01 PM.jpeg": {
+    "mtime": 1789825018.2005243,
+    "seen": 1789837702.347818,
+    "ast_hash": "8e3906b4f39bc8ef086a7c6de4744b3f",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.58.02 PM.jpeg": {
+    "mtime": 1789825018.1633673,
+    "seen": 1789837702.347818,
+    "ast_hash": "fb5b9499d3d0b82ecdff428632a12984",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.58.06 PM.jpeg": {
+    "mtime": 1789825018.1303236,
+    "seen": 1789837702.347818,
+    "ast_hash": "6a873e2fa5dd8d25d357e474e0242e72",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.58.07 PM.jpeg": {
+    "mtime": 1789825018.0917656,
+    "seen": 1789837702.347818,
+    "ast_hash": "1ce7553a357dffc4426ce27f95ae4f74",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.58.10 PM.jpeg": {
+    "mtime": 1789825018.0605137,
+    "seen": 1789837702.347818,
+    "ast_hash": "dc1d249c7a954041279d7f10a9b2a710",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.58.11 PM.jpeg": {
+    "mtime": 1789825017.9188502,
+    "seen": 1789837702.347818,
+    "ast_hash": "d341fb87514c7ecbdb8f8894a484e4ec",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.58.12 PM (1).jpeg": {
+    "mtime": 1789825018.0234096,
+    "seen": 1789837702.347818,
+    "ast_hash": "9c3710db2fcf3581ea3407676acd426d",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.58.12 PM.jpeg": {
+    "mtime": 1789825017.955203,
+    "seen": 1789837702.347818,
+    "ast_hash": "569a032c620b408ec1cee2634b859239",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.58.13 PM (1).jpeg": {
+    "mtime": 1789825018.7864482,
+    "seen": 1789837702.347818,
+    "ast_hash": "0fcbd2058fd91b02d3d7aae862b41344",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.58.13 PM.jpeg": {
+    "mtime": 1789825017.9903214,
+    "seen": 1789837702.347818,
+    "ast_hash": "68b0957fcf88422a097990c5d7e688c9",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.58.14 PM (1).jpeg": {
+    "mtime": 1789825017.875147,
+    "seen": 1789837702.347818,
+    "ast_hash": "d55d34fff4f3d825cb04ed35b5596eab",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.58.14 PM.jpeg": {
+    "mtime": 1789825017.793741,
+    "seen": 1789837702.347818,
+    "ast_hash": "6e68e38cb75ef1b1262769d1abdf344a",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.58.16 PM.jpeg": {
+    "mtime": 1789825017.835822,
+    "seen": 1789837702.347818,
+    "ast_hash": "8e602123df3aacbe23f6b4ed7b46cd2a",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.58.18 PM (1).jpeg": {
+    "mtime": 1789825017.7527833,
+    "seen": 1789837702.347818,
+    "ast_hash": "03a3ea59bfa978164f19356be093bef4",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.58.18 PM.jpeg": {
+    "mtime": 1789825017.7103856,
+    "seen": 1789837702.347818,
+    "ast_hash": "50bae9c7fd2b4a0025d82925dd1d8088",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.58.19 PM (1).jpeg": {
+    "mtime": 1789825017.6707134,
+    "seen": 1789837702.347818,
+    "ast_hash": "266efdb8b38a43d1bc4a6fc74de046d4",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.58.19 PM.jpeg": {
+    "mtime": 1789825017.621422,
+    "seen": 1789837702.347818,
+    "ast_hash": "5100c5f2ca381ef55f54a778cfa49599",
+    "semantic_hash": ""
+  },
+  "Test_images/WhatsApp Image 2026-09-19 at 6.58.21 PM.jpeg": {
+    "mtime": 1789825017.5502255,
+    "seen": 1789837702.347818,
+    "ast_hash": "eaf5599cfa0ba3d45e9e6fd06fc6ad3e",
+    "semantic_hash": ""
+  },
+  "app/api/users/settings/route.ts": {
+    "mtime": 1789901718.4473557,
+    "seen": 1789902535.2289941,
+    "ast_hash": "5a58750dbcbad9de85cffa3481422c4d",
+    "semantic_hash": ""
+  },
+  "app/dashboard/StorageSettingsCard.tsx": {
+    "mtime": 1789901732.7324817,
+    "seen": 1789902535.2289941,
+    "ast_hash": "8626a7c0509f4418f06360cf201b0c28",
+    "semantic_hash": ""
+  },
+  "scripts/migrate-phase10.ts": {
+    "mtime": 1789893731.2250829,
+    "seen": 1789902535.2289941,
+    "ast_hash": "57a00dc53f781b5b6f951ed359bd2391",
+    "semantic_hash": ""
+  },
+  "scripts/test-phase10.ts": {
+    "mtime": 1789902038.3995392,
+    "seen": 1789902535.2289941,
+    "ast_hash": "1aebbb2d7dc3071039d000a3b247158a",
     "semantic_hash": ""
   }
 }

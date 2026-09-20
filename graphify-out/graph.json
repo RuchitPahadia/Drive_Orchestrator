@@ -4,6 +4,19 @@
   "graph": {},
   "nodes": [
     {
+      "id": "lib_storage_router_storagerouterresult",
+      "label": "StorageRouterResult",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "drive-client.ts",
+      "file_type": "code",
+      "norm_label": "storagerouterresult",
+      "source_file": "lib/storage-router.ts",
+      "source_location": "L4"
+    },
+    {
       "id": "types_next_auth_d_jwt",
       "label": "JWT",
       "_callable": true,
@@ -41,19 +54,6 @@
       "norm_label": "user",
       "source_file": "types/next-auth.d.ts",
       "source_location": "L11"
-    },
-    {
-      "id": "app_login_page_loginpageprops",
-      "label": "LoginPageProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "login/page.tsx",
-      "file_type": "code",
-      "norm_label": "loginpageprops",
-      "source_file": "app/login/page.tsx",
-      "source_location": "L3"
     },
     {
       "id": "app_admin_admindashboard_accountrecord",
@@ -127,11 +127,11 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "dashboard/page.tsx",
+      "community_name": "query",
       "file_type": "code",
       "norm_label": "account",
       "source_file": "app/dashboard/page.tsx",
-      "source_location": "L7"
+      "source_location": "L9"
     },
     {
       "id": "app_dashboard_page_pageprops",
@@ -140,11 +140,76 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "dashboard/page.tsx",
+      "community_name": "query",
       "file_type": "code",
       "norm_label": "pageprops",
       "source_file": "app/dashboard/page.tsx",
-      "source_location": "L15"
+      "source_location": "L17"
+    },
+    {
+      "id": "app_dashboard_removeaccountbutton_removeaccountbuttonprops",
+      "label": "RemoveAccountButtonProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "removeaccountbuttonprops",
+      "source_file": "app/dashboard/RemoveAccountButton.tsx",
+      "source_location": "L6"
+    },
+    {
+      "id": "app_dashboard_storagesettingscard_storagesettingscardprops",
+      "label": "StorageSettingsCardProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "storagesettingscardprops",
+      "source_file": "app/dashboard/StorageSettingsCard.tsx",
+      "source_location": "L6"
+    },
+    {
+      "id": "app_dashboard_uploadbutton_progressstate",
+      "label": "ProgressState",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "progressstate",
+      "source_file": "app/dashboard/UploadButton.tsx",
+      "source_location": "L11"
+    },
+    {
+      "id": "app_dashboard_uploadbutton_uploadbuttonprops",
+      "label": "UploadButtonProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "uploadbuttonprops",
+      "source_file": "app/dashboard/UploadButton.tsx",
+      "source_location": "L7"
+    },
+    {
+      "id": "app_login_page_loginpageprops",
+      "label": "LoginPageProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "loginpageprops",
+      "source_file": "app/login/page.tsx",
+      "source_location": "L3"
     },
     {
       "id": "app_browse_page_account",
@@ -173,52 +238,16 @@
       "source_location": "L6"
     },
     {
-      "id": "app_api_accounts_route_get",
-      "label": "GET()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "query",
-      "file_type": "code",
-      "norm_label": "get()",
-      "source_file": "app/api/accounts/route.ts",
-      "source_location": "L5"
-    },
-    {
       "id": "app_api_admin_actions_route_post",
       "label": "POST()",
       "_callable": true,
       "_origin": "ast",
       "community": 0,
-      "community_name": "query",
+      "community_name": "drive-client.ts",
       "file_type": "code",
       "norm_label": "post()",
       "source_file": "app/api/admin/actions/route.ts",
       "source_location": "L7"
-    },
-    {
-      "id": "app_api_photos_route_get",
-      "label": "GET()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "query",
-      "file_type": "code",
-      "norm_label": "get()",
-      "source_file": "app/api/photos/route.ts",
-      "source_location": "L5"
-    },
-    {
-      "id": "app_api_photos_similar_route_get",
-      "label": "GET()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "query",
-      "file_type": "code",
-      "norm_label": "get()",
-      "source_file": "app/api/photos/similar/route.ts",
-      "source_location": "L5"
     },
     {
       "id": "app_api_photos_upload_route_post",
@@ -226,23 +255,47 @@
       "_callable": true,
       "_origin": "ast",
       "community": 0,
-      "community_name": "query",
+      "community_name": "drive-client.ts",
       "file_type": "code",
       "norm_label": "post()",
       "source_file": "app/api/photos/upload/route.ts",
-      "source_location": "L10"
+      "source_location": "L11"
     },
     {
-      "id": "lib_db_query",
-      "label": "query()",
+      "id": "lib_crypto_decrypt",
+      "label": "decrypt()",
       "_callable": true,
       "_origin": "ast",
       "community": 0,
-      "community_name": "query",
+      "community_name": "drive-client.ts",
       "file_type": "code",
-      "norm_label": "query()",
-      "source_file": "lib/db.ts",
-      "source_location": "L36"
+      "norm_label": "decrypt()",
+      "source_file": "lib/crypto.ts",
+      "source_location": "L40"
+    },
+    {
+      "id": "lib_crypto_encrypt",
+      "label": "encrypt()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "drive-client.ts",
+      "file_type": "code",
+      "norm_label": "encrypt()",
+      "source_file": "lib/crypto.ts",
+      "source_location": "L21"
+    },
+    {
+      "id": "lib_crypto_getencryptionkey",
+      "label": "getEncryptionKey()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "drive-client.ts",
+      "file_type": "code",
+      "norm_label": "getencryptionkey()",
+      "source_file": "lib/crypto.ts",
+      "source_location": "L7"
     },
     {
       "id": "lib_drive_client_getdriveclient",
@@ -250,7 +303,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 0,
-      "community_name": "query",
+      "community_name": "drive-client.ts",
       "file_type": "code",
       "norm_label": "getdriveclient()",
       "source_file": "lib/drive-client.ts",
@@ -262,7 +315,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 0,
-      "community_name": "query",
+      "community_name": "drive-client.ts",
       "file_type": "code",
       "norm_label": "refreshaccountquota()",
       "source_file": "lib/drive-client.ts",
@@ -274,7 +327,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 0,
-      "community_name": "query",
+      "community_name": "drive-client.ts",
       "file_type": "code",
       "norm_label": "indexphoto()",
       "source_file": "lib/indexer.ts",
@@ -286,7 +339,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 0,
-      "community_name": "query",
+      "community_name": "drive-client.ts",
       "file_type": "code",
       "norm_label": "streamtobuffer()",
       "source_file": "lib/indexer.ts",
@@ -298,11 +351,23 @@
       "_callable": true,
       "_origin": "ast",
       "community": 0,
-      "community_name": "query",
+      "community_name": "drive-client.ts",
       "file_type": "code",
       "norm_label": "pickaccountsforupload()",
       "source_file": "lib/storage-router.ts",
-      "source_location": "L12"
+      "source_location": "L21"
+    },
+    {
+      "id": "scripts_test_phase10_runphase10test",
+      "label": "runPhase10Test()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "drive-client.ts",
+      "file_type": "code",
+      "norm_label": "runphase10test()",
+      "source_file": "scripts/test-phase10.ts",
+      "source_location": "L5"
     },
     {
       "id": "app_layout_rootlayout",
@@ -327,18 +392,6 @@
       "norm_label": "home()",
       "source_file": "app/page.tsx",
       "source_location": "L3"
-    },
-    {
-      "id": "app_login_page_loginpage",
-      "label": "LoginPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "login/page.tsx",
-      "file_type": "code",
-      "norm_label": "loginpage()",
-      "source_file": "app/login/page.tsx",
-      "source_location": "L7"
     },
     {
       "id": "app_api_photos_search_route_get",
@@ -449,90 +502,6 @@
       "source_location": "L5"
     },
     {
-      "id": "app_api_accounts_callback_route_get",
-      "label": "GET()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "callback/route.ts",
-      "file_type": "code",
-      "norm_label": "get()",
-      "source_file": "app/api/accounts/callback/route.ts",
-      "source_location": "L8"
-    },
-    {
-      "id": "app_api_accounts_connect_route_get",
-      "label": "GET()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "callback/route.ts",
-      "file_type": "code",
-      "norm_label": "get()",
-      "source_file": "app/api/accounts/connect/route.ts",
-      "source_location": "L5"
-    },
-    {
-      "id": "lib_crypto_decrypt",
-      "label": "decrypt()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "callback/route.ts",
-      "file_type": "code",
-      "norm_label": "decrypt()",
-      "source_file": "lib/crypto.ts",
-      "source_location": "L40"
-    },
-    {
-      "id": "lib_crypto_encrypt",
-      "label": "encrypt()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "callback/route.ts",
-      "file_type": "code",
-      "norm_label": "encrypt()",
-      "source_file": "lib/crypto.ts",
-      "source_location": "L21"
-    },
-    {
-      "id": "lib_crypto_getencryptionkey",
-      "label": "getEncryptionKey()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "callback/route.ts",
-      "file_type": "code",
-      "norm_label": "getencryptionkey()",
-      "source_file": "lib/crypto.ts",
-      "source_location": "L7"
-    },
-    {
-      "id": "lib_google_oauth_generateauthurl",
-      "label": "generateAuthUrl()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "callback/route.ts",
-      "file_type": "code",
-      "norm_label": "generateauthurl()",
-      "source_file": "lib/google-oauth.ts",
-      "source_location": "L22"
-    },
-    {
-      "id": "lib_google_oauth_getoauth2client",
-      "label": "getOAuth2Client()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "callback/route.ts",
-      "file_type": "code",
-      "norm_label": "getoauth2client()",
-      "source_file": "lib/google-oauth.ts",
-      "source_location": "L6"
-    },
-    {
       "id": "app_admin_admindashboard_admindashboard",
       "label": "AdminDashboard()",
       "_callable": true,
@@ -549,12 +518,108 @@
       "label": "AdminPage()",
       "_callable": true,
       "_origin": "ast",
-      "community": 7,
-      "community_name": "AdminDashboard.tsx",
+      "community": 8,
+      "community_name": "query",
       "file_type": "code",
       "norm_label": "adminpage()",
       "source_file": "app/admin/page.tsx",
       "source_location": "L6"
+    },
+    {
+      "id": "app_api_accounts_callback_route_get",
+      "label": "GET()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "get()",
+      "source_file": "app/api/accounts/callback/route.ts",
+      "source_location": "L8"
+    },
+    {
+      "id": "app_api_accounts_connect_route_get",
+      "label": "GET()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "get()",
+      "source_file": "app/api/accounts/connect/route.ts",
+      "source_location": "L5"
+    },
+    {
+      "id": "app_api_accounts_route_delete",
+      "label": "DELETE()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "delete()",
+      "source_file": "app/api/accounts/route.ts",
+      "source_location": "L30"
+    },
+    {
+      "id": "app_api_accounts_route_get",
+      "label": "GET()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "get()",
+      "source_file": "app/api/accounts/route.ts",
+      "source_location": "L5"
+    },
+    {
+      "id": "app_api_photos_route_get",
+      "label": "GET()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "get()",
+      "source_file": "app/api/photos/route.ts",
+      "source_location": "L5"
+    },
+    {
+      "id": "app_api_photos_similar_route_get",
+      "label": "GET()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "get()",
+      "source_file": "app/api/photos/similar/route.ts",
+      "source_location": "L5"
+    },
+    {
+      "id": "app_api_users_settings_route_get",
+      "label": "GET()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "get()",
+      "source_file": "app/api/users/settings/route.ts",
+      "source_location": "L5"
+    },
+    {
+      "id": "app_api_users_settings_route_patch",
+      "label": "PATCH()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "patch()",
+      "source_file": "app/api/users/settings/route.ts",
+      "source_location": "L37"
     },
     {
       "id": "app_dashboard_page_dashboardpage",
@@ -562,11 +627,35 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "dashboard/page.tsx",
+      "community_name": "query",
       "file_type": "code",
       "norm_label": "dashboardpage()",
       "source_file": "app/dashboard/page.tsx",
-      "source_location": "L19"
+      "source_location": "L21"
+    },
+    {
+      "id": "app_dashboard_removeaccountbutton_removeaccountbutton",
+      "label": "RemoveAccountButton()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "removeaccountbutton()",
+      "source_file": "app/dashboard/RemoveAccountButton.tsx",
+      "source_location": "L11"
+    },
+    {
+      "id": "app_dashboard_storagesettingscard_storagesettingscard",
+      "label": "StorageSettingsCard()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "storagesettingscard()",
+      "source_file": "app/dashboard/StorageSettingsCard.tsx",
+      "source_location": "L13"
     },
     {
       "id": "app_dashboard_uploadbutton_uploadbutton",
@@ -574,11 +663,71 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "dashboard/page.tsx",
+      "community_name": "query",
       "file_type": "code",
       "norm_label": "uploadbutton()",
       "source_file": "app/dashboard/UploadButton.tsx",
+      "source_location": "L17"
+    },
+    {
+      "id": "app_login_page_loginpage",
+      "label": "LoginPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "loginpage()",
+      "source_file": "app/login/page.tsx",
+      "source_location": "L7"
+    },
+    {
+      "id": "lib_db_query",
+      "label": "query()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "query()",
+      "source_file": "lib/db.ts",
+      "source_location": "L36"
+    },
+    {
+      "id": "lib_google_oauth_generateauthurl",
+      "label": "generateAuthUrl()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "generateauthurl()",
+      "source_file": "lib/google-oauth.ts",
+      "source_location": "L22"
+    },
+    {
+      "id": "lib_google_oauth_getoauth2client",
+      "label": "getOAuth2Client()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "getoauth2client()",
+      "source_file": "lib/google-oauth.ts",
       "source_location": "L6"
+    },
+    {
+      "id": "scripts_migrate_phase10_runmigration",
+      "label": "runMigration()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "runmigration()",
+      "source_file": "scripts/migrate-phase10.ts",
+      "source_location": "L3"
     },
     {
       "id": "app_browse_page_browsephotospage",
@@ -605,58 +754,14 @@
       "source_location": "L54"
     },
     {
-      "id": "app_api_accounts_route",
-      "label": "accounts/route.ts",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "query",
-      "file_type": "code",
-      "norm_label": "accounts/route.ts",
-      "source_file": "app/api/accounts/route.ts",
-      "source_location": "L1"
-    },
-    {
       "id": "app_api_admin_actions_route",
       "label": "actions/route.ts",
       "_origin": "ast",
       "community": 0,
-      "community_name": "query",
+      "community_name": "drive-client.ts",
       "file_type": "code",
       "norm_label": "actions/route.ts",
       "source_file": "app/api/admin/actions/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "app_api_auth_nextauth_route",
-      "label": "[...nextauth]/route.ts",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "query",
-      "file_type": "code",
-      "norm_label": "[...nextauth]/route.ts",
-      "source_file": "app/api/auth/[...nextauth]/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "app_api_photos_route",
-      "label": "photos/route.ts",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "query",
-      "file_type": "code",
-      "norm_label": "photos/route.ts",
-      "source_file": "app/api/photos/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "app_api_photos_similar_route",
-      "label": "similar/route.ts",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "query",
-      "file_type": "code",
-      "norm_label": "similar/route.ts",
-      "source_file": "app/api/photos/similar/route.ts",
       "source_location": "L1"
     },
     {
@@ -664,43 +769,21 @@
       "label": "upload/route.ts",
       "_origin": "ast",
       "community": 0,
-      "community_name": "query",
+      "community_name": "drive-client.ts",
       "file_type": "code",
       "norm_label": "upload/route.ts",
       "source_file": "app/api/photos/upload/route.ts",
       "source_location": "L1"
     },
     {
-      "id": "auth",
-      "label": "auth.ts",
+      "id": "lib_crypto",
+      "label": "crypto.ts",
       "_origin": "ast",
       "community": 0,
-      "community_name": "query",
+      "community_name": "drive-client.ts",
       "file_type": "code",
-      "norm_label": "auth.ts",
-      "source_file": "auth.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "auth_handlers_signin_signout_auth",
-      "label": "{ handlers, signIn, signOut, auth }",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "query",
-      "file_type": "code",
-      "norm_label": "{ handlers, signin, signout, auth }",
-      "source_file": "auth.ts",
-      "source_location": "L5"
-    },
-    {
-      "id": "lib_db",
-      "label": "db.ts",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "query",
-      "file_type": "code",
-      "norm_label": "db.ts",
-      "source_file": "lib/db.ts",
+      "norm_label": "crypto.ts",
+      "source_file": "lib/crypto.ts",
       "source_location": "L1"
     },
     {
@@ -708,7 +791,7 @@
       "label": "drive-client.ts",
       "_origin": "ast",
       "community": 0,
-      "community_name": "query",
+      "community_name": "drive-client.ts",
       "file_type": "code",
       "norm_label": "drive-client.ts",
       "source_file": "lib/drive-client.ts",
@@ -719,7 +802,7 @@
       "label": "lib/indexer.ts",
       "_origin": "ast",
       "community": 0,
-      "community_name": "query",
+      "community_name": "drive-client.ts",
       "file_type": "code",
       "norm_label": "lib/indexer.ts",
       "source_file": "lib/indexer.ts",
@@ -730,7 +813,7 @@
       "label": "queue.ts",
       "_origin": "ast",
       "community": 0,
-      "community_name": "query",
+      "community_name": "drive-client.ts",
       "file_type": "code",
       "norm_label": "queue.ts",
       "source_file": "lib/queue.ts",
@@ -741,7 +824,7 @@
       "label": "queue",
       "_origin": "ast",
       "community": 0,
-      "community_name": "query",
+      "community_name": "drive-client.ts",
       "file_type": "code",
       "norm_label": "queue",
       "source_file": "lib/queue.ts",
@@ -752,40 +835,29 @@
       "label": "storage-router.ts",
       "_origin": "ast",
       "community": 0,
-      "community_name": "query",
+      "community_name": "drive-client.ts",
       "file_type": "code",
       "norm_label": "storage-router.ts",
       "source_file": "lib/storage-router.ts",
       "source_location": "L1"
     },
     {
-      "id": "middleware",
-      "label": "middleware.ts",
+      "id": "scripts_test_phase10",
+      "label": "test-phase10.ts",
       "_origin": "ast",
       "community": 0,
-      "community_name": "query",
+      "community_name": "drive-client.ts",
       "file_type": "code",
-      "norm_label": "middleware.ts",
-      "source_file": "middleware.ts",
+      "norm_label": "test-phase10.ts",
+      "source_file": "scripts/test-phase10.ts",
       "source_location": "L1"
-    },
-    {
-      "id": "middleware_config",
-      "label": "config",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "query",
-      "file_type": "code",
-      "norm_label": "config",
-      "source_file": "middleware.ts",
-      "source_location": "L37"
     },
     {
       "id": "workers_indexer",
       "label": "workers/indexer.ts",
       "_origin": "ast",
       "community": 0,
-      "community_name": "query",
+      "community_name": "drive-client.ts",
       "file_type": "code",
       "norm_label": "workers/indexer.ts",
       "source_file": "workers/indexer.ts",
@@ -796,7 +868,7 @@
       "label": "worker",
       "_origin": "ast",
       "community": 0,
-      "community_name": "query",
+      "community_name": "drive-client.ts",
       "file_type": "code",
       "norm_label": "worker",
       "source_file": "workers/indexer.ts",
@@ -1097,7 +1169,7 @@
       "file_type": "code",
       "norm_label": "accounts",
       "source_file": "db/schema.sql",
-      "source_location": "L15"
+      "source_location": "L16"
     },
     {
       "id": "db_schema_photo_replicas",
@@ -1108,7 +1180,7 @@
       "file_type": "code",
       "norm_label": "photo_replicas",
       "source_file": "db/schema.sql",
-      "source_location": "L46"
+      "source_location": "L48"
     },
     {
       "id": "db_schema_photos",
@@ -1119,7 +1191,7 @@
       "file_type": "code",
       "norm_label": "photos",
       "source_file": "db/schema.sql",
-      "source_location": "L29"
+      "source_location": "L30"
     },
     {
       "id": "db_schema_users",
@@ -1706,6 +1778,18 @@
       "source_location": "L1"
     },
     {
+      "id": "readme_1_multi_account_storage_pooling_management",
+      "label": "1. \ud83d\uddc4\ufe0f Multi-Account Storage Pooling & Management",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "\ud83d\udcf8 Photo Orchestrator",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "1. \ud83d\uddc4\ufe0f multi-account storage pooling & management",
+      "source_file": "README.md",
+      "source_location": "L19"
+    },
+    {
       "id": "readme_1_prerequisites",
       "label": "1. Prerequisites",
       "_origin": "ast",
@@ -1715,7 +1799,7 @@
       "node_kind": "heading",
       "norm_label": "1. prerequisites",
       "source_file": "README.md",
-      "source_location": "L102"
+      "source_location": "L169"
     },
     {
       "id": "readme_2_environment_configuration",
@@ -1727,7 +1811,19 @@
       "node_kind": "heading",
       "norm_label": "2. environment configuration",
       "source_file": "README.md",
-      "source_location": "L114"
+      "source_location": "L183"
+    },
+    {
+      "id": "readme_2_high_throughput_batch_uploading",
+      "label": "2. \u26a1 High-Throughput Batch Uploading",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "\ud83d\udcf8 Photo Orchestrator",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "2. \u26a1 high-throughput batch uploading",
+      "source_file": "README.md",
+      "source_location": "L25"
     },
     {
       "id": "readme_3_initialize_database_schema",
@@ -1739,7 +1835,19 @@
       "node_kind": "heading",
       "norm_label": "3. initialize database schema",
       "source_file": "README.md",
-      "source_location": "L141"
+      "source_location": "L215"
+    },
+    {
+      "id": "readme_3_local_ai_semantic_search_recommendations_phase_8",
+      "label": "3. \ud83e\udde0 Local AI Semantic Search & Recommendations (Phase 8)",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "\ud83d\udcf8 Photo Orchestrator",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "3. \ud83e\udde0 local ai semantic search & recommendations (phase 8)",
+      "source_file": "README.md",
+      "source_location": "L31"
     },
     {
       "id": "readme_4_install_dependencies",
@@ -1751,7 +1859,31 @@
       "node_kind": "heading",
       "norm_label": "4. install dependencies",
       "source_file": "README.md",
-      "source_location": "L152"
+      "source_location": "L226"
+    },
+    {
+      "id": "readme_4_real_multi_tenant_authentication_access_control_phase_9",
+      "label": "4. \ud83d\udd10 Real Multi-Tenant Authentication & Access Control (Phase 9)",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "\ud83d\udcf8 Photo Orchestrator",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "4. \ud83d\udd10 real multi-tenant authentication & access control (phase 9)",
+      "source_file": "README.md",
+      "source_location": "L38"
+    },
+    {
+      "id": "readme_5_gallery_metadata_extraction",
+      "label": "5. \ud83d\uddbc\ufe0f Gallery & Metadata Extraction",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "\ud83d\udcf8 Photo Orchestrator",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "5. \ud83d\uddbc\ufe0f gallery & metadata extraction",
+      "source_file": "README.md",
+      "source_location": "L45"
     },
     {
       "id": "readme_5_running_the_application",
@@ -1763,19 +1895,7 @@
       "node_kind": "heading",
       "norm_label": "5. running the application",
       "source_file": "README.md",
-      "source_location": "L160"
-    },
-    {
-      "id": "readme_accounts_authentication",
-      "label": "\ud83d\udd10 Accounts & Authentication",
-      "_origin": "ast",
-      "community": 20,
-      "community_name": "\ud83d\udcf8 Photo Orchestrator",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "\ud83d\udd10 accounts & authentication",
-      "source_file": "README.md",
-      "source_location": "L211"
+      "source_location": "L234"
     },
     {
       "id": "readme_administration",
@@ -1787,19 +1907,19 @@
       "node_kind": "heading",
       "norm_label": "\u2699\ufe0f administration",
       "source_file": "README.md",
-      "source_location": "L226"
+      "source_location": "L282"
     },
     {
-      "id": "readme_ai_semantic_search_phase_8",
-      "label": "\ud83d\udd0d AI Semantic Search (Phase 8)",
+      "id": "readme_ai_semantic_search_similarity",
+      "label": "\ud83d\udd0d AI Semantic Search & Similarity",
       "_origin": "ast",
       "community": 20,
       "community_name": "\ud83d\udcf8 Photo Orchestrator",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "\ud83d\udd0d ai semantic search (phase 8)",
+      "norm_label": "\ud83d\udd0d ai semantic search & similarity",
       "source_file": "README.md",
-      "source_location": "L220"
+      "source_location": "L278"
     },
     {
       "id": "readme_api_reference",
@@ -1811,7 +1931,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\udce1 api reference",
       "source_file": "README.md",
-      "source_location": "L209"
+      "source_location": "L265"
     },
     {
       "id": "readme_architecture_data_flow",
@@ -1823,7 +1943,19 @@
       "node_kind": "heading",
       "norm_label": "\ud83c\udfd7\ufe0f architecture & data flow",
       "source_file": "README.md",
-      "source_location": "L34"
+      "source_location": "L52"
+    },
+    {
+      "id": "readme_authentication_accounts",
+      "label": "\ud83d\udd10 Authentication & Accounts",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "\ud83d\udcf8 Photo Orchestrator",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\udd10 authentication & accounts",
+      "source_file": "README.md",
+      "source_location": "L267"
     },
     {
       "id": "readme_available_scripts",
@@ -1835,7 +1967,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\udee0\ufe0f available scripts",
       "source_file": "README.md",
-      "source_location": "L178"
+      "source_location": "L251"
     },
     {
       "id": "readme_database_schema",
@@ -1847,7 +1979,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\uddc4\ufe0f database schema",
       "source_file": "README.md",
-      "source_location": "L80"
+      "source_location": "L105"
     },
     {
       "id": "readme_getting_started",
@@ -1859,7 +1991,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\ude80 getting started",
       "source_file": "README.md",
-      "source_location": "L100"
+      "source_location": "L167"
     },
     {
       "id": "readme_key_features",
@@ -1871,7 +2003,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83c\udf1f key features",
       "source_file": "README.md",
-      "source_location": "L14"
+      "source_location": "L17"
     },
     {
       "id": "readme_license",
@@ -1883,19 +2015,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\udcc4 license",
       "source_file": "README.md",
-      "source_location": "L239"
-    },
-    {
-      "id": "readme_machine_learning_colab_exploration",
-      "label": "\ud83e\udde0 Machine Learning & Colab Exploration",
-      "_origin": "ast",
-      "community": 20,
-      "community_name": "\ud83d\udcf8 Photo Orchestrator",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "\ud83e\udde0 machine learning & colab exploration",
-      "source_file": "README.md",
-      "source_location": "L192"
+      "source_location": "L336"
     },
     {
       "id": "readme_photo_orchestrator",
@@ -1910,28 +2030,52 @@
       "source_location": "L1"
     },
     {
-      "id": "readme_photos",
-      "label": "\ud83d\uddbc\ufe0f Photos",
+      "id": "readme_photos_upload",
+      "label": "\ud83d\uddbc\ufe0f Photos & Upload",
       "_origin": "ast",
       "community": 20,
       "community_name": "\ud83d\udcf8 Photo Orchestrator",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "\ud83d\uddbc\ufe0f photos",
+      "norm_label": "\ud83d\uddbc\ufe0f photos & upload",
       "source_file": "README.md",
-      "source_location": "L216"
+      "source_location": "L274"
     },
     {
-      "id": "readme_search_flow",
-      "label": "Search Flow:",
+      "id": "readme_production_vector_index_definition",
+      "label": "Production Vector Index Definition",
       "_origin": "ast",
       "community": 20,
       "community_name": "\ud83d\udcf8 Photo Orchestrator",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "search flow:",
+      "norm_label": "production vector index definition",
       "source_file": "README.md",
-      "source_location": "L72"
+      "source_location": "L158"
+    },
+    {
+      "id": "readme_project_roadmap_phase_status",
+      "label": "\ud83d\uddfa\ufe0f Project Roadmap & Phase Status",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "\ud83d\udcf8 Photo Orchestrator",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\uddfa\ufe0f project roadmap & phase status",
+      "source_file": "README.md",
+      "source_location": "L288"
+    },
+    {
+      "id": "readme_search_pipeline",
+      "label": "Search Pipeline",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "\ud83d\udcf8 Photo Orchestrator",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "search pipeline",
+      "source_file": "README.md",
+      "source_location": "L90"
     },
     {
       "id": "readme_security_privacy",
@@ -1943,66 +2087,31 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\udee1\ufe0f security & privacy",
       "source_file": "README.md",
-      "source_location": "L231"
+      "source_location": "L328"
     },
     {
-      "id": "readme_terminal_1_next_js_web_app",
-      "label": "Terminal 1: Next.js Web App",
+      "id": "readme_terminal_1_web_server",
+      "label": "Terminal 1: Web Server",
       "_origin": "ast",
       "community": 20,
       "community_name": "\ud83d\udcf8 Photo Orchestrator",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "terminal 1: next.js web app",
+      "norm_label": "terminal 1: web server",
       "source_file": "README.md",
-      "source_location": "L164"
+      "source_location": "L238"
     },
     {
-      "id": "readme_terminal_2_bullmq_indexer_worker",
-      "label": "Terminal 2: BullMQ Indexer Worker",
+      "id": "readme_terminal_2_bullmq_indexer_worker_optional_if_redis_configured",
+      "label": "Terminal 2: BullMQ Indexer Worker (Optional if Redis configured)",
       "_origin": "ast",
       "community": 20,
       "community_name": "\ud83d\udcf8 Photo Orchestrator",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "terminal 2: bullmq indexer worker",
+      "norm_label": "terminal 2: bullmq indexer worker (optional if redis configured)",
       "source_file": "README.md",
-      "source_location": "L170"
-    },
-    {
-      "id": "readme_vector_index_configuration",
-      "label": "Vector Index Configuration",
-      "_origin": "ast",
-      "community": 20,
-      "community_name": "\ud83d\udcf8 Photo Orchestrator",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "vector index configuration",
-      "source_file": "README.md",
-      "source_location": "L91"
-    },
-    {
-      "id": "readme_what_the_notebook_covers",
-      "label": "What the notebook covers:",
-      "_origin": "ast",
-      "community": 20,
-      "community_name": "\ud83d\udcf8 Photo Orchestrator",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "what the notebook covers:",
-      "source_file": "README.md",
-      "source_location": "L200"
-    },
-    {
-      "id": "app_login_page",
-      "label": "login/page.tsx",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "login/page.tsx",
-      "file_type": "code",
-      "norm_label": "login/page.tsx",
-      "source_file": "app/login/page.tsx",
-      "source_location": "L1"
+      "source_location": "L244"
     },
     {
       "id": "context",
@@ -2098,7 +2207,7 @@
       "node_kind": "heading",
       "norm_label": "this is not the next.js you know",
       "source_file": "AGENTS.md",
-      "source_location": "L2"
+      "source_location": "L3"
     },
     {
       "id": "claude",
@@ -2487,48 +2596,59 @@
       "source_location": "L25"
     },
     {
-      "id": "app_api_accounts_callback_route",
-      "label": "callback/route.ts",
+      "id": "auth_config",
+      "label": "auth.config.ts",
       "_origin": "ast",
       "community": 4,
-      "community_name": "callback/route.ts",
+      "community_name": "middleware.ts",
       "file_type": "code",
-      "norm_label": "callback/route.ts",
-      "source_file": "app/api/accounts/callback/route.ts",
+      "norm_label": "auth.config.ts",
+      "source_file": "auth.config.ts",
       "source_location": "L1"
     },
     {
-      "id": "app_api_accounts_connect_route",
-      "label": "connect/route.ts",
+      "id": "auth_config_authconfig",
+      "label": "authConfig",
       "_origin": "ast",
       "community": 4,
-      "community_name": "callback/route.ts",
+      "community_name": "middleware.ts",
       "file_type": "code",
-      "norm_label": "connect/route.ts",
-      "source_file": "app/api/accounts/connect/route.ts",
+      "norm_label": "authconfig",
+      "source_file": "auth.config.ts",
+      "source_location": "L4"
+    },
+    {
+      "id": "middleware",
+      "label": "middleware.ts",
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "middleware.ts",
+      "file_type": "code",
+      "norm_label": "middleware.ts",
+      "source_file": "middleware.ts",
       "source_location": "L1"
     },
     {
-      "id": "lib_crypto",
-      "label": "crypto.ts",
+      "id": "middleware_auth",
+      "label": "{ auth }",
       "_origin": "ast",
       "community": 4,
-      "community_name": "callback/route.ts",
+      "community_name": "middleware.ts",
       "file_type": "code",
-      "norm_label": "crypto.ts",
-      "source_file": "lib/crypto.ts",
-      "source_location": "L1"
+      "norm_label": "{ auth }",
+      "source_file": "middleware.ts",
+      "source_location": "L5"
     },
     {
-      "id": "lib_google_oauth",
-      "label": "google-oauth.ts",
+      "id": "middleware_config",
+      "label": "config",
       "_origin": "ast",
       "community": 4,
-      "community_name": "callback/route.ts",
+      "community_name": "middleware.ts",
       "file_type": "code",
-      "norm_label": "google-oauth.ts",
-      "source_file": "lib/google-oauth.ts",
-      "source_location": "L1"
+      "norm_label": "config",
+      "source_file": "middleware.ts",
+      "source_location": "L40"
     },
     {
       "id": "package",
@@ -2674,7 +2794,7 @@
       "node_kind": "heading",
       "norm_label": "implementation summary",
       "source_file": "steps.md",
-      "source_location": "L101"
+      "source_location": "L126"
     },
     {
       "id": "steps_master_phase_tracker",
@@ -2689,16 +2809,16 @@
       "source_location": "L7"
     },
     {
-      "id": "steps_phase_10_configurable_replication_deduplication",
-      "label": "\ud83d\udce6 Phase 10 \u2014 Configurable Replication & Deduplication",
+      "id": "steps_phase_10_configurable_replication_deduplication_completed",
+      "label": "\u2705 Phase 10 \u2014 Configurable Replication & Deduplication [COMPLETED]",
       "_origin": "ast",
       "community": 6,
       "community_name": "Photo Orchestrator \u2014 Action Steps & Roadmap",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "\ud83d\udce6 phase 10 \u2014 configurable replication & deduplication",
+      "norm_label": "\u2705 phase 10 \u2014 configurable replication & deduplication [completed]",
       "source_file": "steps.md",
-      "source_location": "L145"
+      "source_location": "L170"
     },
     {
       "id": "steps_phase_11_google_drive_library_sync_import_existing_photos",
@@ -2710,7 +2830,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\udd04 phase 11 \u2014 google drive library sync (import existing photos)",
       "source_file": "steps.md",
-      "source_location": "L161"
+      "source_location": "L188"
     },
     {
       "id": "steps_phase_12_polish_production_readiness",
@@ -2722,7 +2842,7 @@
       "node_kind": "heading",
       "norm_label": "\u26a1 phase 12 \u2014 polish & production readiness",
       "source_file": "steps.md",
-      "source_location": "L180"
+      "source_location": "L207"
     },
     {
       "id": "steps_phase_8_semantic_image_search_clip_pgvector_completed",
@@ -2734,7 +2854,7 @@
       "node_kind": "heading",
       "norm_label": "\u2705 phase 8 \u2014 semantic image search (clip + pgvector) [completed]",
       "source_file": "steps.md",
-      "source_location": "L97"
+      "source_location": "L122"
     },
     {
       "id": "steps_phase_9_real_user_authentication_completed",
@@ -2746,7 +2866,7 @@
       "node_kind": "heading",
       "norm_label": "\u2705 phase 9 \u2014 real user authentication [completed]",
       "source_file": "steps.md",
-      "source_location": "L119"
+      "source_location": "L144"
     },
     {
       "id": "steps_photo_orchestrator_action_steps_roadmap",
@@ -2770,7 +2890,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\uddfa\ufe0f roadmap & dependency graph",
       "source_file": "steps.md",
-      "source_location": "L203"
+      "source_location": "L230"
     },
     {
       "id": "steps_session_2026_08_14",
@@ -2830,22 +2950,10 @@
       "node_kind": "heading",
       "norm_label": "specification & steps",
       "source_file": "steps.md",
-      "source_location": "L123"
-    },
-    {
-      "id": "steps_specification_steps_148",
-      "label": "Specification & Steps",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": "Photo Orchestrator \u2014 Action Steps & Roadmap",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "specification & steps",
-      "source_file": "steps.md",
       "source_location": "L148"
     },
     {
-      "id": "steps_specification_steps_164",
+      "id": "steps_specification_steps_173",
       "label": "Specification & Steps",
       "_origin": "ast",
       "community": 6,
@@ -2854,10 +2962,10 @@
       "node_kind": "heading",
       "norm_label": "specification & steps",
       "source_file": "steps.md",
-      "source_location": "L164"
+      "source_location": "L173"
     },
     {
-      "id": "steps_specification_steps_183",
+      "id": "steps_specification_steps_191",
       "label": "Specification & Steps",
       "_origin": "ast",
       "community": 6,
@@ -2866,7 +2974,19 @@
       "node_kind": "heading",
       "norm_label": "specification & steps",
       "source_file": "steps.md",
-      "source_location": "L183"
+      "source_location": "L191"
+    },
+    {
+      "id": "steps_specification_steps_210",
+      "label": "Specification & Steps",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "Photo Orchestrator \u2014 Action Steps & Roadmap",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "specification & steps",
+      "source_file": "steps.md",
+      "source_location": "L210"
     },
     {
       "id": "steps_stabilization_pre_phase_status",
@@ -2878,7 +2998,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\udee0\ufe0f stabilization & pre-phase status",
       "source_file": "steps.md",
-      "source_location": "L86"
+      "source_location": "L111"
     },
     {
       "id": "steps_upcoming_phases_standardized_specification",
@@ -2890,7 +3010,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\ude80 upcoming phases (standardized specification)",
       "source_file": "steps.md",
-      "source_location": "L115"
+      "source_location": "L140"
     },
     {
       "id": "app_admin_admindashboard",
@@ -2907,11 +3027,88 @@
       "id": "app_admin_page",
       "label": "admin/page.tsx",
       "_origin": "ast",
-      "community": 7,
-      "community_name": "AdminDashboard.tsx",
+      "community": 8,
+      "community_name": "query",
       "file_type": "code",
       "norm_label": "admin/page.tsx",
       "source_file": "app/admin/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "app_api_accounts_callback_route",
+      "label": "callback/route.ts",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "callback/route.ts",
+      "source_file": "app/api/accounts/callback/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "app_api_accounts_connect_route",
+      "label": "connect/route.ts",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "connect/route.ts",
+      "source_file": "app/api/accounts/connect/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "app_api_accounts_route",
+      "label": "accounts/route.ts",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "accounts/route.ts",
+      "source_file": "app/api/accounts/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "app_api_auth_nextauth_route",
+      "label": "[...nextauth]/route.ts",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "[...nextauth]/route.ts",
+      "source_file": "app/api/auth/[...nextauth]/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "app_api_photos_route",
+      "label": "photos/route.ts",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "photos/route.ts",
+      "source_file": "app/api/photos/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "app_api_photos_similar_route",
+      "label": "similar/route.ts",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "similar/route.ts",
+      "source_file": "app/api/photos/similar/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "app_api_users_settings_route",
+      "label": "settings/route.ts",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "settings/route.ts",
+      "source_file": "app/api/users/settings/route.ts",
       "source_location": "L1"
     },
     {
@@ -2919,10 +3116,32 @@
       "label": "dashboard/page.tsx",
       "_origin": "ast",
       "community": 8,
-      "community_name": "dashboard/page.tsx",
+      "community_name": "query",
       "file_type": "code",
       "norm_label": "dashboard/page.tsx",
       "source_file": "app/dashboard/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "app_dashboard_removeaccountbutton",
+      "label": "RemoveAccountButton.tsx",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "removeaccountbutton.tsx",
+      "source_file": "app/dashboard/RemoveAccountButton.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "app_dashboard_storagesettingscard",
+      "label": "StorageSettingsCard.tsx",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "storagesettingscard.tsx",
+      "source_file": "app/dashboard/StorageSettingsCard.tsx",
       "source_location": "L1"
     },
     {
@@ -2930,10 +3149,76 @@
       "label": "UploadButton.tsx",
       "_origin": "ast",
       "community": 8,
-      "community_name": "dashboard/page.tsx",
+      "community_name": "query",
       "file_type": "code",
       "norm_label": "uploadbutton.tsx",
       "source_file": "app/dashboard/UploadButton.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "app_login_page",
+      "label": "login/page.tsx",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "login/page.tsx",
+      "source_file": "app/login/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "auth",
+      "label": "auth.ts",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "auth.ts",
+      "source_file": "auth.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "auth_handlers_signin_signout_auth",
+      "label": "{ handlers, signIn, signOut, auth }",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "{ handlers, signin, signout, auth }",
+      "source_file": "auth.ts",
+      "source_location": "L7"
+    },
+    {
+      "id": "lib_db",
+      "label": "db.ts",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "db.ts",
+      "source_file": "lib/db.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "lib_google_oauth",
+      "label": "google-oauth.ts",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "google-oauth.ts",
+      "source_file": "lib/google-oauth.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "scripts_migrate_phase10",
+      "label": "migrate-phase10.ts",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "migrate-phase10.ts",
+      "source_file": "scripts/migrate-phase10.ts",
       "source_location": "L1"
     },
     {
@@ -3007,6 +3292,18 @@
       "context": "call",
       "source_file": "app/api/accounts/connect/route.ts",
       "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "app_api_accounts_route_delete",
+      "target": "lib_db_query",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app/api/accounts/route.ts",
+      "source_location": "L46",
       "weight": 1.0
     },
     {
@@ -3138,7 +3435,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app/api/photos/upload/route.ts",
-      "source_location": "L128",
+      "source_location": "L155",
+      "weight": 1.0
+    },
+    {
+      "source": "app_api_photos_upload_route_post",
+      "target": "lib_db_query",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app/api/photos/upload/route.ts",
+      "source_location": "L44",
       "weight": 1.0
     },
     {
@@ -3150,7 +3459,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app/api/photos/upload/route.ts",
-      "source_location": "L40",
+      "source_location": "L69",
       "weight": 1.0
     },
     {
@@ -3162,19 +3471,31 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app/api/photos/upload/route.ts",
-      "source_location": "L56",
+      "source_location": "L82",
       "weight": 1.0
     },
     {
-      "source": "app_api_photos_upload_route_post",
+      "source": "app_api_users_settings_route_get",
       "target": "lib_db_query",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
-      "source_file": "app/api/photos/upload/route.ts",
-      "source_location": "L96",
+      "source_file": "app/api/users/settings/route.ts",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "app_api_users_settings_route_patch",
+      "target": "lib_db_query",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app/api/users/settings/route.ts",
+      "source_location": "L59",
       "weight": 1.0
     },
     {
@@ -3186,7 +3507,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app/dashboard/page.tsx",
-      "source_location": "L38",
+      "source_location": "L42",
       "weight": 1.0
     },
     {
@@ -3414,7 +3735,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/storage-router.ts",
-      "source_location": "L14",
+      "source_location": "L30",
       "weight": 1.0
     },
     {
@@ -3426,7 +3747,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "lib/storage-router.ts",
-      "source_location": "L37",
+      "source_location": "L68",
       "weight": 1.0
     },
     {
@@ -3463,6 +3784,42 @@
       "context": "call",
       "source_file": "scripts/backfill-embeddings.ts",
       "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_migrate_phase10_runmigration",
+      "target": "lib_db_query",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "scripts/migrate-phase10.ts",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_test_phase10_runphase10test",
+      "target": "lib_db_query",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "scripts/test-phase10.ts",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_test_phase10_runphase10test",
+      "target": "lib_storage_router_pickaccountsforupload",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "scripts/test-phase10.ts",
+      "source_location": "L33",
       "weight": 1.0
     },
     {
@@ -3922,6 +4279,18 @@
       "weight": 1.0
     },
     {
+      "source": "app_api_users_settings_route",
+      "target": "lib_db_query",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "app/api/users/settings/route.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
       "source": "app_dashboard_page",
       "target": "lib_db_query",
       "relation": "imports",
@@ -3946,6 +4315,42 @@
       "weight": 1.0
     },
     {
+      "source": "app_dashboard_page",
+      "target": "app_dashboard_removeaccountbutton_removeaccountbutton",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "app/dashboard/page.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "app_dashboard_page",
+      "target": "app_dashboard_storagesettingscard_storagesettingscard",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "app/dashboard/page.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "auth",
+      "target": "auth_config_authconfig",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "auth.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
       "source": "auth",
       "target": "lib_db_query",
       "relation": "imports",
@@ -3954,7 +4359,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "auth.ts",
-      "source_location": "L3",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -4074,6 +4479,18 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "lib/storage-router.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "middleware",
+      "target": "auth_config_authconfig",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "middleware.ts",
       "source_location": "L2",
       "weight": 1.0
     },
@@ -4374,6 +4791,42 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "scripts/backfill-embeddings.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_migrate_phase10",
+      "target": "lib_db_query",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "scripts/migrate-phase10.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_test_phase10",
+      "target": "lib_db_query",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "scripts/test-phase10.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_test_phase10",
+      "target": "lib_storage_router_pickaccountsforupload",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "scripts/test-phase10.ts",
       "source_location": "L2",
       "weight": 1.0
     },
@@ -4774,6 +5227,30 @@
       "weight": 1.0
     },
     {
+      "source": "app_api_users_settings_route",
+      "target": "auth",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "app/api/users/settings/route.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "app_api_users_settings_route",
+      "target": "lib_db",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "app/api/users/settings/route.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
       "source": "app_dashboard_page",
       "target": "auth",
       "relation": "imports_from",
@@ -4810,6 +5287,30 @@
       "weight": 1.0
     },
     {
+      "source": "app_dashboard_page",
+      "target": "app_dashboard_removeaccountbutton",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "app/dashboard/page.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "app_dashboard_page",
+      "target": "app_dashboard_storagesettingscard",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "app/dashboard/page.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
       "source": "app_login_page",
       "target": "auth",
       "relation": "imports_from",
@@ -4823,6 +5324,18 @@
     },
     {
       "source": "auth",
+      "target": "auth_config",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "auth.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "auth",
       "target": "lib_db",
       "relation": "imports_from",
       "_origin": "ast",
@@ -4830,7 +5343,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "auth.ts",
-      "source_location": "L3",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -4931,14 +5444,14 @@
     },
     {
       "source": "middleware",
-      "target": "auth",
+      "target": "auth_config",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "middleware.ts",
-      "source_location": "L1",
+      "source_location": "L2",
       "weight": 1.0
     },
     {
@@ -4962,6 +5475,42 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "scripts/backfill-embeddings.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_migrate_phase10",
+      "target": "lib_db",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "scripts/migrate-phase10.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_test_phase10",
+      "target": "lib_db",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "scripts/test-phase10.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_test_phase10",
+      "target": "lib_storage_router",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "scripts/test-phase10.ts",
       "source_location": "L2",
       "weight": 1.0
     },
@@ -5021,7 +5570,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "AGENTS.md",
-      "source_location": "L2",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -5246,6 +5795,17 @@
     },
     {
       "source": "app_api_accounts_route",
+      "target": "app_api_accounts_route_delete",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/accounts/route.ts",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "app_api_accounts_route",
       "target": "app_api_accounts_route_get",
       "relation": "contains",
       "_origin": "ast",
@@ -5307,7 +5867,29 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/api/photos/upload/route.ts",
-      "source_location": "L10",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "app_api_users_settings_route",
+      "target": "app_api_users_settings_route_patch",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/users/settings/route.ts",
+      "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "app_api_users_settings_route",
+      "target": "app_api_users_settings_route_get",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/users/settings/route.ts",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -5351,7 +5933,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/dashboard/page.tsx",
-      "source_location": "L15",
+      "source_location": "L17",
       "weight": 1.0
     },
     {
@@ -5362,7 +5944,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/dashboard/page.tsx",
-      "source_location": "L19",
+      "source_location": "L21",
       "weight": 1.0
     },
     {
@@ -5373,7 +5955,62 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/dashboard/page.tsx",
-      "source_location": "L7",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "app_dashboard_removeaccountbutton",
+      "target": "app_dashboard_removeaccountbutton_removeaccountbutton",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/dashboard/RemoveAccountButton.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "app_dashboard_removeaccountbutton",
+      "target": "app_dashboard_removeaccountbutton_removeaccountbuttonprops",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/dashboard/RemoveAccountButton.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "app_dashboard_storagesettingscard",
+      "target": "app_dashboard_storagesettingscard_storagesettingscard",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/dashboard/StorageSettingsCard.tsx",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "app_dashboard_storagesettingscard",
+      "target": "app_dashboard_storagesettingscard_storagesettingscardprops",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/dashboard/StorageSettingsCard.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "app_dashboard_uploadbutton",
+      "target": "app_dashboard_uploadbutton_progressstate",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/dashboard/UploadButton.tsx",
+      "source_location": "L11",
       "weight": 1.0
     },
     {
@@ -5384,7 +6021,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/dashboard/UploadButton.tsx",
-      "source_location": "L6",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "app_dashboard_uploadbutton",
+      "target": "app_dashboard_uploadbutton_uploadbuttonprops",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/dashboard/UploadButton.tsx",
+      "source_location": "L7",
       "weight": 1.0
     },
     {
@@ -5472,7 +6120,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "auth.ts",
-      "source_location": "L5",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "auth_config",
+      "target": "auth_config_authconfig",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "auth.config.ts",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -5538,7 +6197,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "db/schema.sql",
-      "source_location": "L15",
+      "source_location": "L16",
       "weight": 1.0
     },
     {
@@ -5549,7 +6208,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "db/schema.sql",
-      "source_location": "L29",
+      "source_location": "L30",
       "weight": 1.0
     },
     {
@@ -5560,7 +6219,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "db/schema.sql",
-      "source_location": "L46",
+      "source_location": "L48",
       "weight": 1.0
     },
     {
@@ -5780,7 +6439,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/storage-router.ts",
-      "source_location": "L12",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_storage_router",
+      "target": "lib_storage_router_storagerouterresult",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/storage-router.ts",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -5791,7 +6461,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "middleware.ts",
-      "source_location": "L37",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "middleware",
+      "target": "middleware_auth",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "middleware.ts",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -6192,57 +6873,57 @@
     },
     {
       "source": "readme_5_running_the_application",
-      "target": "readme_terminal_1_next_js_web_app",
+      "target": "readme_terminal_1_web_server",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L164",
+      "source_location": "L238",
       "weight": 1.0
     },
     {
       "source": "readme_5_running_the_application",
-      "target": "readme_terminal_2_bullmq_indexer_worker",
+      "target": "readme_terminal_2_bullmq_indexer_worker_optional_if_redis_configured",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L170",
+      "source_location": "L244",
       "weight": 1.0
     },
     {
       "source": "readme_api_reference",
-      "target": "readme_accounts_authentication",
+      "target": "readme_authentication_accounts",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L211",
+      "source_location": "L267",
       "weight": 1.0
     },
     {
       "source": "readme_api_reference",
-      "target": "readme_photos",
+      "target": "readme_photos_upload",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L216",
+      "source_location": "L274",
       "weight": 1.0
     },
     {
       "source": "readme_api_reference",
-      "target": "readme_ai_semantic_search_phase_8",
+      "target": "readme_ai_semantic_search_similarity",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L220",
+      "source_location": "L278",
       "weight": 1.0
     },
     {
@@ -6253,29 +6934,29 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L226",
+      "source_location": "L282",
       "weight": 1.0
     },
     {
       "source": "readme_architecture_data_flow",
-      "target": "readme_search_flow",
+      "target": "readme_search_pipeline",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L72",
+      "source_location": "L90",
       "weight": 1.0
     },
     {
       "source": "readme_database_schema",
-      "target": "readme_vector_index_configuration",
+      "target": "readme_production_vector_index_definition",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L91",
+      "source_location": "L158",
       "weight": 1.0
     },
     {
@@ -6286,7 +6967,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L102",
+      "source_location": "L169",
       "weight": 1.0
     },
     {
@@ -6297,7 +6978,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L114",
+      "source_location": "L183",
       "weight": 1.0
     },
     {
@@ -6308,7 +6989,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L141",
+      "source_location": "L215",
       "weight": 1.0
     },
     {
@@ -6319,7 +7000,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L152",
+      "source_location": "L226",
       "weight": 1.0
     },
     {
@@ -6330,106 +7011,62 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L160",
+      "source_location": "L234",
       "weight": 1.0
     },
     {
-      "source": "readme_machine_learning_colab_exploration",
-      "target": "readme_what_the_notebook_covers",
+      "source": "readme_key_features",
+      "target": "readme_1_multi_account_storage_pooling_management",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L200",
+      "source_location": "L19",
       "weight": 1.0
     },
     {
-      "source": "readme_photo_orchestrator",
-      "target": "readme_getting_started",
+      "source": "readme_key_features",
+      "target": "readme_2_high_throughput_batch_uploading",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L100",
+      "source_location": "L25",
       "weight": 1.0
     },
     {
-      "source": "readme_photo_orchestrator",
-      "target": "readme_key_features",
+      "source": "readme_key_features",
+      "target": "readme_3_local_ai_semantic_search_recommendations_phase_8",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L14",
+      "source_location": "L31",
       "weight": 1.0
     },
     {
-      "source": "readme_photo_orchestrator",
-      "target": "readme_available_scripts",
+      "source": "readme_key_features",
+      "target": "readme_4_real_multi_tenant_authentication_access_control_phase_9",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L178",
+      "source_location": "L38",
       "weight": 1.0
     },
     {
-      "source": "readme_photo_orchestrator",
-      "target": "readme_machine_learning_colab_exploration",
+      "source": "readme_key_features",
+      "target": "readme_5_gallery_metadata_extraction",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L192",
-      "weight": 1.0
-    },
-    {
-      "source": "readme_photo_orchestrator",
-      "target": "readme_api_reference",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "README.md",
-      "source_location": "L209",
-      "weight": 1.0
-    },
-    {
-      "source": "readme_photo_orchestrator",
-      "target": "readme_security_privacy",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "README.md",
-      "source_location": "L231",
-      "weight": 1.0
-    },
-    {
-      "source": "readme_photo_orchestrator",
-      "target": "readme_license",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "README.md",
-      "source_location": "L239",
-      "weight": 1.0
-    },
-    {
-      "source": "readme_photo_orchestrator",
-      "target": "readme_architecture_data_flow",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "README.md",
-      "source_location": "L34",
+      "source_location": "L45",
       "weight": 1.0
     },
     {
@@ -6440,7 +7077,95 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L80",
+      "source_location": "L105",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_photo_orchestrator",
+      "target": "readme_getting_started",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "L167",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_photo_orchestrator",
+      "target": "readme_key_features",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_photo_orchestrator",
+      "target": "readme_available_scripts",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "L251",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_photo_orchestrator",
+      "target": "readme_api_reference",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "L265",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_photo_orchestrator",
+      "target": "readme_project_roadmap_phase_status",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "L288",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_photo_orchestrator",
+      "target": "readme_security_privacy",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "L328",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_photo_orchestrator",
+      "target": "readme_license",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "L336",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_photo_orchestrator",
+      "target": "readme_architecture_data_flow",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "L52",
       "weight": 1.0
     },
     {
@@ -6452,6 +7177,28 @@
       "confidence_score": 1.0,
       "source_file": "scripts/backfill-embeddings.ts",
       "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_migrate_phase10",
+      "target": "scripts_migrate_phase10_runmigration",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/migrate-phase10.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_test_phase10",
+      "target": "scripts_test_phase10_runphase10test",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/test-phase10.ts",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -6521,36 +7268,58 @@
       "weight": 1.0
     },
     {
-      "source": "steps_phase_10_configurable_replication_deduplication",
-      "target": "steps_specification_steps_148",
+      "source": "steps_phase_10_configurable_replication_deduplication_completed",
+      "target": "steps_specification_steps_173",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L148",
+      "source_location": "L173",
+      "weight": 1.0
+    },
+    {
+      "source": "steps_phase_10_configurable_replication_deduplication_completed",
+      "target": "steps_phase_11_google_drive_library_sync_import_existing_photos",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "steps.md",
+      "source_location": "L188",
+      "weight": 1.0
+    },
+    {
+      "source": "steps_phase_10_configurable_replication_deduplication_completed",
+      "target": "steps_phase_12_polish_production_readiness",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "steps.md",
+      "source_location": "L207",
       "weight": 1.0
     },
     {
       "source": "steps_phase_11_google_drive_library_sync_import_existing_photos",
-      "target": "steps_specification_steps_164",
+      "target": "steps_specification_steps_191",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L164",
+      "source_location": "L191",
       "weight": 1.0
     },
     {
       "source": "steps_phase_12_polish_production_readiness",
-      "target": "steps_specification_steps_183",
+      "target": "steps_specification_steps_210",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L183",
+      "source_location": "L210",
       "weight": 1.0
     },
     {
@@ -6561,7 +7330,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L101",
+      "source_location": "L126",
       "weight": 1.0
     },
     {
@@ -6572,40 +7341,29 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L123",
+      "source_location": "L148",
       "weight": 1.0
     },
     {
-      "source": "steps_phase_9_real_user_authentication_completed",
-      "target": "steps_phase_10_configurable_replication_deduplication",
+      "source": "steps_photo_orchestrator_action_steps_roadmap",
+      "target": "steps_stabilization_pre_phase_status",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L145",
+      "source_location": "L111",
       "weight": 1.0
     },
     {
-      "source": "steps_phase_9_real_user_authentication_completed",
-      "target": "steps_phase_11_google_drive_library_sync_import_existing_photos",
+      "source": "steps_photo_orchestrator_action_steps_roadmap",
+      "target": "steps_phase_8_semantic_image_search_clip_pgvector_completed",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L161",
-      "weight": 1.0
-    },
-    {
-      "source": "steps_phase_9_real_user_authentication_completed",
-      "target": "steps_phase_12_polish_production_readiness",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "steps.md",
-      "source_location": "L180",
+      "source_location": "L122",
       "weight": 1.0
     },
     {
@@ -6616,7 +7374,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L115",
+      "source_location": "L140",
       "weight": 1.0
     },
     {
@@ -6627,7 +7385,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L119",
+      "source_location": "L144",
+      "weight": 1.0
+    },
+    {
+      "source": "steps_photo_orchestrator_action_steps_roadmap",
+      "target": "steps_phase_10_configurable_replication_deduplication_completed",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "steps.md",
+      "source_location": "L170",
       "weight": 1.0
     },
     {
@@ -6638,7 +7407,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L203",
+      "source_location": "L230",
       "weight": 1.0
     },
     {
@@ -6661,28 +7430,6 @@
       "confidence_score": 1.0,
       "source_file": "steps.md",
       "source_location": "L7",
-      "weight": 1.0
-    },
-    {
-      "source": "steps_photo_orchestrator_action_steps_roadmap",
-      "target": "steps_stabilization_pre_phase_status",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "steps.md",
-      "source_location": "L86",
-      "weight": 1.0
-    },
-    {
-      "source": "steps_photo_orchestrator_action_steps_roadmap",
-      "target": "steps_phase_8_semantic_image_search_clip_pgvector_completed",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "steps.md",
-      "source_location": "L97",
       "weight": 1.0
     },
     {
@@ -6957,7 +7704,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "db/schema.sql",
-      "source_location": "L15",
+      "source_location": "L16",
       "weight": 1.0
     },
     {
@@ -6968,7 +7715,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "db/schema.sql",
-      "source_location": "L46",
+      "source_location": "L48",
       "weight": 1.0
     },
     {
@@ -6979,7 +7726,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "db/schema.sql",
-      "source_location": "L46",
+      "source_location": "L48",
       "weight": 1.0
     },
     {
@@ -6990,10 +7737,10 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "db/schema.sql",
-      "source_location": "L29",
+      "source_location": "L30",
       "weight": 1.0
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "7be5b19f74d45f8479da2e9d7bb592c807c308b0"
+  "built_at_commit": "a3687de4d2838aea911e534b4f34c8c3b32f3030"
 }

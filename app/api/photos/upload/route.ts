@@ -6,6 +6,7 @@ import { getDriveClient } from '@/lib/drive-client';
 import { Readable } from 'stream';
 import { queue } from '@/lib/queue';
 import { indexPhoto } from '@/lib/indexer';
+import crypto from 'crypto';
 
 export async function POST(request: NextRequest) {
   try {
@@ -34,7 +35,35 @@ export async function POST(request: NextRequest) {
     }
     const userId = session.user.id;
 
-    // 4. Select all eligible connected Google Drive accounts for the upload
+    // 4. Compute SHA-256 hash for deduplication
+    const fileArrayBuffer = await file.arrayBuffer();
+    const fileBuffer = Buffer.from(fileArrayBuffer);
+    const fileHash = crypto.createHash('sha256').update(fileBuffer).digest('hex');
+
+    // 5. Deduplication check: Has this exact file already been uploaded by this user?
+    const existingCheck = await query(
+      `SELECT id, filename, thumbnail_url, size_bytes, created_at 
+       FROM photos 
+       WHERE user_id = $1 AND file_hash = $2 
+       LIMIT 1`,
+      [userId, fileHash]
+    );
+
+    if (existingCheck.rows.length > 0) {
+      const existing = existingCheck.rows[0];
+      console.log(`[Deduplication] File "${file.name}" is a duplicate of photo ${existing.id} ("${existing.filename}"). Skipping upload.`);
+      return NextResponse.json(
+        {
+          status: 'duplicate',
+          duplicate: true,
+          message: `"${file.name}" already exists in your library as "${existing.filename}". Skipped duplicate upload.`,
+          photo: existing,
+        },
+        { status: 200 }
+      );
+    }
+
+    // 6. Select optimal connected Google Drive accounts based on user's replication factor
     let accountIds: string[];
     try {
       accountIds = await pickAccountsForUpload(userId, file.size);
@@ -46,10 +75,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 5. Upload the file to all eligible accounts in parallel
-    const fileArrayBuffer = await file.arrayBuffer();
-    const fileBuffer = Buffer.from(fileArrayBuffer);
-
+    // 7. Upload the file to target accounts in parallel
     console.log(`Starting replication upload of "${file.name}" to ${accountIds.length} accounts...`);
     const uploadPromises = accountIds.map(async (accountId) => {
       try {
@@ -92,22 +118,23 @@ export async function POST(request: NextRequest) {
 
     console.log(`Successfully uploaded "${file.name}" to ${uploadResults.length} accounts.`);
 
-    // 6. Record metadata in the photos database table (logical photo)
+    // 8. Record metadata in the photos database table (logical photo) with file_hash
     const photoResult = await query(
-      `INSERT INTO photos (user_id, filename, mime_type, size_bytes) 
-       VALUES ($1, $2, $3, $4) 
-       RETURNING id, user_id, filename, mime_type, size_bytes, created_at`,
+      `INSERT INTO photos (user_id, filename, mime_type, size_bytes, file_hash) 
+       VALUES ($1, $2, $3, $4, $5) 
+       RETURNING id, user_id, filename, mime_type, size_bytes, file_hash, created_at`,
       [
         userId,
         file.name,
         file.type || 'application/octet-stream',
         file.size,
+        fileHash,
       ]
     );
 
     const photoId = photoResult.rows[0].id;
 
-    // 7. Record each physical copy in the photo_replicas table
+    // 9. Record each physical copy in the photo_replicas table
     for (const replica of uploadResults) {
       await query(
         `INSERT INTO photo_replicas (photo_id, account_id, drive_file_id) 
@@ -116,7 +143,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 8. Enqueue a background photo-indexing job or run inline if Redis is not configured
+    // 10. Enqueue a background photo-indexing job or run inline if Redis is not configured
     const hasRedis = !!process.env.REDIS_URL;
     if (hasRedis) {
       try {
@@ -146,6 +173,8 @@ export async function POST(request: NextRequest) {
     };
 
     return NextResponse.json({
+      status: 'uploaded',
+      duplicate: false,
       message: `Photo uploaded successfully (replicated to ${uploadResults.length} accounts)`,
       photo: compatibilityPhoto,
     });
@@ -155,4 +184,3 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: errorMsg }, { status: 500 });
   }
 }
-
