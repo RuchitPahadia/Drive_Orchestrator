@@ -3,8 +3,8 @@
   "1": "devDependencies",
   "2": "dependencies",
   "3": "compilerOptions",
-  "4": "drive-client.ts",
-  "5": "scripts",
+  "4": "callback/route.ts",
+  "5": "queue.ts",
   "6": "Photo Orchestrator — Action Steps & Roadmap",
   "7": "auth.ts",
   "8": "dashboard/page.tsx",
@@ -20,9 +20,14 @@
   "18": "Antigravity Build Prompts — Photo Orchestrator",
   "19": "next-auth.d.ts",
   "20": "📸 Photo Orchestrator",
+  "21": "browse/error.tsx",
   "22": "Photo Orchestrator - Project Context",
   "23": "AGENTS.md",
   "24": "CLAUDE.md",
   "25": "embeddings.ts",
-  "26": "{ GET, POST }"
+  "26": "{ GET, POST }",
+  "27": "browse/loading.tsx",
+  "28": "dashboard/error.tsx",
+  "29": "dashboard/loading.tsx",
+  "30": "app/error.tsx"
 }

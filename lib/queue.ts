@@ -1,24 +1,47 @@
-import { Queue } from 'bullmq';
+import { Queue, QueueOptions } from 'bullmq';
 import Redis from 'ioredis';
 
 const redisUrl = process.env.REDIS_URL;
 
 declare global {
   var photoQueue: Queue | undefined;
+  var deadLetterQueue: Queue | undefined;
   var redisConnection: Redis | undefined;
 }
+
+const defaultJobOptions: QueueOptions['defaultJobOptions'] = {
+  attempts: 3,
+  backoff: {
+    type: 'exponential',
+    delay: 5000, // 5s, 10s, 20s
+  },
+  removeOnComplete: {
+    age: 3600, // Keep completed jobs for 1 hour
+    count: 1000,
+  },
+  removeOnFail: {
+    age: 86400 * 7, // Keep failed jobs for 7 days
+  },
+};
 
 let connection: Redis | undefined = undefined;
 let queue: Queue = {
   add: async () => {
     throw new Error('Redis Queue is disabled because REDIS_URL is not set.');
-  }
+  },
+} as unknown as Queue;
+
+let dlq: Queue = {
+  add: async () => {
+    throw new Error('DLQ is disabled because REDIS_URL is not set.');
+  },
 } as unknown as Queue;
 
 if (redisUrl) {
   if (process.env.NODE_ENV === 'production') {
     connection = new Redis(redisUrl, { maxRetriesPerRequest: null });
-    queue = new Queue('photo-indexing', { connection });
+    queue = new Queue('photo-indexing', { connection, defaultJobOptions });
+    dlq = new Queue('photo-indexing-dlq', { connection });
   } else {
     if (!global.redisConnection) {
       global.redisConnection = new Redis(redisUrl, { maxRetriesPerRequest: null });
@@ -26,9 +49,14 @@ if (redisUrl) {
     connection = global.redisConnection;
 
     if (!global.photoQueue) {
-      global.photoQueue = new Queue('photo-indexing', { connection });
+      global.photoQueue = new Queue('photo-indexing', { connection, defaultJobOptions });
     }
     queue = global.photoQueue;
+
+    if (!global.deadLetterQueue) {
+      global.deadLetterQueue = new Queue('photo-indexing-dlq', { connection });
+    }
+    dlq = global.deadLetterQueue;
   }
 } else {
   if (process.env.NODE_ENV === 'production') {
@@ -41,11 +69,16 @@ if (redisUrl) {
     connection = global.redisConnection;
 
     if (!global.photoQueue) {
-      global.photoQueue = new Queue('photo-indexing', { connection });
+      global.photoQueue = new Queue('photo-indexing', { connection, defaultJobOptions });
     }
     queue = global.photoQueue;
+
+    if (!global.deadLetterQueue) {
+      global.deadLetterQueue = new Queue('photo-indexing-dlq', { connection });
+    }
+    dlq = global.deadLetterQueue;
   }
 }
 
-export { queue, connection };
+export { queue, dlq, connection, defaultJobOptions };
 export default queue;

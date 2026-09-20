@@ -301,12 +301,8 @@ flowchart TD
         P9[Phase 9: Real User Authentication]
         P10[Phase 10: Configurable Replication & Dedup]
         P11[Phase 11: Google Drive Library Sync]
-        P1 --> P2 --> P3 --> P4 --> P5 --> P6 --> P7 --> P8 --> P9 --> P10 --> P11
-    end
-
-    subgraph Planned [Upcoming Roadmap]
         P12[Phase 12: Production Polish & Docker]
-        P11 --> P12
+        P1 --> P2 --> P3 --> P4 --> P5 --> P6 --> P7 --> P8 --> P9 --> P10 --> P11 --> P12
     end
 ```
 
@@ -321,7 +317,7 @@ flowchart TD
 - [x] **Phase 9: Real User Authentication** — NextAuth.js v5 + Google Provider + RBAC
 - [x] **Phase 10: Configurable Replication & Deduplication** — N-way replication controls and SHA-256 deduplication
 - [x] **Phase 11: Google Drive Library Sync** — Discover and import existing photos from connected Drive accounts
-- [ ] **Phase 12: Production Polish & Docker** — Containerization, BullMQ retry policies, and skeleton UI loaders
+- [x] **Phase 12: Production Polish & Docker** — Containerization, BullMQ retry policies, and skeleton UI loaders
 
 ---
 

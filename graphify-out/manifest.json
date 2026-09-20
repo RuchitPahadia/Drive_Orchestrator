@@ -114,10 +114,10 @@
     "semantic_hash": ""
   },
   "lib/queue.ts": {
-    "mtime": 1787304556.962016,
-    "seen": 1787576234.5626295,
-    "ast_hash": "838702eba26f890ff06991306ce47449",
-    "semantic_hash": "838702eba26f890ff06991306ce47449"
+    "mtime": 1789903954.3586318,
+    "seen": 1789904614.3670008,
+    "ast_hash": "9f35f755113790b79231afd591d5ac61",
+    "semantic_hash": ""
   },
   "lib/storage-router.ts": {
     "mtime": 1789901978.1669357,
@@ -150,10 +150,10 @@
     "semantic_hash": "02fc19ad21338c2ab820a70136310db4"
   },
   "workers/indexer.ts": {
-    "mtime": 1787304563.4854357,
-    "seen": 1787576234.5626295,
-    "ast_hash": "00d75dff9d1804fec8997f7f9fd23b73",
-    "semantic_hash": "00d75dff9d1804fec8997f7f9fd23b73"
+    "mtime": 1789904150.012316,
+    "seen": 1789904614.3670008,
+    "ast_hash": "1894e6500be8c4a94ad79acb250225af",
+    "semantic_hash": ""
   },
   "db/schema.sql": {
     "mtime": 1789901571.8075733,
@@ -186,9 +186,9 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1789903756.7743826,
-    "seen": 1789903781.0446668,
-    "ast_hash": "f5e59c3df8453aba84672a2b7e4b01f7",
+    "mtime": 1789904582.5053906,
+    "seen": 1789904614.367999,
+    "ast_hash": "37ce6ab4c4a9fb54c212f8f7c4109833",
     "semantic_hash": ""
   },
   "antigravity-build-prompts.md": {
@@ -204,9 +204,9 @@
     "semantic_hash": ""
   },
   "steps.md": {
-    "mtime": 1789903743.2638528,
-    "seen": 1789903781.0446668,
-    "ast_hash": "7d9f9d241adc67b111b46713e2ce3cb9",
+    "mtime": 1789904570.9830925,
+    "seen": 1789904614.367999,
+    "ast_hash": "7eb5cfec8727879f3be04aead1e265bf",
     "semantic_hash": ""
   },
   "public/file.svg": {
@@ -369,6 +369,54 @@
     "mtime": 1789903390.2982273,
     "seen": 1789903781.0446668,
     "ast_hash": "1c40494b74e0286cc54b66bb5196ed73",
+    "semantic_hash": ""
+  },
+  "app/browse/error.tsx": {
+    "mtime": 1789904212.491296,
+    "seen": 1789904614.3670008,
+    "ast_hash": "e0208258dfe13093e9b4c54c821974c7",
+    "semantic_hash": ""
+  },
+  "app/browse/loading.tsx": {
+    "mtime": 1789904169.8978949,
+    "seen": 1789904614.3670008,
+    "ast_hash": "4e8d4f317e683dffdf638b89c8a4605d",
+    "semantic_hash": ""
+  },
+  "app/dashboard/error.tsx": {
+    "mtime": 1789904184.628476,
+    "seen": 1789904614.3670008,
+    "ast_hash": "71c1ed06a67d54c8a2daee2caaa2532a",
+    "semantic_hash": ""
+  },
+  "app/dashboard/loading.tsx": {
+    "mtime": 1789904160.398447,
+    "seen": 1789904614.3670008,
+    "ast_hash": "2fa6b9c239870189eb94abd8ed1f1c3d",
+    "semantic_hash": ""
+  },
+  "app/error.tsx": {
+    "mtime": 1789904218.704149,
+    "seen": 1789904614.3670008,
+    "ast_hash": "b40e633a2298997c1a505fddf002e5ae",
+    "semantic_hash": ""
+  },
+  "scripts/test-phase12.ts": {
+    "mtime": 1789904498.6834874,
+    "seen": 1789904614.3670008,
+    "ast_hash": "62eda9a1b997e3500f13d3572b1a29af",
+    "semantic_hash": ""
+  },
+  ".github/workflows/ci.yml": {
+    "mtime": 1789904283.7026978,
+    "seen": 1789904614.367999,
+    "ast_hash": "96ee6fd5e9988ce2208cf9321852e1c1",
+    "semantic_hash": ""
+  },
+  "docker-compose.yml": {
+    "mtime": 1789904270.0818796,
+    "seen": 1789904614.367999,
+    "ast_hash": "b1807c42e7771c22a057e1c0486bb82b",
     "semantic_hash": ""
   }
 }

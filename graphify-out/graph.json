@@ -553,6 +553,18 @@
       "source_location": "L3"
     },
     {
+      "id": "app_browse_error_browseerror",
+      "label": "BrowseError()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 21,
+      "community_name": "browse/error.tsx",
+      "file_type": "code",
+      "norm_label": "browseerror()",
+      "source_file": "app/browse/error.tsx",
+      "source_location": "L6"
+    },
+    {
       "id": "app_api_photos_search_route_get",
       "label": "GET()",
       "_callable": true,
@@ -661,12 +673,60 @@
       "source_location": "L5"
     },
     {
+      "id": "app_browse_loading_browseloading",
+      "label": "BrowseLoading()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 27,
+      "community_name": "browse/loading.tsx",
+      "file_type": "code",
+      "norm_label": "browseloading()",
+      "source_file": "app/browse/loading.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "app_dashboard_error_dashboarderror",
+      "label": "DashboardError()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "dashboard/error.tsx",
+      "file_type": "code",
+      "norm_label": "dashboarderror()",
+      "source_file": "app/dashboard/error.tsx",
+      "source_location": "L6"
+    },
+    {
+      "id": "app_dashboard_loading_dashboardloading",
+      "label": "DashboardLoading()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 29,
+      "community_name": "dashboard/loading.tsx",
+      "file_type": "code",
+      "norm_label": "dashboardloading()",
+      "source_file": "app/dashboard/loading.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "app_error_globalerror",
+      "label": "GlobalError()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 30,
+      "community_name": "app/error.tsx",
+      "file_type": "code",
+      "norm_label": "globalerror()",
+      "source_file": "app/error.tsx",
+      "source_location": "L5"
+    },
+    {
       "id": "app_api_accounts_callback_route_get",
       "label": "GET()",
       "_callable": true,
       "_origin": "ast",
       "community": 4,
-      "community_name": "drive-client.ts",
+      "community_name": "callback/route.ts",
       "file_type": "code",
       "norm_label": "get()",
       "source_file": "app/api/accounts/callback/route.ts",
@@ -678,7 +738,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 4,
-      "community_name": "drive-client.ts",
+      "community_name": "callback/route.ts",
       "file_type": "code",
       "norm_label": "get()",
       "source_file": "app/api/accounts/connect/route.ts",
@@ -690,7 +750,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 4,
-      "community_name": "drive-client.ts",
+      "community_name": "callback/route.ts",
       "file_type": "code",
       "norm_label": "decrypt()",
       "source_file": "lib/crypto.ts",
@@ -702,7 +762,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 4,
-      "community_name": "drive-client.ts",
+      "community_name": "callback/route.ts",
       "file_type": "code",
       "norm_label": "encrypt()",
       "source_file": "lib/crypto.ts",
@@ -714,7 +774,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 4,
-      "community_name": "drive-client.ts",
+      "community_name": "callback/route.ts",
       "file_type": "code",
       "norm_label": "getencryptionkey()",
       "source_file": "lib/crypto.ts",
@@ -726,7 +786,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 4,
-      "community_name": "drive-client.ts",
+      "community_name": "callback/route.ts",
       "file_type": "code",
       "norm_label": "generateauthurl()",
       "source_file": "lib/google-oauth.ts",
@@ -738,11 +798,23 @@
       "_callable": true,
       "_origin": "ast",
       "community": 4,
-      "community_name": "drive-client.ts",
+      "community_name": "callback/route.ts",
       "file_type": "code",
       "norm_label": "getoauth2client()",
       "source_file": "lib/google-oauth.ts",
       "source_location": "L6"
+    },
+    {
+      "id": "scripts_test_phase12_runphase12test",
+      "label": "runPhase12Test()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 5,
+      "community_name": "queue.ts",
+      "file_type": "code",
+      "norm_label": "runphase12test()",
+      "source_file": "scripts/test-phase12.ts",
+      "source_location": "L5"
     },
     {
       "id": "app_admin_admindashboard_admindashboard",
@@ -953,6 +1025,17 @@
       "source_location": "L1"
     },
     {
+      "id": "lib_drive_client",
+      "label": "drive-client.ts",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "query",
+      "file_type": "code",
+      "norm_label": "drive-client.ts",
+      "source_file": "lib/drive-client.ts",
+      "source_location": "L1"
+    },
+    {
       "id": "lib_drive_scanner",
       "label": "drive-scanner.ts",
       "_origin": "ast",
@@ -973,28 +1056,6 @@
       "norm_label": "lib/indexer.ts",
       "source_file": "lib/indexer.ts",
       "source_location": "L1"
-    },
-    {
-      "id": "lib_queue",
-      "label": "queue.ts",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "query",
-      "file_type": "code",
-      "norm_label": "queue.ts",
-      "source_file": "lib/queue.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "lib_queue_queue",
-      "label": "queue",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "query",
-      "file_type": "code",
-      "norm_label": "queue",
-      "source_file": "lib/queue.ts",
-      "source_location": "L12"
     },
     {
       "id": "lib_storage_router",
@@ -1071,6 +1132,17 @@
       "file_type": "code",
       "norm_label": "sync-worker.ts",
       "source_file": "workers/sync-worker.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "package",
+      "label": "package.json",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "devDependencies",
+      "file_type": "code",
+      "norm_label": "package.json",
+      "source_file": "package.json",
       "source_location": "L1"
     },
     {
@@ -1193,6 +1265,116 @@
       "norm_label": "typescript",
       "source_file": "package.json",
       "source_location": "L37"
+    },
+    {
+      "id": "package_name",
+      "label": "name",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "devDependencies",
+      "file_type": "code",
+      "norm_label": "name",
+      "source_file": "package.json",
+      "source_location": "L2"
+    },
+    {
+      "id": "package_private",
+      "label": "private",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "devDependencies",
+      "file_type": "code",
+      "norm_label": "private",
+      "source_file": "package.json",
+      "source_location": "L4"
+    },
+    {
+      "id": "package_scripts",
+      "label": "scripts",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "devDependencies",
+      "file_type": "code",
+      "norm_label": "scripts",
+      "source_file": "package.json",
+      "source_location": "L5"
+    },
+    {
+      "id": "package_scripts_build",
+      "label": "build",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "devDependencies",
+      "file_type": "code",
+      "norm_label": "build",
+      "source_file": "package.json",
+      "source_location": "L7"
+    },
+    {
+      "id": "package_scripts_dev",
+      "label": "dev",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "devDependencies",
+      "file_type": "code",
+      "norm_label": "dev",
+      "source_file": "package.json",
+      "source_location": "L6"
+    },
+    {
+      "id": "package_scripts_lint",
+      "label": "lint",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "devDependencies",
+      "file_type": "code",
+      "norm_label": "lint",
+      "source_file": "package.json",
+      "source_location": "L9"
+    },
+    {
+      "id": "package_scripts_start",
+      "label": "start",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "devDependencies",
+      "file_type": "code",
+      "norm_label": "start",
+      "source_file": "package.json",
+      "source_location": "L8"
+    },
+    {
+      "id": "package_scripts_sync_worker",
+      "label": "sync-worker",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "devDependencies",
+      "file_type": "code",
+      "norm_label": "sync-worker",
+      "source_file": "package.json",
+      "source_location": "L11"
+    },
+    {
+      "id": "package_scripts_worker",
+      "label": "worker",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "devDependencies",
+      "file_type": "code",
+      "norm_label": "worker",
+      "source_file": "package.json",
+      "source_location": "L10"
+    },
+    {
+      "id": "package_version",
+      "label": "version",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "devDependencies",
+      "file_type": "code",
+      "norm_label": "version",
+      "source_file": "package.json",
+      "source_location": "L3"
     },
     {
       "id": "eslint",
@@ -2214,7 +2396,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\udcc4 license",
       "source_file": "README.md",
-      "source_location": "L336"
+      "source_location": "L332"
     },
     {
       "id": "readme_photo_orchestrator",
@@ -2286,7 +2468,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\udee1\ufe0f security & privacy",
       "source_file": "README.md",
-      "source_location": "L328"
+      "source_location": "L324"
     },
     {
       "id": "readme_terminal_1_web_server",
@@ -2311,6 +2493,17 @@
       "norm_label": "terminal 2: bullmq indexer worker (optional if redis configured)",
       "source_file": "README.md",
       "source_location": "L244"
+    },
+    {
+      "id": "app_browse_error",
+      "label": "browse/error.tsx",
+      "_origin": "ast",
+      "community": 21,
+      "community_name": "browse/error.tsx",
+      "file_type": "code",
+      "norm_label": "browse/error.tsx",
+      "source_file": "app/browse/error.tsx",
+      "source_location": "L1"
     },
     {
       "id": "context",
@@ -2474,6 +2667,39 @@
       "norm_label": "{ get, post }",
       "source_file": "app/api/auth/[...nextauth]/route.ts",
       "source_location": "L3"
+    },
+    {
+      "id": "app_browse_loading",
+      "label": "browse/loading.tsx",
+      "_origin": "ast",
+      "community": 27,
+      "community_name": "browse/loading.tsx",
+      "file_type": "code",
+      "norm_label": "browse/loading.tsx",
+      "source_file": "app/browse/loading.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "app_dashboard_error",
+      "label": "dashboard/error.tsx",
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "dashboard/error.tsx",
+      "file_type": "code",
+      "norm_label": "dashboard/error.tsx",
+      "source_file": "app/dashboard/error.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "app_dashboard_loading",
+      "label": "dashboard/loading.tsx",
+      "_origin": "ast",
+      "community": 29,
+      "community_name": "dashboard/loading.tsx",
+      "file_type": "code",
+      "norm_label": "dashboard/loading.tsx",
+      "source_file": "app/dashboard/loading.tsx",
+      "source_location": "L1"
     },
     {
       "id": "tsconfig",
@@ -2795,11 +3021,22 @@
       "source_location": "L25"
     },
     {
+      "id": "app_error",
+      "label": "app/error.tsx",
+      "_origin": "ast",
+      "community": 30,
+      "community_name": "app/error.tsx",
+      "file_type": "code",
+      "norm_label": "app/error.tsx",
+      "source_file": "app/error.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "app_api_accounts_callback_route",
       "label": "callback/route.ts",
       "_origin": "ast",
       "community": 4,
-      "community_name": "drive-client.ts",
+      "community_name": "callback/route.ts",
       "file_type": "code",
       "norm_label": "callback/route.ts",
       "source_file": "app/api/accounts/callback/route.ts",
@@ -2810,7 +3047,7 @@
       "label": "connect/route.ts",
       "_origin": "ast",
       "community": 4,
-      "community_name": "drive-client.ts",
+      "community_name": "callback/route.ts",
       "file_type": "code",
       "norm_label": "connect/route.ts",
       "source_file": "app/api/accounts/connect/route.ts",
@@ -2821,21 +3058,10 @@
       "label": "crypto.ts",
       "_origin": "ast",
       "community": 4,
-      "community_name": "drive-client.ts",
+      "community_name": "callback/route.ts",
       "file_type": "code",
       "norm_label": "crypto.ts",
       "source_file": "lib/crypto.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "lib_drive_client",
-      "label": "drive-client.ts",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "drive-client.ts",
-      "file_type": "code",
-      "norm_label": "drive-client.ts",
-      "source_file": "lib/drive-client.ts",
       "source_location": "L1"
     },
     {
@@ -2843,132 +3069,66 @@
       "label": "google-oauth.ts",
       "_origin": "ast",
       "community": 4,
-      "community_name": "drive-client.ts",
+      "community_name": "callback/route.ts",
       "file_type": "code",
       "norm_label": "google-oauth.ts",
       "source_file": "lib/google-oauth.ts",
       "source_location": "L1"
     },
     {
-      "id": "package",
-      "label": "package.json",
+      "id": "lib_queue",
+      "label": "queue.ts",
       "_origin": "ast",
       "community": 5,
-      "community_name": "scripts",
+      "community_name": "queue.ts",
       "file_type": "code",
-      "norm_label": "package.json",
-      "source_file": "package.json",
+      "norm_label": "queue.ts",
+      "source_file": "lib/queue.ts",
       "source_location": "L1"
     },
     {
-      "id": "package_name",
-      "label": "name",
+      "id": "lib_queue_defaultjoboptions",
+      "label": "defaultJobOptions",
       "_origin": "ast",
       "community": 5,
-      "community_name": "scripts",
+      "community_name": "queue.ts",
       "file_type": "code",
-      "norm_label": "name",
-      "source_file": "package.json",
-      "source_location": "L2"
+      "norm_label": "defaultjoboptions",
+      "source_file": "lib/queue.ts",
+      "source_location": "L12"
     },
     {
-      "id": "package_private",
-      "label": "private",
+      "id": "lib_queue_dlq",
+      "label": "dlq",
       "_origin": "ast",
       "community": 5,
-      "community_name": "scripts",
+      "community_name": "queue.ts",
       "file_type": "code",
-      "norm_label": "private",
-      "source_file": "package.json",
-      "source_location": "L4"
+      "norm_label": "dlq",
+      "source_file": "lib/queue.ts",
+      "source_location": "L34"
     },
     {
-      "id": "package_scripts",
-      "label": "scripts",
+      "id": "lib_queue_queue",
+      "label": "queue",
       "_origin": "ast",
       "community": 5,
-      "community_name": "scripts",
+      "community_name": "queue.ts",
       "file_type": "code",
-      "norm_label": "scripts",
-      "source_file": "package.json",
-      "source_location": "L5"
+      "norm_label": "queue",
+      "source_file": "lib/queue.ts",
+      "source_location": "L28"
     },
     {
-      "id": "package_scripts_build",
-      "label": "build",
+      "id": "scripts_test_phase12",
+      "label": "test-phase12.ts",
       "_origin": "ast",
       "community": 5,
-      "community_name": "scripts",
+      "community_name": "queue.ts",
       "file_type": "code",
-      "norm_label": "build",
-      "source_file": "package.json",
-      "source_location": "L7"
-    },
-    {
-      "id": "package_scripts_dev",
-      "label": "dev",
-      "_origin": "ast",
-      "community": 5,
-      "community_name": "scripts",
-      "file_type": "code",
-      "norm_label": "dev",
-      "source_file": "package.json",
-      "source_location": "L6"
-    },
-    {
-      "id": "package_scripts_lint",
-      "label": "lint",
-      "_origin": "ast",
-      "community": 5,
-      "community_name": "scripts",
-      "file_type": "code",
-      "norm_label": "lint",
-      "source_file": "package.json",
-      "source_location": "L9"
-    },
-    {
-      "id": "package_scripts_start",
-      "label": "start",
-      "_origin": "ast",
-      "community": 5,
-      "community_name": "scripts",
-      "file_type": "code",
-      "norm_label": "start",
-      "source_file": "package.json",
-      "source_location": "L8"
-    },
-    {
-      "id": "package_scripts_sync_worker",
-      "label": "sync-worker",
-      "_origin": "ast",
-      "community": 5,
-      "community_name": "scripts",
-      "file_type": "code",
-      "norm_label": "sync-worker",
-      "source_file": "package.json",
-      "source_location": "L11"
-    },
-    {
-      "id": "package_scripts_worker",
-      "label": "worker",
-      "_origin": "ast",
-      "community": 5,
-      "community_name": "scripts",
-      "file_type": "code",
-      "norm_label": "worker",
-      "source_file": "package.json",
-      "source_location": "L10"
-    },
-    {
-      "id": "package_version",
-      "label": "version",
-      "_origin": "ast",
-      "community": 5,
-      "community_name": "scripts",
-      "file_type": "code",
-      "norm_label": "version",
-      "source_file": "package.json",
-      "source_location": "L3"
+      "norm_label": "test-phase12.ts",
+      "source_file": "scripts/test-phase12.ts",
+      "source_location": "L1"
     },
     {
       "id": "steps",
@@ -3004,7 +3164,7 @@
       "node_kind": "heading",
       "norm_label": "implementation summary",
       "source_file": "steps.md",
-      "source_location": "L133"
+      "source_location": "L141"
     },
     {
       "id": "steps_master_phase_tracker",
@@ -3028,7 +3188,7 @@
       "node_kind": "heading",
       "norm_label": "\u2705 phase 10 \u2014 configurable replication & deduplication [completed]",
       "source_file": "steps.md",
-      "source_location": "L177"
+      "source_location": "L185"
     },
     {
       "id": "steps_phase_11_google_drive_library_sync_import_existing_photos_completed",
@@ -3040,19 +3200,19 @@
       "node_kind": "heading",
       "norm_label": "\u2705 phase 11 \u2014 google drive library sync (import existing photos) [completed]",
       "source_file": "steps.md",
-      "source_location": "L195"
+      "source_location": "L203"
     },
     {
-      "id": "steps_phase_12_polish_production_readiness",
-      "label": "\u26a1 Phase 12 \u2014 Polish & Production Readiness",
+      "id": "steps_phase_12_polish_production_readiness_completed",
+      "label": "\u2705 Phase 12 \u2014 Polish & Production Readiness [COMPLETED]",
       "_origin": "ast",
       "community": 6,
       "community_name": "Photo Orchestrator \u2014 Action Steps & Roadmap",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "\u26a1 phase 12 \u2014 polish & production readiness",
+      "norm_label": "\u2705 phase 12 \u2014 polish & production readiness [completed]",
       "source_file": "steps.md",
-      "source_location": "L216"
+      "source_location": "L224"
     },
     {
       "id": "steps_phase_8_semantic_image_search_clip_pgvector_completed",
@@ -3064,7 +3224,7 @@
       "node_kind": "heading",
       "norm_label": "\u2705 phase 8 \u2014 semantic image search (clip + pgvector) [completed]",
       "source_file": "steps.md",
-      "source_location": "L129"
+      "source_location": "L137"
     },
     {
       "id": "steps_phase_9_real_user_authentication_completed",
@@ -3076,7 +3236,7 @@
       "node_kind": "heading",
       "norm_label": "\u2705 phase 9 \u2014 real user authentication [completed]",
       "source_file": "steps.md",
-      "source_location": "L151"
+      "source_location": "L159"
     },
     {
       "id": "steps_photo_orchestrator_action_steps_roadmap",
@@ -3100,7 +3260,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\uddfa\ufe0f roadmap & dependency graph",
       "source_file": "steps.md",
-      "source_location": "L239"
+      "source_location": "L247"
     },
     {
       "id": "steps_session_2026_08_14",
@@ -3160,10 +3320,10 @@
       "node_kind": "heading",
       "norm_label": "specification & steps",
       "source_file": "steps.md",
-      "source_location": "L155"
+      "source_location": "L163"
     },
     {
-      "id": "steps_specification_steps_180",
+      "id": "steps_specification_steps_188",
       "label": "Specification & Steps",
       "_origin": "ast",
       "community": 6,
@@ -3172,10 +3332,10 @@
       "node_kind": "heading",
       "norm_label": "specification & steps",
       "source_file": "steps.md",
-      "source_location": "L180"
+      "source_location": "L188"
     },
     {
-      "id": "steps_specification_steps_198",
+      "id": "steps_specification_steps_206",
       "label": "Specification & Steps",
       "_origin": "ast",
       "community": 6,
@@ -3184,10 +3344,10 @@
       "node_kind": "heading",
       "norm_label": "specification & steps",
       "source_file": "steps.md",
-      "source_location": "L198"
+      "source_location": "L206"
     },
     {
-      "id": "steps_specification_steps_219",
+      "id": "steps_specification_steps_227",
       "label": "Specification & Steps",
       "_origin": "ast",
       "community": 6,
@@ -3196,7 +3356,7 @@
       "node_kind": "heading",
       "norm_label": "specification & steps",
       "source_file": "steps.md",
-      "source_location": "L219"
+      "source_location": "L227"
     },
     {
       "id": "steps_stabilization_pre_phase_status",
@@ -3208,7 +3368,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\udee0\ufe0f stabilization & pre-phase status",
       "source_file": "steps.md",
-      "source_location": "L118"
+      "source_location": "L126"
     },
     {
       "id": "steps_upcoming_phases_standardized_specification",
@@ -3220,7 +3380,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\ude80 upcoming phases (standardized specification)",
       "source_file": "steps.md",
-      "source_location": "L147"
+      "source_location": "L155"
     },
     {
       "id": "app_admin_admindashboard",
@@ -5296,6 +5456,30 @@
       "weight": 1.0
     },
     {
+      "source": "scripts_test_phase12",
+      "target": "lib_queue_defaultjoboptions",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "scripts/test-phase12.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_test_phase12",
+      "target": "lib_queue_dlq",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "scripts/test-phase12.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
       "source": "scripts_test_phase8",
       "target": "lib_embeddings_formatvectorforpostgres",
       "relation": "imports",
@@ -5341,6 +5525,18 @@
       "context": "import",
       "source_file": "scripts/test-phase8.ts",
       "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "workers_indexer",
+      "target": "lib_queue_dlq",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "workers/indexer.ts",
+      "source_location": "L2",
       "weight": 1.0
     },
     {
@@ -6124,6 +6320,18 @@
       "weight": 1.0
     },
     {
+      "source": "scripts_test_phase12",
+      "target": "lib_queue",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "scripts/test-phase12.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
       "source": "scripts_test_phase8",
       "target": "lib_embeddings",
       "relation": "imports_from",
@@ -6537,6 +6745,28 @@
       "weight": 1.0
     },
     {
+      "source": "app_browse_error",
+      "target": "app_browse_error_browseerror",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/browse/error.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "app_browse_loading",
+      "target": "app_browse_loading_browseloading",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/browse/loading.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
       "source": "app_browse_page",
       "target": "app_browse_page_account",
       "relation": "contains",
@@ -6567,6 +6797,28 @@
       "confidence_score": 1.0,
       "source_file": "app/browse/page.tsx",
       "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "app_dashboard_error",
+      "target": "app_dashboard_error_dashboarderror",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/dashboard/error.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "app_dashboard_loading",
+      "target": "app_dashboard_loading_dashboardloading",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/dashboard/loading.tsx",
+      "source_location": "L1",
       "weight": 1.0
     },
     {
@@ -6699,6 +6951,17 @@
       "confidence_score": 1.0,
       "source_file": "app/dashboard/UploadButton.tsx",
       "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "app_error",
+      "target": "app_error_globalerror",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/error.tsx",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -7132,13 +7395,35 @@
     },
     {
       "source": "lib_queue",
-      "target": "lib_queue_queue",
+      "target": "lib_queue_defaultjoboptions",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/queue.ts",
       "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_queue",
+      "target": "lib_queue_queue",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/queue.ts",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_queue",
+      "target": "lib_queue_dlq",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/queue.ts",
+      "source_location": "L34",
       "weight": 1.0
     },
     {
@@ -7864,7 +8149,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L328",
+      "source_location": "L324",
       "weight": 1.0
     },
     {
@@ -7875,7 +8160,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L336",
+      "source_location": "L332",
       "weight": 1.0
     },
     {
@@ -7931,6 +8216,17 @@
       "confidence_score": 1.0,
       "source_file": "scripts/test-phase11.ts",
       "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_test_phase12",
+      "target": "scripts_test_phase12_runphase12test",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/test-phase12.ts",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -8001,46 +8297,35 @@
     },
     {
       "source": "steps_phase_10_configurable_replication_deduplication_completed",
-      "target": "steps_specification_steps_180",
+      "target": "steps_specification_steps_188",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L180",
+      "source_location": "L188",
       "weight": 1.0
     },
     {
       "source": "steps_phase_11_google_drive_library_sync_import_existing_photos_completed",
-      "target": "steps_specification_steps_198",
+      "target": "steps_specification_steps_206",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L198",
+      "source_location": "L206",
       "weight": 1.0
     },
     {
-      "source": "steps_phase_11_google_drive_library_sync_import_existing_photos_completed",
-      "target": "steps_phase_12_polish_production_readiness",
+      "source": "steps_phase_12_polish_production_readiness_completed",
+      "target": "steps_specification_steps_227",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L216",
-      "weight": 1.0
-    },
-    {
-      "source": "steps_phase_12_polish_production_readiness",
-      "target": "steps_specification_steps_219",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "steps.md",
-      "source_location": "L219",
+      "source_location": "L227",
       "weight": 1.0
     },
     {
@@ -8051,7 +8336,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L133",
+      "source_location": "L141",
       "weight": 1.0
     },
     {
@@ -8062,7 +8347,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L155",
+      "source_location": "L163",
       "weight": 1.0
     },
     {
@@ -8073,7 +8358,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L118",
+      "source_location": "L126",
       "weight": 1.0
     },
     {
@@ -8084,7 +8369,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L129",
+      "source_location": "L137",
       "weight": 1.0
     },
     {
@@ -8095,7 +8380,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L147",
+      "source_location": "L155",
       "weight": 1.0
     },
     {
@@ -8106,7 +8391,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L151",
+      "source_location": "L159",
       "weight": 1.0
     },
     {
@@ -8117,7 +8402,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L177",
+      "source_location": "L185",
       "weight": 1.0
     },
     {
@@ -8128,7 +8413,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L195",
+      "source_location": "L203",
+      "weight": 1.0
+    },
+    {
+      "source": "steps_photo_orchestrator_action_steps_roadmap",
+      "target": "steps_phase_12_polish_production_readiness_completed",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "steps.md",
+      "source_location": "L224",
       "weight": 1.0
     },
     {
@@ -8139,7 +8435,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
-      "source_location": "L239",
+      "source_location": "L247",
       "weight": 1.0
     },
     {
@@ -8485,5 +8781,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "e5b749f58cb60ddb9bc3a81a5434901e1336169d"
+  "built_at_commit": "ba993836304efbe4131960683869eaa5b7ac83b4"
 }
