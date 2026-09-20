@@ -1,3 +1,15 @@
+/**
+ * @file scripts/test-phase10.ts
+ * @description Automated integration smoke test for Phase 10:
+ * 1. Validates `users.replication_factor` database column and default values.
+ * 2. Tests dynamic load-balancing account selection in StorageRouter across 1x, 2x, and Nx modes.
+ * 3. Simulates SHA-256 pre-upload checksum deduplication to verify zero redundant writes.
+ * @phase Phase 10: Configurable Replication & Deduplication
+ * 
+ * Usage:
+ * npx tsx scripts/test-phase10.ts
+ */
+
 import { query } from '../lib/db';
 import { pickAccountsForUpload } from '../lib/storage-router';
 import crypto from 'crypto';

@@ -1,7 +1,17 @@
+/**
+ * @file workers/indexer.ts
+ * @description Dedicated BullMQ background indexing worker daemon.
+ * Consumes 'photo-indexing' queue jobs to download photos from Google Drive, extract EXIF metadata,
+ * generate thumbnails via Sharp, compute CLIP vision embeddings with ONNX, and escalate permanently
+ * failed jobs to the Dead-Letter Queue (DLQ).
+ * @phase Phase 5: Background Indexer Worker & Phase 12: Production Polish
+ */
+
 import { Worker, Job } from 'bullmq';
 import { connection, dlq } from '../lib/queue';
 import { indexPhoto } from '../lib/indexer';
 
+// Validate that Redis connection parameters exist before starting daemon loop
 if (!process.env.REDIS_URL) {
   console.error('CRITICAL ERROR: REDIS_URL environment variable is not defined.');
   console.error('The background worker requires a Redis connection to listen for indexing jobs.');
@@ -11,6 +21,11 @@ if (!process.env.REDIS_URL) {
 
 console.log('Initializing background photo-indexing worker...');
 
+/**
+ * BullMQ Worker Instance:
+ * - Queue Name: 'photo-indexing'
+ * - Concurrency: 2 (processes up to 2 image downloads/inferences in parallel to balance CPU/RAM limits)
+ */
 const worker = new Worker<{ photoId: string }>(
   'photo-indexing',
   async (job: Job<{ photoId: string }>) => {
@@ -25,15 +40,16 @@ const worker = new Worker<{ photoId: string }>(
   },
   {
     connection: connection!,
-    concurrency: 2, // Process up to 2 photos concurrently
+    concurrency: 2, // Concurrency of 2 prevents memory exhaustion during simultaneous ONNX CLIP inferences
   }
 );
 
-// Worker lifecycle hooks
+// Worker lifecycle hooks: Successful job completion
 worker.on('completed', (job) => {
   console.log(`[Job ${job.id}] Successfully finished indexing photo ${job.data.photoId}.`);
 });
 
+// Worker lifecycle hooks: Failure and Dead-Letter Queue (DLQ) escalation
 worker.on('failed', async (job, err) => {
   if (!job) return;
   const maxAttempts = job.opts.attempts || 3;
@@ -41,7 +57,7 @@ worker.on('failed', async (job, err) => {
     `[Job ${job.id}] Indexing attempt ${job.attemptsMade}/${maxAttempts} failed: ${err.message}`
   );
 
-  // If all attempts exhausted, push to Dead-Letter Queue (DLQ)
+  // If all exponential retry attempts are exhausted, move job to Dead-Letter Queue (DLQ)
   if (job.attemptsMade >= maxAttempts) {
     console.error(
       `[Job ${job.id}] CRITICAL: Job exhausted all ${maxAttempts} retry attempts! Moving photo ${job.data.photoId} to Dead-Letter Queue (DLQ)...`
@@ -62,7 +78,11 @@ worker.on('failed', async (job, err) => {
 
 console.log('Background photo-indexing worker is active with retry backoff and DLQ enabled.');
 
-// Graceful shutdown handling
+/**
+ * Graceful Shutdown Handling:
+ * Listens for SIGTERM / SIGINT signals (e.g. from Docker container stop) and completes
+ * active jobs before disconnecting cleanly from Redis.
+ */
 process.on('SIGTERM', async () => {
   console.log('Received SIGTERM. Shutting down worker...');
   await worker.close();

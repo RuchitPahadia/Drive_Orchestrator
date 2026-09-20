@@ -261,6 +261,13 @@ All pre-phase prerequisites have been satisfied:
   - Removed redundant GCP OAuth client secret JSON file from root (credentials safely managed via `.env.local`).
   - Removed unused boilerplate SVGs (`file.svg`, `globe.svg`, `next.svg`, `vercel.svg`, `window.svg`) from `public/` and added `public/.gitkeep`.
   - Maintained AST knowledge graph via `graphify update .`.
+- [x] **Step M.3 — Comprehensive Inline Documentation & Code Cleanup**:
+  - Executed [`cleanup-plan.md`](file:///C:/Users/toruc/.gemini/antigravity-cli/brain/238bd628-9365-42ad-9b17-24dcec9cd14b/cleanup-plan.md) across all 50+ project files.
+  - Added module-level JSDoc headers specifying functionality, phase references, and architectural roles across all `lib/`, `app/`, `workers/`, `scripts/`, and root configs.
+  - Added typed JSDoc `@param`, `@returns`, and `@security` annotations for cryptographic key derivation, token encryption, and Google Drive least-privilege scoping.
+  - Extracted magic numbers into named constants across `lib/storage-router.ts`, `lib/drive-client.ts`, `app/api/photos/upload/route.ts`, and `app/dashboard/UploadButton.tsx`.
+  - Enriched database schema (`db/schema.sql`) with comprehensive architectural headers, column comments, and vector search index documentation.
+  - Updated ESLint configuration (`eslint.config.mjs`) to exclude `.venv/` and verified 100% type-safety (`npx tsc --noEmit`) and zero lint errors (`npm run lint`).
 
 ---
 
@@ -281,9 +288,10 @@ flowchart TD
         P9 --> P11[Phase 11: Google Drive Library Sync]
         P10 --> P12[Phase 12: Production Polish & Docker]
         P11 --> P12
-        P12 --> PM[Maintenance: Agent Consolidation & Cleanup]
+        P12 --> PM[Maintenance: Cleanup, Agents Folder & Documentation]
     end
 ```
 
-**Status**: All 12 project phases and repository maintenance complete.
+**Status**: All 12 project phases and code cleanup/documentation complete.
+
 

@@ -1,3 +1,10 @@
+/**
+ * @file app/login/page.tsx
+ * @description Authentication page supporting Google OAuth 2.0 and instant developer login.
+ * Handles OAuth error diagnostics and preserves return redirect callback URLs.
+ * @phase Phase 9: Real User Authentication
+ */
+
 import { signIn } from '@/auth';
 
 interface LoginPageProps {
@@ -52,7 +59,6 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
               type="submit"
               className="w-full flex items-center justify-center gap-3 bg-white hover:bg-slate-100 text-slate-900 font-semibold py-3.5 px-4 rounded-xl transition duration-150 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 focus:ring-indigo-500 cursor-pointer"
             >
-              {/* Google G SVG */}
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path
                   fill="#4285F4"
@@ -82,7 +88,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
             <div className="border-t border-slate-800 w-full" />
           </div>
 
-          {/* Instant 1-Click Test Sign-In */}
+          {/* Instant 1-Click Test Sign-In for Development */}
           <form
             action={async () => {
               'use server';

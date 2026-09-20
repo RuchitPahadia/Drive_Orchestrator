@@ -1,3 +1,12 @@
+# ============================================================================
+# Photo Orchestrator — Production Docker Compose Orchestration
+# ============================================================================
+# Services:
+# 1. web: Next.js 16 standalone web application and API routes on port 3000.
+# 2. worker: BullMQ background daemon for EXIF extraction, thumbnails, and CLIP inference.
+# 3. redis: Redis 7 in-memory queue store with persistent volume and health check.
+# ============================================================================
+
 services:
   # Next.js Frontend & API Web Service
   web:
@@ -42,7 +51,7 @@ services:
     networks:
       - orchestrator-net
 
-  # Redis In-Memory Queue Store
+  # Redis In-Memory Queue Store with periodic health checks
   redis:
     image: redis:7-alpine
     restart: unless-stopped

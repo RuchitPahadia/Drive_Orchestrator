@@ -1,6 +1,21 @@
+/**
+ * @file scripts/backfill-embeddings.ts
+ * @description One-time migration script: generates CLIP ViT-B/32 512-dimensional vector embeddings
+ * for existing photos in PostgreSQL that were uploaded before semantic search was introduced in Phase 8.
+ * Decodes Base64 thumbnail data URIs into memory Buffers and invokes local ONNX inference.
+ * @phase Phase 8: CLIP Semantic Search
+ * 
+ * Usage:
+ * npx tsx scripts/backfill-embeddings.ts
+ */
+
 import { query } from '../lib/db';
 import { generateImageEmbedding, formatVectorForPostgres } from '../lib/embeddings';
 
+/**
+ * Iterates through all photos where embedding IS NULL and thumbnail_url IS NOT NULL,
+ * computes visual vector representations, and saves them to PostgreSQL.
+ */
 async function backfill() {
   console.log('[Backfill] Checking for photos missing embeddings...');
   const res = await query(
@@ -27,11 +42,11 @@ async function backfill() {
       const base64Data = photo.thumbnail_url.replace(/^data:image\/\w+;base64,/, '');
       const buffer = Buffer.from(base64Data, 'base64');
 
-      // Generate embedding
+      // Generate 512-dimensional CLIP embedding vector
       const rawVector = await generateImageEmbedding(buffer);
       const vectorStr = formatVectorForPostgres(rawVector);
 
-      // Save to database
+      // Save vector literal to PostgreSQL
       await query(
         `UPDATE photos 
          SET embedding = $1::vector, 

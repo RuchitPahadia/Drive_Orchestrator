@@ -1,3 +1,11 @@
+/**
+ * @file app/browse/error.tsx
+ * @description React Client Error Boundary for the `/browse` gallery page.
+ * Intercepts visual search exceptions, thumbnail rendering failures, and database query drops,
+ * offering the user an in-place retry button to re-execute without losing filter states.
+ * @phase Phase 12: Production Polish
+ */
+
 'use client';
 
 import { useEffect } from 'react';
@@ -11,7 +19,7 @@ export default function BrowseError({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error('Browse gallery error caught by error boundary:', error);
+    console.error('[Gallery ErrorBoundary] Error caught during gallery browsing:', error);
   }, [error]);
 
   return (

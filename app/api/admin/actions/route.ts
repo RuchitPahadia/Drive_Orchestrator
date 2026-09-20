@@ -1,9 +1,31 @@
+/**
+ * @file app/api/admin/actions/route.ts
+ * @description Administrative control endpoint: executes privileged cluster management operations
+ * including system-wide storage quota refreshes, manual re-indexing of unindexed photos,
+ * and multi-replica deletion with synchronized Google Drive file removal.
+ * @phase Phase 7: Admin Panel
+ */
+
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { query } from '@/lib/db';
 import { refreshAccountQuota, getDriveClient } from '@/lib/drive-client';
 import { indexPhoto } from '@/lib/indexer';
 
+/**
+ * POST: Handles administrative cluster actions.
+ * 
+ * RBAC Enforcement:
+ * Requires authenticated session with `role === 'admin'`. Non-admin sessions return 403 Forbidden.
+ * 
+ * Supported Actions:
+ * - `refresh-quotas`: Queries Google Drive for latest quota metrics across all storage accounts.
+ * - `trigger-indexing`: Backfills EXIF parsing and CLIP vector embeddings for photos lacking indexed_at.
+ * - `delete-photo`: Purges photo from PostgreSQL and permanently deletes all Google Drive replicas.
+ * 
+ * @param request - Next.js request with JSON payload `{ action: string, photoId?: string }`.
+ * @returns NextResponse with status confirmation or error details.
+ */
 export async function POST(request: NextRequest) {
   try {
     const session = await auth();
@@ -13,6 +35,7 @@ export async function POST(request: NextRequest) {
 
     const { action, photoId } = await request.json();
 
+    // === Action 1: Refresh Quotas Across All Storage Accounts ===
     if (action === 'refresh-quotas') {
       const accountsRes = await query('SELECT id FROM accounts');
       let updatedCount = 0;
@@ -27,6 +50,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: `Successfully refreshed storage quotas for ${updatedCount} account(s).` });
     }
 
+    // === Action 2: Trigger Batch Indexing for Unindexed Photos ===
     if (action === 'trigger-indexing') {
       const unindexedRes = await query('SELECT id FROM photos WHERE indexed_at IS NULL');
       let indexedCount = 0;
@@ -41,6 +65,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: `Completed processing for ${indexedCount} unindexed photo(s).` });
     }
 
+    // === Action 3: Permanently Delete Photo and Physical Drive Replicas ===
     if (action === 'delete-photo') {
       if (!photoId) {
         return NextResponse.json({ error: 'Photo ID is required' }, { status: 400 });

@@ -1,3 +1,11 @@
+/**
+ * @file lib/indexer.ts
+ * @description Core photo indexing pipeline: downloads image streams from Google Drive,
+ * extracts EXIF metadata (timestamp, GPS, camera model), generates optimized JPEG thumbnails,
+ * computes 512-dimensional CLIP vision embeddings, and updates PostgreSQL records.
+ * @phase Phase 5: Background Indexer Worker & Phase 8: CLIP Semantic Search
+ */
+
 import { query } from './db';
 import { getDriveClient } from './drive-client';
 import { Readable } from 'stream';
@@ -6,7 +14,10 @@ import sharp from 'sharp';
 import { generateImageEmbedding, formatVectorForPostgres } from './embeddings';
 
 /**
- * Helper to convert a Node.js Readable stream into a Buffer.
+ * Helper to convert a Node.js Readable stream into a complete Buffer.
+ * 
+ * @param stream - Readable stream from the Google Drive file download request.
+ * @returns Promise resolving to the concatenated Buffer.
  */
 async function streamToBuffer(stream: Readable): Promise<Buffer> {
   const chunks: Buffer[] = [];
@@ -17,10 +28,10 @@ async function streamToBuffer(stream: Readable): Promise<Buffer> {
 }
 
 /**
- * Core photo indexing logic. Downloads the file, parses EXIF metadata,
- * generates a thumbnail, and updates the photos table record.
+ * Core photo indexing logic. Downloads the file from Google Drive, parses EXIF metadata,
+ * generates a 300x300 thumbnail, calculates CLIP vector embeddings, and updates the photos table.
  * 
- * @param photoId The ID of the photo in the database.
+ * @param photoId - The UUID of the photo in the PostgreSQL database.
  */
 export async function indexPhoto(photoId: string): Promise<void> {
   console.log(`[Indexer] Starting indexing for photo ID: ${photoId}`);
@@ -39,7 +50,7 @@ export async function indexPhoto(photoId: string): Promise<void> {
 
     const { filename, mime_type: mimeType } = photoResult.rows[0];
 
-    // Fetch the replicas to get a valid drive_file_id and account_id to download from
+    // Fetch the first available replica to get a valid drive_file_id and account_id to download from
     const replicasResult = await query(
       'SELECT account_id, drive_file_id FROM photo_replicas WHERE photo_id = $1 LIMIT 1',
       [photoId]
@@ -73,26 +84,26 @@ export async function indexPhoto(photoId: string): Promise<void> {
     let cameraModel: string | null = null;
 
     try {
-      // exifr is very efficient and parses directly from memory buffers
+      // exifr parses directly from memory buffers with zero temporary file I/O
       const exif = await exifr.parse(buffer);
       
       if (exif) {
-        // Check standard EXIF date properties
+        // Date Priority Chain: DateTimeOriginal (shutter press) > CreateDate (file creation) > ModifyDate
         const rawDate = exif.DateTimeOriginal || exif.CreateDate || exif.ModifyDate;
         if (rawDate) {
           takenAt = rawDate instanceof Date ? rawDate : new Date(rawDate);
         }
 
-        // Parse latitude/longitude if present
+        // Parse latitude/longitude if present in GPS IFD
         if (typeof exif.latitude === 'number' && typeof exif.longitude === 'number') {
           gpsLat = exif.latitude;
           gpsLng = exif.longitude;
         }
 
-        // Parse camera details
+        // Parse camera manufacturer and model
         if (exif.Model) {
           let modelStr = String(exif.Model);
-          // Append manufacturer name if it makes sense and isn't already in the model string
+          // Append manufacturer name if it isn't already included in the camera model string
           if (exif.Make && !modelStr.toLowerCase().includes(String(exif.Make).toLowerCase())) {
             modelStr = `${exif.Make} ${modelStr}`;
           }
@@ -105,6 +116,8 @@ export async function indexPhoto(photoId: string): Promise<void> {
     }
 
     // 5. Generate a resized Base64 thumbnail URL using sharp and compute CLIP embedding
+    // Storing thumbnails as Base64 data URIs directly in the photos table eliminates the need
+    // for a separate external object storage service (S3/Cloudinary) for gallery browsing.
     let thumbnailUrl: string | null = null;
     let embeddingVector: string | null = null;
     
@@ -135,6 +148,8 @@ export async function indexPhoto(photoId: string): Promise<void> {
     }
 
     // 6. Update database record
+    // The CASE WHEN expression handles conditional pgvector casting: avoids syntax errors
+    // if embeddingVector is null while casting properly to vector(512) when present.
     console.log(`[Indexer] Saving metadata and embedding to photos table...`);
     await query(
       `UPDATE photos 

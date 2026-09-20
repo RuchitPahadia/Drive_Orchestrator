@@ -1,19 +1,34 @@
+/**
+ * @file app/dashboard/RemoveAccountButton.tsx
+ * @description Client Component: Two-step confirmation button to disconnect a Google Drive account.
+ * Implements in-place confirmation prompt to prevent accidental account unlinking.
+ * @phase Phase 10: Account Management
+ */
+
 'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 interface RemoveAccountButtonProps {
+  /** UUID of the target account to disconnect */
   accountId: string;
+  /** Google Account email displayed in confirmation dialog */
   accountEmail: string;
 }
 
+/**
+ * Interactive button with inline confirmation state to safely disconnect a storage account.
+ */
 export default function RemoveAccountButton({ accountId, accountEmail }: RemoveAccountButtonProps) {
   const [confirming, setConfirming] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
+  /**
+   * Dispatches DELETE request to disconnect account and refreshes Server Component tree.
+   */
   const handleRemove = async () => {
     setLoading(true);
     setError(null);
@@ -26,6 +41,7 @@ export default function RemoveAccountButton({ accountId, accountEmail }: RemoveA
         throw new Error(data.error || 'Failed to remove account');
       }
       setConfirming(false);
+      // Trigger Next.js App Router server component re-render to update account list & pooled quota
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error removing account');
@@ -33,6 +49,7 @@ export default function RemoveAccountButton({ accountId, accountEmail }: RemoveA
     }
   };
 
+  // Confirmation state: renders inline Yes/Cancel actions
   if (confirming) {
     return (
       <div className="flex items-center gap-2 mt-2 sm:mt-0">
@@ -56,6 +73,7 @@ export default function RemoveAccountButton({ accountId, accountEmail }: RemoveA
     );
   }
 
+  // Initial dormant state
   return (
     <button
       onClick={() => setConfirming(true)}

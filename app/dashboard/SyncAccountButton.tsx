@@ -1,14 +1,28 @@
+/**
+ * @file app/dashboard/SyncAccountButton.tsx
+ * @description Client Component: Interactive library synchronization trigger button.
+ * Supports targeted single-account differential scanning and global cluster-wide synchronization
+ * with live animated spinners and popover status toasts.
+ * @phase Phase 11: Google Drive Library Sync
+ */
+
 'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 interface SyncAccountButtonProps {
+  /** Optional UUID of a specific account to scan; if omitted, triggers global sync */
   accountId?: string;
+  /** Google Account email for tooltip presentation */
   accountEmail?: string;
+  /** When true, renders prominent header button; when false, renders card action button */
   isGlobal?: boolean;
 }
 
+/**
+ * Interactive sync button initiating differential Google Drive photo ingestion.
+ */
 export default function SyncAccountButton({
   accountId,
   accountEmail,
@@ -19,6 +33,9 @@ export default function SyncAccountButton({
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
+  /**
+   * Invokes `/api/accounts/sync` and refreshes active server views upon completion.
+   */
   const handleSync = async () => {
     setSyncing(true);
     setSyncMessage(null);
@@ -47,6 +64,7 @@ export default function SyncAccountButton({
     }
   };
 
+  // === Mode 1: Global Header Sync Button ===
   if (isGlobal) {
     return (
       <div className="relative inline-block">
@@ -87,6 +105,7 @@ export default function SyncAccountButton({
     );
   }
 
+  // === Mode 2: Per-Account Card Button ===
   return (
     <div className="flex flex-col items-end gap-1">
       <button

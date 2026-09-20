@@ -1,3 +1,11 @@
+/**
+ * @file lib/drive-scanner.ts
+ * @description Google Drive library scanner and differential sync engine.
+ * Scans connected Google Drive accounts with cursor pagination, identifies untracked photos,
+ * registers logical records and physical replicas, and schedules background indexing.
+ * @phase Phase 11: Google Drive Library Sync
+ */
+
 import { getDriveClient, refreshAccountQuota } from './drive-client';
 import { query } from './db';
 import { queue } from './queue';
@@ -22,10 +30,11 @@ export interface SyncAccountResult {
 }
 
 /**
- * Scans a connected Google Drive account for image files.
+ * Scans a connected Google Drive account for image files using Drive API v3 pagination.
  *
- * @param accountId UUID of the connected account in the database.
- * @param maxFiles Maximum number of files to scan per execution (default 200).
+ * @param accountId - UUID of the connected account in the database.
+ * @param maxFiles - Maximum number of files to scan per execution (default 200).
+ * @returns Promise resolving to an array of discovered image descriptors.
  */
 export async function scanAccountImages(
   accountId: string,
@@ -36,6 +45,8 @@ export async function scanAccountImages(
   let pageToken: string | undefined = undefined;
 
   do {
+    // The query filter `mimeType contains 'image/' and trashed = false` retrieves standard image formats
+    // (JPEG, PNG, WebP, GIF, TIFF, HEIC) while skipping non-image assets and trash bin items.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const response: any = await drive.files.list({
       q: "mimeType contains 'image/' and trashed = false",
@@ -46,15 +57,15 @@ export async function scanAccountImages(
     });
 
     const fileList = response.data.files || [];
-    for (const f of fileList) {
-      if (f.id && f.name) {
+    for (const driveFile of fileList) {
+      if (driveFile.id && driveFile.name) {
         discovered.push({
-          id: f.id,
-          name: f.name,
-          mimeType: f.mimeType || 'image/jpeg',
-          size: f.size ? parseInt(f.size, 10) : undefined,
-          createdTime: f.createdTime || undefined,
-          modifiedTime: f.modifiedTime || undefined,
+          id: driveFile.id,
+          name: driveFile.name,
+          mimeType: driveFile.mimeType || 'image/jpeg',
+          size: driveFile.size ? parseInt(driveFile.size, 10) : undefined,
+          createdTime: driveFile.createdTime || undefined,
+          modifiedTime: driveFile.modifiedTime || undefined,
         });
       }
     }
@@ -68,10 +79,12 @@ export async function scanAccountImages(
 
 /**
  * Ingests newly discovered images from Google Drive into the database.
- * Matches existing photo_replicas to skip already-imported photos.
+ * Matches existing photo_replicas to skip already-imported photos (idempotent differential sync).
  *
- * @param accountId UUID of the storage account.
- * @param userId UUID of the owning user.
+ * @param accountId - UUID of the storage account.
+ * @param userId - UUID of the owning application user.
+ * @throws {Error} If account is not found or does not belong to the user.
+ * @returns Promise resolving to SyncAccountResult summary with counts of imported and skipped files.
  */
 export async function syncAccountPhotos(
   accountId: string,
@@ -100,7 +113,7 @@ export async function syncAccountPhotos(
 
   const existingFileIds = new Set(replicaRes.rows.map(r => r.drive_file_id));
 
-  // 4. Identify new files that haven't been ingested yet
+  // 4. Identify new files that haven't been ingested yet (differential filter)
   const newFiles = discoveredFiles.filter(file => !existingFileIds.has(file.id));
   const newPhotoIds: string[] = [];
 
@@ -139,14 +152,14 @@ export async function syncAccountPhotos(
         [photoId, accountId, file.id]
       );
 
-      // Enqueue indexing job (EXIF metadata extraction, thumbnail, CLIP embedding)
+      // Enqueue indexing job: if Redis is configured, push to BullMQ; otherwise run inline asynchronously
       if (hasRedis) {
         queue.add('photo-indexing', { photoId }).catch(queueErr => {
           console.error(`[DriveSync] Failed to enqueue indexing for photo ${photoId}, running inline:`, queueErr);
           indexPhoto(photoId).catch(err => console.error(`[Inline Indexer Fail] Photo ${photoId}:`, err));
         });
       } else {
-        // Run indexer inline asynchronously
+        // Fallback: run indexer inline asynchronously (non-blocking)
         indexPhoto(photoId).catch(err => {
           console.error(`[Inline Indexer Fail] Photo ${photoId}:`, err);
         });
@@ -156,7 +169,7 @@ export async function syncAccountPhotos(
     }
   }
 
-  // 6. Refresh storage quota from Google Drive
+  // 6. Refresh storage quota from Google Drive to keep dashboard progress bars accurate
   try {
     await refreshAccountQuota(accountId);
   } catch (quotaErr) {

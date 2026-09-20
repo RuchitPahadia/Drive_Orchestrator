@@ -1,7 +1,28 @@
+/**
+ * @file app/api/photos/similar/route.ts
+ * @description Visual similarity recommendation endpoint: identifies photos in the library
+ * that are visually and semantically closest to a specified source photo using pgvector cosine distance.
+ * @phase Phase 8: CLIP Semantic Search
+ */
+
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { query } from '@/lib/db';
 
+/**
+ * GET: Finds visually similar photos for a given source photo.
+ * 
+ * Pipeline:
+ * 1. Verifies that the source photo exists, belongs to the authenticated user, and has an embedding.
+ * 2. Compares the 512-dimensional embedding against all other user photo embeddings using pgvector `<=>`.
+ * 3. Excludes the source photo itself (`p.id != $2`).
+ * 4. Orders results by ascending cosine distance (descending visual similarity).
+ * 
+ * @param request - Next.js HTTP request with query parameters:
+ *   - `photoId`: UUID of the reference photo.
+ *   - `limit`: Maximum similar photos to return (default: 20, max: 50).
+ * @returns NextResponse with `{ sourcePhotoId, sourceFilename, total, photos }`.
+ */
 export async function GET(request: NextRequest) {
   try {
     const session = await auth();

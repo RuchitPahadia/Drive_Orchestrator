@@ -1,3 +1,11 @@
+/**
+ * @file app/error.tsx
+ * @description Global application error boundary.
+ * Catches unhandled runtime exceptions across the root layout and pages, providing
+ * crash telemetry logging and one-click application recovery.
+ * @phase Phase 12: Production Polish
+ */
+
 'use client';
 
 import { useEffect } from 'react';
@@ -10,7 +18,7 @@ export default function GlobalError({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error('Root application error:', error);
+    console.error('[Global ErrorBoundary] Unhandled root application error:', error);
   }, [error]);
 
   return (

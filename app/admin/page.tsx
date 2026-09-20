@@ -1,9 +1,19 @@
+/**
+ * @file app/admin/page.tsx
+ * @description Administrative control panel (Server Component).
+ * Restricts access to users with `role === 'admin'`, aggregates cluster-wide operational metrics
+ * (users, accounts, logical vs physical storage utilization, indexing backlog), and renders the
+ * interactive admin dashboard.
+ * @phase Phase 7: Admin Panel & Phase 9: Real User Authentication
+ */
+
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 import { query } from '@/lib/db';
 import AdminDashboard from './AdminDashboard';
 
 export default async function AdminPage() {
+  // 1. Enforce admin role authorization check
   const session = await auth();
   if (!session?.user?.id) {
     redirect('/login?callbackUrl=/admin');
@@ -11,6 +21,7 @@ export default async function AdminPage() {
   if (session.user.role !== 'admin') {
     redirect('/dashboard?error=UnauthorizedAdminOnly');
   }
+
   let users = [];
   let accounts = [];
   let photos = [];
@@ -29,13 +40,13 @@ export default async function AdminPage() {
 
   if (!isDbUnconfigured) {
     try {
-      // 1. Fetch Users
+      // 1. Fetch Users list
       const usersResult = await query(
         'SELECT id, email, created_at FROM users ORDER BY created_at DESC'
       );
       users = usersResult.rows;
 
-      // 2. Fetch Connected Google Accounts
+      // 2. Fetch Connected Google Accounts with owning user email
       const accountsResult = await query(`
         SELECT a.id, a.google_email, u.email as user_email, a.quota_total_bytes, a.quota_used_bytes, a.token_expiry, a.created_at
         FROM accounts a
@@ -54,7 +65,7 @@ export default async function AdminPage() {
       `);
       photos = photosResult.rows;
 
-      // 4. Fetch System-wide Stats
+      // 4. Fetch System-wide Aggregated Metrics
       const replicasCountResult = await query('SELECT COUNT(*) as count FROM photo_replicas');
       const logicalSizeResult = await query('SELECT SUM(size_bytes) as sum FROM photos');
       const physicalSizeResult = await query(`
@@ -79,7 +90,7 @@ export default async function AdminPage() {
     }
   }
 
-  // If there's a configuration error or database connection issue, show a descriptive fallback page
+  // Fallback state if database is paused or unreachable
   if (isDbUnconfigured || dbError) {
     return (
       <div className="min-h-screen bg-zinc-950 text-zinc-50 font-sans flex items-center justify-center p-6 selection:bg-indigo-500/30 selection:text-indigo-200">

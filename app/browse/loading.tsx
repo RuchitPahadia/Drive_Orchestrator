@@ -1,3 +1,10 @@
+/**
+ * @file app/browse/loading.tsx
+ * @description Instant shimmer skeleton loader for `/browse` gallery page transitions.
+ * Emits a responsive 12-card aspect-square image grid placeholder to eliminate visual layout shifts.
+ * @phase Phase 12: Production Polish
+ */
+
 export default function BrowseLoading() {
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-50 font-sans">

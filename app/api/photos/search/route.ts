@@ -1,8 +1,33 @@
+/**
+ * @file app/api/photos/search/route.ts
+ * @description Natural language semantic search endpoint powered by CLIP embeddings and
+ * Supabase pgvector. Translates text search queries into 512-dimensional vectors and performs
+ * approximate nearest-neighbor (ANN) cosine distance queries against stored photo embeddings.
+ * @phase Phase 8: CLIP Semantic Search
+ */
+
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { query } from '@/lib/db';
 import { generateTextEmbedding, formatVectorForPostgres } from '@/lib/embeddings';
 
+/**
+ * GET: Executes semantic vector similarity search for a text query.
+ * 
+ * Mathematical Model:
+ * 1. Query text is encoded using CLIP ViT-B/32 text projection into a normalized 512-dim vector.
+ * 2. PostgreSQL compares vectors using the cosine distance operator `<=>`:
+ *    `cosine_distance = 1 - cosine_similarity`
+ * 3. Similarity score is computed as `ROUND((1 - (p.embedding <=> $1::vector))::numeric, 4)`.
+ *    A score of 1.0 represents an exact visual match, while 0.0 represents orthogonal vectors.
+ * 4. The query leverages the `photos_embedding_hnsw_idx` Hierarchical Navigable Small World (HNSW)
+ *    index for sub-millisecond retrieval across thousands of photos.
+ * 
+ * @param request - Next.js HTTP request with query parameters:
+ *   - `q`: Natural language search query (e.g. "red car", "beach sunset").
+ *   - `limit`: Maximum photos to return (default: 30, max: 100).
+ * @returns NextResponse with `{ query, total, photos }`.
+ */
 export async function GET(request: NextRequest) {
   try {
     const session = await auth();
@@ -20,12 +45,12 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Search query parameter "q" is required' }, { status: 400 });
     }
 
-    // 2. Generate 512-dim embedding for the search query
+    // 2. Generate 512-dim embedding for the search query using local ONNX model
     console.log(`[Semantic Search] Generating embedding for query: "${q.trim()}"...`);
     const queryVector = await generateTextEmbedding(q.trim());
     const vectorStr = formatVectorForPostgres(queryVector);
 
-    // 3. Query photos by cosine similarity using pgvector HNSW index
+    // 3. Query photos by cosine similarity using the pgvector HNSW index
     // Note: 1 - (embedding <=> query_vector) computes cosine similarity where 1.0 is identical
     const sql = `
       SELECT 

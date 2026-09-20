@@ -1,3 +1,15 @@
+/**
+ * @file scripts/test-phase12.ts
+ * @description Automated verification test for Phase 12 Production Polish:
+ * 1. Verifies BullMQ queue resilience options (attempts: 3, exponential backoff) and DLQ initialization.
+ * 2. Checks existence and validity of App Router loading skeletons and error boundaries.
+ * 3. Confirms existence and multi-stage syntax of Dockerfile, Dockerfile.worker, and docker-compose.yml.
+ * @phase Phase 12: Production Readiness & Polish
+ * 
+ * Usage:
+ * npx tsx scripts/test-phase12.ts
+ */
+
 import fs from 'fs';
 import path from 'path';
 import { defaultJobOptions, dlq } from '../lib/queue';

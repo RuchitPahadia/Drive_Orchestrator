@@ -1,3 +1,10 @@
+/**
+ * @file app/dashboard/loading.tsx
+ * @description Instant shimmer skeleton loader for `/dashboard` route transitions.
+ * Emits zero layout shifts while PostgreSQL accounts and settings data resolve.
+ * @phase Phase 12: Production Polish
+ */
+
 export default function DashboardLoading() {
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-50 font-sans">

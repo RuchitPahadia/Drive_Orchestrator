@@ -1,3 +1,11 @@
+/**
+ * @file app/dashboard/error.tsx
+ * @description React Client Error Boundary for the `/dashboard` route.
+ * Traps runtime rendering and data-fetching exceptions, logs them with digest identifiers,
+ * and provides retry mechanisms to recover without full-page reloads.
+ * @phase Phase 12: Production Polish
+ */
+
 'use client';
 
 import { useEffect } from 'react';
@@ -11,7 +19,7 @@ export default function DashboardError({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error('Dashboard runtime error caught by error boundary:', error);
+    console.error('[Dashboard ErrorBoundary] Runtime error caught:', error);
   }, [error]);
 
   return (

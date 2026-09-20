@@ -1,8 +1,18 @@
+/**
+ * @file auth.ts
+ * @description Full NextAuth.js v5 initialization with Google OAuth provider, developer test credentials,
+ * and automated PostgreSQL user synchronization.
+ * @phase Phase 9: Real User Authentication
+ */
+
 import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
 import Google from 'next-auth/providers/google';
 import Credentials from 'next-auth/providers/credentials';
 import { query } from '@/lib/db';
+
+/** Default developer email used for local test login */
+const DEV_DEFAULT_EMAIL = 'toruchitpahadia@gmail.com';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
@@ -11,6 +21,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
+    /**
+     * @security Developer Test Login Provider.
+     * Allows one-click sign-in with admin role during local development and automated testing.
+     * In production environments, this provider can be disabled or restricted behind NODE_ENV checks.
+     */
     Credentials({
       id: 'dev-login',
       name: 'Developer Test Login',
@@ -18,7 +33,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         email: { label: 'Email', type: 'email' },
       },
       async authorize(credentials) {
-        const email = (credentials?.email as string) || 'toruchitpahadia@gmail.com';
+        const email = (credentials?.email as string) || DEV_DEFAULT_EMAIL;
         try {
           const res = await query(
             `INSERT INTO users (email, name, role)
@@ -44,6 +59,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
   callbacks: {
     ...authConfig.callbacks,
+    /**
+     * Synchronizes user profile data to the PostgreSQL users table upon successful authentication.
+     * Uses ON CONFLICT (email) upsert to update name and avatar while preserving existing roles.
+     */
     async signIn({ user, account }) {
       if (account?.provider === 'dev-login') return true;
       if (!user.email) return false;
@@ -68,6 +87,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return false;
       }
     },
+    // Populate JWT token with database user ID and assigned role
     async jwt({ token, user }) {
       if (user) {
         token.userId = user.id;
@@ -75,6 +95,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return token;
     },
+    // Expose database user ID and role on the active session
     async session({ session, token }) {
       if (session.user && token.userId) {
         session.user.id = token.userId as string;

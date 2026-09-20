@@ -1,10 +1,25 @@
+/**
+ * @file app/dashboard/UploadButton.tsx
+ * @description Client Component: Multi-file drag-and-drop photo upload interface.
+ * Implements client-side MIME validation, size bounds checking, parallel worker concurrency,
+ * live batch progress indicators, and deduplication notification alerts.
+ * @phase Phase 4: Storage Router, Phase 10: Deduplication, Phase 12: Production Polish
+ */
+
 'use client';
 
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
+/** Maximum permissible photo upload size: 50 Megabytes */
+const MAX_FILE_SIZE_BYTES = 50 * 1024 * 1024;
+
+/** Number of parallel upload streams dispatched concurrently to the server */
+const UPLOAD_CONCURRENCY = 2;
+
 interface UploadButtonProps {
+  /** Flag indicating whether the user has at least one connected Google Drive account */
   hasAccounts: boolean;
 }
 
@@ -14,6 +29,9 @@ interface ProgressState {
   currentName: string;
 }
 
+/**
+ * Interactive upload component providing both file-picker and drag-and-drop interactions.
+ */
 export default function UploadButton({ hasAccounts }: UploadButtonProps) {
   const [uploading, setUploading] = useState(false);
   const [dragOver, setDragOver] = useState(false);
@@ -22,11 +40,15 @@ export default function UploadButton({ hasAccounts }: UploadButtonProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
+  /**
+   * Processes a batch of selected files with client-side image filtering,
+   * bounded worker concurrency, and result aggregation.
+   */
   const handleUploadBatch = async (fileList: FileList | File[]) => {
     const rawFiles = Array.from(fileList);
     if (rawFiles.length === 0) return;
 
-    // Filter image files only
+    // Filter to retain valid image MIME types or extensions only
     const files = rawFiles.filter(f => f.type.startsWith('image/') || /\.(jpe?g|png|webp|gif|bmp|tiff|heic)$/i.test(f.name));
     if (files.length === 0) {
       setMessage({
@@ -39,13 +61,11 @@ export default function UploadButton({ hasAccounts }: UploadButtonProps) {
     setUploading(true);
     setMessage(null);
 
-    const MAX_SIZE = 50 * 1024 * 1024;
     let successCount = 0;
     let duplicateCount = 0;
     const errors: string[] = [];
 
-    // Process files with concurrency limit of 2
-    const concurrency = 2;
+    // Parallel worker queue with concurrency limit of 2 to avoid overwhelming network socket buffers
     let fileIndex = 0;
 
     const uploadWorker = async () => {
@@ -59,8 +79,8 @@ export default function UploadButton({ hasAccounts }: UploadButtonProps) {
           currentName: file.name,
         });
 
-        // File size check
-        if (file.size > MAX_SIZE) {
+        // Client-side file size check before network dispatch
+        if (file.size > MAX_FILE_SIZE_BYTES) {
           errors.push(`"${file.name}" exceeds 50 MB limit`);
           continue;
         }
@@ -77,6 +97,7 @@ export default function UploadButton({ hasAccounts }: UploadButtonProps) {
           if (!res.ok) {
             errors.push(`"${file.name}": ${data.error || 'Upload failed'}`);
           } else if (data.duplicate) {
+            // SHA-256 deduplication intercepted duplicate file
             duplicateCount++;
           } else {
             successCount++;
@@ -87,8 +108,8 @@ export default function UploadButton({ hasAccounts }: UploadButtonProps) {
       }
     };
 
-    // Run parallel workers
-    const workers = Array.from({ length: Math.min(concurrency, files.length) }, () => uploadWorker());
+    // Dispatch parallel upload workers
+    const workers = Array.from({ length: Math.min(UPLOAD_CONCURRENCY, files.length) }, () => uploadWorker());
     await Promise.all(workers);
 
     setUploading(false);
@@ -96,7 +117,7 @@ export default function UploadButton({ hasAccounts }: UploadButtonProps) {
 
     if (fileInputRef.current) fileInputRef.current.value = '';
 
-    // Final result reporting with deduplication awareness
+    // Final result reporting: handles combinations of new uploads, deduplication skips, and errors
     if (duplicateCount > 0 && successCount > 0) {
       setMessage({
         type: 'success',
@@ -124,6 +145,7 @@ export default function UploadButton({ hasAccounts }: UploadButtonProps) {
       });
     }
 
+    // Refresh Server Component tree to show updated storage quotas immediately
     router.refresh();
   };
 
@@ -258,7 +280,7 @@ export default function UploadButton({ hasAccounts }: UploadButtonProps) {
             <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           <span>
-            Storage pool is currently empty. Click <strong>"Connect Google Account"</strong> below to link your Google Drive and start uploading photos.
+            Storage pool is currently empty. Click <strong>&quot;Connect Google Account&quot;</strong> below to link your Google Drive and start uploading photos.
           </span>
         </div>
       )}

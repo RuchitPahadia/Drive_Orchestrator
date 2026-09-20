@@ -1,3 +1,15 @@
+/**
+ * @file scripts/test-phase11.ts
+ * @description Automated integration smoke test for Phase 11 Google Drive library sync:
+ * 1. Discovers image files in connected Google Drive accounts via Drive API v3.
+ * 2. Runs differential synchronization to import newly discovered photos.
+ * 3. Runs an immediate secondary sync to verify 100% idempotent skip behavior.
+ * @phase Phase 11: Google Drive Library Sync
+ * 
+ * Usage:
+ * npx tsx scripts/test-phase11.ts
+ */
+
 import { query } from '../lib/db';
 import { scanAccountImages, syncAccountPhotos } from '../lib/drive-scanner';
 

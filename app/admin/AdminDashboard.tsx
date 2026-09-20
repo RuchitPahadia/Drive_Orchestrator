@@ -1,3 +1,11 @@
+/**
+ * @file app/admin/AdminDashboard.tsx
+ * @description Client Component: Interactive administrator control panel.
+ * Provides cluster overview metrics, storage account health tracking, user lists, photo replica
+ * inspection, DLQ management, and batch operations (quota refresh, re-indexing, photo purge).
+ * @phase Phase 7: Admin Panel
+ */
+
 'use client';
 
 import { useState } from 'react';

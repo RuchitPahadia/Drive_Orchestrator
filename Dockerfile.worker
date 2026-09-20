@@ -1,6 +1,15 @@
+# ============================================================================
 # Dockerfile for BullMQ Background Indexer Worker
+# ============================================================================
+# Runs the headless indexing daemon in production:
+# 1. Installs production dependencies and tsx execution runtime.
+# 2. Includes native libraries for Sharp image resizing and ONNX inference.
+# 3. Listens on Redis 'photo-indexing' queue.
+# ============================================================================
+
 FROM node:22-alpine
 
+# Install libc6-compat for Sharp native image processing bindings on Alpine
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 

@@ -1,3 +1,10 @@
+/**
+ * @file middleware.ts
+ * @description Next.js edge middleware for route protection, authentication gating,
+ * and Role-Based Access Control (RBAC) enforcement.
+ * @phase Phase 9: Real User Authentication
+ */
+
 import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
 import { NextResponse } from 'next/server';
@@ -8,16 +15,24 @@ export default auth((req) => {
   const isLoggedIn = !!req.auth;
   const { pathname } = req.nextUrl;
 
+  // === Section 1: Auth Bypass Routes ===
+  // Authentication endpoints and login pages are publicly accessible
   const isAuthRoute = pathname.startsWith('/login') || pathname.startsWith('/api/auth');
+
+  // Google OAuth redirects back to /api/accounts/callback directly from Google's servers.
+  // This endpoint must remain publicly reachable by the browser during OAuth handshakes.
   const isPublicApi = pathname.startsWith('/api/accounts/callback');
 
   if (isAuthRoute || isPublicApi) {
+    // If an authenticated user visits /login, redirect directly to their dashboard
     if (isLoggedIn && pathname === '/login') {
       return NextResponse.redirect(new URL('/dashboard', req.nextUrl));
     }
     return NextResponse.next();
   }
 
+  // === Section 2: Unauthenticated Access Guard ===
+  // Intercept protected paths and redirect unauthenticated sessions to /login with return callback
   if (!isLoggedIn) {
     let callbackUrl = pathname;
     if (req.nextUrl.search) {
@@ -29,7 +44,8 @@ export default auth((req) => {
     );
   }
 
-  // Check admin role authorization
+  // === Section 3: Admin Role Authorization Check ===
+  // Restrict access to /admin routes strictly to users with the 'admin' role
   if (pathname.startsWith('/admin') && req.auth?.user?.role !== 'admin') {
     return NextResponse.redirect(new URL('/dashboard?error=Unauthorized', req.nextUrl));
   }
@@ -37,13 +53,17 @@ export default auth((req) => {
   return NextResponse.next();
 });
 
+/**
+ * Route Matcher Configuration:
+ * Explicitly guards dashboard, gallery browse, admin portal, and all data mutation API endpoints.
+ */
 export const config = {
   matcher: [
-    '/dashboard/:path*',
-    '/browse/:path*',
-    '/admin/:path*',
-    '/api/photos/:path*',
-    '/api/accounts/:path*',
-    '/login',
+    '/dashboard/:path*', // User storage overview & management
+    '/browse/:path*',    // Photo gallery & semantic search UI
+    '/admin/:path*',     // System administration & metrics
+    '/api/photos/:path*', // Photo upload, search, similarity APIs
+    '/api/accounts/:path*', // Google Drive account connection and sync APIs
+    '/login',            // Authentication page
   ],
 };

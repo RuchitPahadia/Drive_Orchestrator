@@ -1,6 +1,18 @@
+/**
+ * @file auth.config.ts
+ * @description NextAuth.js v5 edge-safe configuration object.
+ * Imported by middleware.ts for lightweight edge authentication checks without direct
+ * Node.js database driver dependencies.
+ * @phase Phase 9: Real User Authentication
+ */
+
 import type { NextAuthConfig } from 'next-auth';
 import Google from 'next-auth/providers/google';
 
+/**
+ * Edge-compatible authentication configuration.
+ * Contains provider definitions and token mapping callbacks that do not require PostgreSQL pool access.
+ */
 export const authConfig: NextAuthConfig = {
   providers: [
     Google({
@@ -12,6 +24,7 @@ export const authConfig: NextAuthConfig = {
     signIn: '/login',
   },
   callbacks: {
+    // Enrich JWT token with user ID and role during token generation
     jwt({ token, user }) {
       if (user) {
         token.userId = user.id;
@@ -19,6 +32,7 @@ export const authConfig: NextAuthConfig = {
       }
       return token;
     },
+    // Expose enriched token properties onto the active client/server session object
     session({ session, token }) {
       if (session.user && token.userId) {
         session.user.id = token.userId as string;

@@ -1,5 +1,16 @@
+/**
+ * @file lib/storage-router.ts
+ * @description Storage routing engine: dynamically distributes file uploads across connected
+ * Google Drive accounts based on available storage capacity and user redundancy preferences.
+ * Implements capacity-aware load balancing and configurable multi-account replication.
+ * @phase Phase 4: Storage Router & Upload & Phase 10: Configurable Replication
+ */
+
 import { query } from './db';
 import { refreshAccountQuota } from './drive-client';
+
+/** Quota staleness threshold: re-fetch from Google Drive if older than 10 minutes */
+const QUOTA_STALENESS_THRESHOLD_MS = 10 * 60 * 1000;
 
 export interface StorageRouterResult {
   accountIds: string[];
@@ -13,10 +24,11 @@ export interface StorageRouterResult {
  *
  * Accounts are ranked by free space (bytes remaining) descending to evenly distribute load.
  *
- * @param userId The ID of the application user.
- * @param fileSizeBytes The size of the file to be uploaded, in bytes.
- * @param overrideReplicationFactor Optional override for testing or manual uploads.
- * @returns The UUIDs of the selected accounts.
+ * @param userId - The UUID of the application user.
+ * @param fileSizeBytes - The size of the file to be uploaded, in bytes.
+ * @param overrideReplicationFactor - Optional override for testing or manual uploads.
+ * @throws {Error} If no accounts are connected or if no accounts have sufficient free storage.
+ * @returns Promise resolving to an array of selected account UUIDs.
  */
 export async function pickAccountsForUpload(
   userId: string,
@@ -55,12 +67,11 @@ export async function pickAccountsForUpload(
 
   const accounts = result.rows;
   const now = new Date();
-  const TEN_MINUTES_MS = 10 * 60 * 1000;
 
   // 3. Refresh quotas if they are missing or older than 10 minutes
   for (const account of accounts) {
     const checkedAt = account.quota_checked_at ? new Date(account.quota_checked_at) : null;
-    const isStale = !checkedAt || (now.getTime() - checkedAt.getTime() > TEN_MINUTES_MS);
+    const isStale = !checkedAt || (now.getTime() - checkedAt.getTime() > QUOTA_STALENESS_THRESHOLD_MS);
 
     if (isStale) {
       try {
@@ -76,7 +87,8 @@ export async function pickAccountsForUpload(
   }
 
   // 4. Calculate available storage and filter accounts that have enough space
-  // Note: pg returns BIGINT as strings, so we parse them to numbers safely.
+  // Note: pg returns PostgreSQL BIGINT columns as strings in JavaScript to prevent IEEE 754 precision loss,
+  // so we parse them to numbers safely.
   const eligibleAccounts = accounts
     .map(acc => {
       const total = typeof acc.quota_total_bytes === 'string' ? parseInt(acc.quota_total_bytes, 10) : (acc.quota_total_bytes || 0);

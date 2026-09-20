@@ -1,7 +1,19 @@
+/**
+ * @file app/api/accounts/route.ts
+ * @description Account management endpoints: lists connected Google Drive accounts and
+ * securely disconnects accounts with automated replica cascade cleanup.
+ * @phase Phase 3: OAuth Connect + Callback & Phase 10: Account Management
+ */
+
 import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { query } from '@/lib/db';
 
+/**
+ * GET: Fetches all connected Google Drive accounts associated with the authenticated user.
+ * 
+ * @returns NextResponse with JSON array of account objects (id, google_email, created_at).
+ */
 export async function GET() {
   try {
     const session = await auth();
@@ -10,7 +22,7 @@ export async function GET() {
     }
     const userId = session.user.id;
 
-    // 2. Fetch all accounts associated with this user
+    // Fetch all accounts associated with this user, sorted alphabetically by email
     const accountsResult = await query(
       `SELECT id, google_email, created_at 
        FROM accounts 
@@ -27,6 +39,14 @@ export async function GET() {
   }
 }
 
+/**
+ * DELETE: Disconnects and removes a Google Drive account from the user's storage pool.
+ * Note: Database foreign key constraints (`ON DELETE CASCADE`) automatically remove all
+ * physical replica records (`photo_replicas`) tied to this account.
+ * 
+ * @param request - HTTP request containing `?id=<accountId>` query parameter.
+ * @returns NextResponse with JSON confirmation of deletion.
+ */
 export async function DELETE(request: Request) {
   try {
     const session = await auth();
@@ -42,7 +62,7 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: 'Account ID is required' }, { status: 400 });
     }
 
-    // 1. Verify that this account belongs to the logged in user
+    // 1. Verify that this account belongs to the logged-in user
     const checkRes = await query(
       'SELECT id, google_email FROM accounts WHERE id = $1 AND user_id = $2',
       [accountId, userId]
@@ -54,7 +74,7 @@ export async function DELETE(request: Request) {
 
     const email = checkRes.rows[0].google_email;
 
-    // 2. Delete the account row (photo_replicas cascade deletes automatically)
+    // 2. Delete the account row (photo_replicas cascade deletes automatically in Postgres)
     await query('DELETE FROM accounts WHERE id = $1 AND user_id = $2', [accountId, userId]);
 
     console.log(`[Account Manager] Disconnected account ${email} (ID: ${accountId}) for user ${userId}`);

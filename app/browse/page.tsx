@@ -1,3 +1,13 @@
+/**
+ * @file app/browse/page.tsx
+ * @description Client Component: Unified photo gallery browser with triple-mode querying:
+ * 1. Semantic Text Search: Natural language visual search using CLIP 512-dim vector embeddings.
+ * 2. Visual Similarity Search: Reverse image search finding visual neighbors to a selected photo.
+ * 3. Standard Metadata Filtering: Date ranges, connected account, and camera model filters.
+ * Features responsive masonry-like photo grid, metadata lightbox, and account replica indicators.
+ * @phase Phase 6: Search & Browse API, Phase 7: Frontend Browse UI, Phase 8: CLIP Semantic Search
+ */
+
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -26,7 +36,7 @@ interface Account {
 }
 
 export default function BrowsePhotosPage() {
-  // Filter states
+  // === Filter States (Standard Browsing) ===
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [selectedAccountId, setSelectedAccountId] = useState('');
@@ -34,19 +44,19 @@ export default function BrowsePhotosPage() {
   const [page, setPage] = useState(1);
   const pageSize = 20;
 
-  // Semantic AI Search states
+  // === Semantic AI Search States ===
   const [searchQuery, setSearchQuery] = useState('');
   const [activeSearchQuery, setActiveSearchQuery] = useState('');
   const [similarSourcePhoto, setSimilarSourcePhoto] = useState<Photo | null>(null);
 
-  // Data states
+  // === Data & Network States ===
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [totalPhotos, setTotalPhotos] = useState(0);
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Modal / Lightbox state
+  // === Modal / Lightbox State ===
   const [activePhoto, setActivePhoto] = useState<Photo | null>(null);
 
   // Fetch connected accounts on load to populate dropdown filter
@@ -64,7 +74,7 @@ export default function BrowsePhotosPage() {
     fetchAccounts();
   }, []);
 
-  // Fetch photos based on active mode (semantic search vs standard filters)
+  // Fetch photos based on active mode (semantic search vs similar vs standard filters)
   const fetchPhotos = useCallback(async () => {
     setLoading(true);
     setError(null);

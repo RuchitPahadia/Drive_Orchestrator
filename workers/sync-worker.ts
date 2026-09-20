@@ -1,9 +1,18 @@
+/**
+ * @file workers/sync-worker.ts
+ * @description Standalone background sync daemon.
+ * Periodically or on-demand iterates through all connected Google Drive accounts, performs differential
+ * discovery of untracked photos, ingests them into PostgreSQL, and enqueues indexing.
+ * Can be run via CLI script: `npm run sync-worker`.
+ * @phase Phase 11: Google Drive Library Sync
+ */
+
 import { query } from '../lib/db';
 import { syncAccountPhotos } from '../lib/drive-scanner';
 
 /**
- * Background worker to discover and ingest newly added photos from connected Google Drive accounts.
- * Can be run on a schedule (cron) or as a standalone background daemon.
+ * Background worker execution loop to discover and ingest newly added photos from connected Google Drive accounts.
+ * Can be scheduled as a recurring cron job or invoked as an ephemeral worker container.
  */
 export async function runLibrarySync() {
   console.log('--- 🔄 Running Google Drive Library Sync ---');
@@ -44,7 +53,11 @@ export async function runLibrarySync() {
   }
 }
 
-// Allow direct execution: node --env-file=.env.local --import tsx workers/sync-worker.ts
+/**
+ * Direct CLI Execution Guard:
+ * Allows the script to be executed directly from terminal or docker container via:
+ * `node --env-file=.env.local --import tsx workers/sync-worker.ts`
+ */
 if (require.main === module || process.argv[1]?.includes('sync-worker')) {
   runLibrarySync()
     .then(() => process.exit(0))

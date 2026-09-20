@@ -1,15 +1,30 @@
+/**
+ * @file app/dashboard/StorageSettingsCard.tsx
+ * @description Client Component: Storage redundancy and replication factor control card.
+ * Enables users to toggle between 1× (maximum raw capacity), 2× (high availability dual-replica),
+ * and N× (full cluster mirroring) redundancy modes with live capacity math simulations.
+ * @phase Phase 10: Configurable Replication
+ */
+
 'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 interface StorageSettingsCardProps {
+  /** User's currently active replication factor from the database */
   initialReplicationFactor: number;
+  /** Total count of connected Google Drive accounts */
   connectedAccountsCount: number;
+  /** Aggregated total capacity in bytes */
   totalStorageBytes: number;
+  /** Aggregated consumed capacity in bytes */
   totalUsedBytes: number;
 }
 
+/**
+ * Storage redundancy settings card with live usable capacity calculations and preset toggles.
+ */
 export default function StorageSettingsCard({
   initialReplicationFactor,
   connectedAccountsCount,
@@ -22,6 +37,11 @@ export default function StorageSettingsCard({
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const router = useRouter();
 
+  /**
+   * Persists updated replication factor to `/api/users/settings` via PATCH.
+   * 
+   * @param newFactor - Target replication factor (integer >= 1).
+   */
   const handleUpdateFactor = async (newFactor: number) => {
     if (newFactor < 1) return;
     setFactor(newFactor);
@@ -51,6 +71,9 @@ export default function StorageSettingsCard({
     }
   };
 
+  /**
+   * Formats raw bytes into human-readable storage units.
+   */
   const formatStorageSize = (bytes: number) => {
     if (bytes <= 0) return '0 B';
     const k = 1024;
@@ -59,6 +82,8 @@ export default function StorageSettingsCard({
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
+  // Math Calculations: Effective usable capacity is scaled inversely to the replication factor
+  // effective_usable = raw_storage / replication_factor
   const freeStorageBytes = Math.max(0, totalStorageBytes - totalUsedBytes);
   const effectiveUsableTotal = factor > 0 ? Math.floor(totalStorageBytes / factor) : totalStorageBytes;
   const effectiveUsableFree = factor > 0 ? Math.floor(freeStorageBytes / factor) : freeStorageBytes;

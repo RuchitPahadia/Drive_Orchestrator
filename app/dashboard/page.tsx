@@ -1,3 +1,11 @@
+/**
+ * @file app/dashboard/page.tsx
+ * @description Main application dashboard (Server Component).
+ * Displays pooled cluster capacity, live storage utilization graphs, redundancy policy settings,
+ * multi-file upload zone, and individual Google Drive account status cards.
+ * @phase Phase 3: OAuth Connect, Phase 4: Storage Router, Phase 10: Replication, Phase 11: Sync
+ */
+
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { auth, signOut } from '@/auth';
@@ -7,6 +15,11 @@ import RemoveAccountButton from './RemoveAccountButton';
 import StorageSettingsCard from './StorageSettingsCard';
 import SyncAccountButton from './SyncAccountButton';
 
+/**
+ * Storage Account interface representing an active linked Google Drive account.
+ * Note: quota_total_bytes and quota_used_bytes can arrive as strings from pg due to PostgreSQL
+ * 64-bit BIGINT representation, or numbers/nulls if unpolled.
+ */
 interface Account {
   id: string;
   google_email: string;
@@ -15,16 +28,21 @@ interface Account {
   created_at: Date;
 }
 
+/**
+ * PageProps: Next.js 16 App Router requires searchParams to be handled as a Promise.
+ */
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 export default async function DashboardPage({ searchParams }: PageProps) {
+  // 1. Enforce authentication; redirect unauthenticated guests to /login
   const session = await auth();
   if (!session?.user?.id) {
     redirect('/login');
   }
 
+  // Await searchParams Promise (Next.js 16 App Router pattern)
   const resolvedParams = await searchParams;
   const successMessage = typeof resolvedParams.success === 'string' ? resolvedParams.success : null;
   const errorMessage = typeof resolvedParams.error === 'string' ? resolvedParams.error : null;
@@ -34,7 +52,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
   let dbError: string | null = null;
   let isDbUnconfigured = false;
 
-  // Check if database URL is configured
+  // 2. Fetch user accounts and replication configuration in parallel
   if (!process.env.DATABASE_URL) {
     isDbUnconfigured = true;
   } else {
@@ -62,7 +80,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
     }
   }
 
-  // Calculate aggregated storage space
+  // 3. Calculate aggregated cluster storage metrics
   let totalStorageBytes = 0;
   let totalUsedBytes = 0;
 
@@ -76,7 +94,12 @@ export default async function DashboardPage({ searchParams }: PageProps) {
   const totalFreeBytes = Math.max(0, totalStorageBytes - totalUsedBytes);
   const totalUsedPercentage = totalStorageBytes > 0 ? (totalUsedBytes / totalStorageBytes) * 100 : 0;
 
-  // Helper to format file sizes nicely
+  /**
+   * Formats raw byte counts into human-readable unit strings (B, KB, MB, GB, TB).
+   * 
+   * @param bytes - Numeric byte count.
+   * @returns Formatted string with 2 decimal precision (e.g. "14.25 GB").
+   */
   const formatStorageSize = (bytes: number) => {
     if (bytes === 0) return '0 B';
     const k = 1024;
@@ -90,7 +113,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
       {/* Background radial glow */}
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(99,102,241,0.06),transparent_40%),radial-gradient(circle_at_70%_60%,rgba(168,85,247,0.04),transparent_50%)] pointer-events-none" />
 
-      {/* Top Navbar */}
+      {/* === Top Navigation Bar === */}
       <nav className="sticky top-0 z-30 backdrop-blur-md bg-zinc-950/70 border-b border-zinc-800/80">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/dashboard" className="flex items-center gap-2 group">
@@ -126,7 +149,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
 
             <div className="h-4 w-px bg-zinc-800 ml-2" />
 
-            {/* User Profile & Sign Out */}
+            {/* User Profile & Sign Out Form */}
             <div className="flex items-center gap-3">
               {session.user.image ? (
                 <img
@@ -161,7 +184,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
       </nav>
 
       <main className="max-w-6xl mx-auto px-6 py-10 relative z-10">
-        {/* Header */}
+        {/* === Header & Account Connect Action === */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 pb-8 border-b border-zinc-800/80 mb-10">
           <div>
             <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
@@ -176,7 +199,6 @@ export default async function DashboardPage({ searchParams }: PageProps) {
             href="/api/accounts/connect"
             className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-medium px-6 py-3 rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg hover:shadow-indigo-500/20 active:translate-y-0 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
           >
-            {/* Google Drive Multi-colored SVG styled cleanly */}
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
               <path d="M19.38 14.82L15.38 7.82C15.08 7.32 14.53 7 13.93 7H10.07C9.47 7 8.92 7.32 8.62 7.82L4.62 14.82C4.32 15.32 4.32 15.96 4.62 16.46L6.62 19.96C6.92 20.46 7.47 20.78 8.07 20.78H15.93C16.53 20.78 17.08 20.46 17.38 19.96L19.38 16.46C19.68 15.96 19.68 15.32 19.38 14.82Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
@@ -210,7 +232,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
           </div>
         )}
 
-        {/* Database Configuration Guide */}
+        {/* Database Configuration Guide (Fallback state if DATABASE_URL is missing) */}
         {isDbUnconfigured && (
           <div className="p-8 rounded-2xl bg-zinc-900/50 border border-yellow-500/20 backdrop-blur-md mb-8">
             <div className="flex gap-4 items-start">
@@ -274,12 +296,12 @@ export default async function DashboardPage({ searchParams }: PageProps) {
           </div>
         )}
 
-        {/* Upload Section (always visible with status awareness) */}
+        {/* === Multi-File Upload Zone === */}
         {!dbError && !isDbUnconfigured && (
           <UploadButton hasAccounts={accounts.length > 0} />
         )}
 
-        {/* Connected Accounts Section */}
+        {/* === Connected Accounts Section === */}
         <section className="mt-4">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-zinc-100 flex items-center gap-2">
@@ -298,7 +320,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
             </div>
           </div>
 
-          {/* Aggregated Storage Quota Slider/Bar */}
+          {/* === Aggregated Storage Utilization Bar === */}
           {!dbError && !isDbUnconfigured && accounts.length > 0 && (
             <div className="mb-8 p-6 rounded-2xl bg-zinc-900/40 border border-zinc-800/80 backdrop-blur-md">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
@@ -312,7 +334,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
                 </div>
               </div>
 
-              {/* Slider/Progress Bar */}
+              {/* Cluster Progress Bar */}
               <div className="w-full bg-zinc-950 rounded-full h-3 border border-zinc-800/80 overflow-hidden p-[1px]">
                 <div 
                   className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 h-full rounded-full transition-all duration-500 ease-out shadow-[0_0_10px_rgba(99,102,241,0.3)]"
@@ -327,7 +349,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
             </div>
           )}
 
-          {/* Storage Redundancy & Replication Settings */}
+          {/* === Replication & Redundancy Policy Settings === */}
           {!dbError && !isDbUnconfigured && accounts.length > 0 && (
             <div className="mb-8">
               <StorageSettingsCard
@@ -360,7 +382,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
               </Link>
             </div>
           ) : (
-            /* Accounts Grid */
+            /* === Account Cards Grid === */
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {accounts.map((acc) => {
                 const total = typeof acc.quota_total_bytes === 'string' ? parseInt(acc.quota_total_bytes, 10) : (Number(acc.quota_total_bytes) || 0);

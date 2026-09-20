@@ -1,7 +1,19 @@
+/**
+ * @file app/api/users/settings/route.ts
+ * @description User settings management endpoint: retrieves user preferences (replication factor,
+ * profile data) and updates configurable storage redundancy policies.
+ * @phase Phase 10: Configurable Replication
+ */
+
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { query } from '@/lib/db';
 
+/**
+ * GET: Fetches the authenticated user's current account preferences and profile metadata.
+ * 
+ * @returns NextResponse with `{ settings: { replicationFactor, email, name, role } }`.
+ */
 export async function GET() {
   try {
     const session = await auth();
@@ -34,6 +46,13 @@ export async function GET() {
   }
 }
 
+/**
+ * PATCH: Updates user preferences, notably the target replication factor.
+ * 
+ * @param request - Next.js request with JSON body `{ replicationFactor: number }`.
+ *   Enforces integer bounds between 1 (single-copy storage) and 10 (maximum redundant backup).
+ * @returns NextResponse with updated replicationFactor confirmation.
+ */
 export async function PATCH(request: NextRequest) {
   try {
     const session = await auth();
@@ -44,6 +63,7 @@ export async function PATCH(request: NextRequest) {
     const body = await request.json();
     const { replicationFactor } = body;
 
+    // Validate replication factor bounds: integer between 1 and 10
     if (
       typeof replicationFactor !== 'number' ||
       !Number.isInteger(replicationFactor) ||

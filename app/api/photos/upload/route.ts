@@ -1,3 +1,11 @@
+/**
+ * @file app/api/photos/upload/route.ts
+ * @description Resumable/batch photo upload endpoint: enforces SHA-256 deduplication,
+ * balances uploads across eligible storage accounts via StorageRouter, uploads physical copies
+ * in parallel to Google Drive, registers database records, and triggers background indexing.
+ * @phase Phase 4: Storage Router & Upload & Phase 10: Deduplication & Replication
+ */
+
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { query } from '@/lib/db';
@@ -8,6 +16,24 @@ import { queue } from '@/lib/queue';
 import { indexPhoto } from '@/lib/indexer';
 import crypto from 'crypto';
 
+/** Maximum permissible photo upload size: 50 Megabytes */
+const MAX_UPLOAD_SIZE_BYTES = 50 * 1024 * 1024;
+
+/**
+ * POST: Handles photo upload from the browser client.
+ * 
+ * Pipeline:
+ * 1. Validates multipart/form-data payload and file size limits (50 MB).
+ * 2. Computes SHA-256 checksum over raw file bytes.
+ * 3. Deduplication: skips upload if matching hash already exists for the user.
+ * 4. Determines target Google Drive accounts based on replication factor & available quota.
+ * 5. Concurrently uploads replica streams to Google Drive via Promise.all().
+ * 6. Inserts logical photo row and physical replica records in PostgreSQL.
+ * 7. Enqueues photo for asynchronous EXIF parsing and CLIP embedding generation.
+ * 
+ * @param request - Multipart form request containing 'file' entry.
+ * @returns NextResponse with status ('uploaded' | 'duplicate'), metadata, and replica info.
+ */
 export async function POST(request: NextRequest) {
   try {
     // 1. Parse form data to retrieve the file
@@ -19,8 +45,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 2. Enforce the 50MB file size limit
-    const MAX_SIZE = 50 * 1024 * 1024;
-    if (file.size > MAX_SIZE) {
+    if (file.size > MAX_UPLOAD_SIZE_BYTES) {
       const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
       return NextResponse.json(
         { error: `File size (${sizeMB} MB) exceeds the maximum allowed limit of 50 MB.` },
@@ -28,19 +53,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 3. Resolve currently authenticated user
+    // 3. Resolve currently authenticated user session
     const session = await auth();
     if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     const userId = session.user.id;
 
-    // 4. Compute SHA-256 hash for deduplication
+    // 4. Compute SHA-256 hash for instantaneous deduplication
     const fileArrayBuffer = await file.arrayBuffer();
     const fileBuffer = Buffer.from(fileArrayBuffer);
     const fileHash = crypto.createHash('sha256').update(fileBuffer).digest('hex');
 
-    // 5. Deduplication check: Has this exact file already been uploaded by this user?
+    // 5. Deduplication check: Has this exact file content already been uploaded by this user?
     const existingCheck = await query(
       `SELECT id, filename, thumbnail_url, size_bytes, created_at 
        FROM photos 
@@ -75,12 +100,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 7. Upload the file to target accounts in parallel
+    // 7. Parallel replication: upload the file to target Google Drive accounts concurrently
     console.log(`Starting replication upload of "${file.name}" to ${accountIds.length} accounts...`);
     const uploadPromises = accountIds.map(async (accountId) => {
       try {
         const drive = await getDriveClient(accountId);
-        // Create a new stream from the buffer for each upload
+        // Create an independent readable stream from the memory buffer for each parallel upload stream
         const stream = Readable.from(fileBuffer);
 
         console.log(`Uploading "${file.name}" to Google Drive account ${accountId}...`);

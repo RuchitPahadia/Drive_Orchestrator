@@ -1,3 +1,16 @@
+/**
+ * @file scripts/test-phase8.ts
+ * @description Automated integration smoke test for Phase 8 CLIP vision-language semantic search:
+ * 1. Generates text embeddings for natural language prompts.
+ * 2. Generates image embeddings from a synthetic sharp image buffer.
+ * 3. Verifies L2 unit normalization (~1.0).
+ * 4. Tests pgvector HNSW cosine similarity search query syntax against PostgreSQL.
+ * @phase Phase 8: CLIP Semantic Search
+ * 
+ * Usage:
+ * npx tsx scripts/test-phase8.ts
+ */
+
 import sharp from 'sharp';
 import { generateTextEmbedding, generateImageEmbedding, formatVectorForPostgres } from '../lib/embeddings';
 import { query } from '../lib/db';
