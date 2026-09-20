@@ -5,6 +5,7 @@ import { query } from '@/lib/db';
 import UploadButton from './UploadButton';
 import RemoveAccountButton from './RemoveAccountButton';
 import StorageSettingsCard from './StorageSettingsCard';
+import SyncAccountButton from './SyncAccountButton';
 
 interface Account {
   id: string;
@@ -287,9 +288,14 @@ export default async function DashboardPage({ searchParams }: PageProps) {
               </svg>
               Connected Storage Accounts
             </h2>
-            <span className="bg-zinc-800 text-zinc-400 px-3 py-1 rounded-full text-xs font-semibold border border-zinc-700/50">
-              {accounts.length} Account{accounts.length !== 1 ? 's' : ''}
-            </span>
+            <div className="flex items-center gap-3">
+              {accounts.length > 0 && (
+                <SyncAccountButton isGlobal={true} />
+              )}
+              <span className="bg-zinc-800 text-zinc-400 px-3 py-1 rounded-full text-xs font-semibold border border-zinc-700/50">
+                {accounts.length} Account{accounts.length !== 1 ? 's' : ''}
+              </span>
+            </div>
           </div>
 
           {/* Aggregated Storage Quota Slider/Bar */}
@@ -379,6 +385,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
                           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
                             Connected
                           </span>
+                          <SyncAccountButton accountId={acc.id} accountEmail={acc.google_email} />
                           <RemoveAccountButton accountId={acc.id} accountEmail={acc.google_email} />
                         </div>
                       </div>

@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "worker": "node --env-file=.env.local --import tsx workers/indexer.ts"
+    "worker": "node --env-file=.env.local --import tsx workers/indexer.ts",
+    "sync-worker": "node --env-file=.env.local --import tsx workers/sync-worker.ts"
   },
   "dependencies": {
     "@huggingface/transformers": "^4.2.0",

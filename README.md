@@ -300,13 +300,13 @@ flowchart TD
         P8[Phase 8: CLIP Semantic Search]
         P9[Phase 9: Real User Authentication]
         P10[Phase 10: Configurable Replication & Dedup]
-        P1 --> P2 --> P3 --> P4 --> P5 --> P6 --> P7 --> P8 --> P9 --> P10
+        P11[Phase 11: Google Drive Library Sync]
+        P1 --> P2 --> P3 --> P4 --> P5 --> P6 --> P7 --> P8 --> P9 --> P10 --> P11
     end
 
     subgraph Planned [Upcoming Roadmap]
-        P11[Phase 11: Google Drive Library Sync]
         P12[Phase 12: Production Polish & Docker]
-        P10 --> P11 --> P12
+        P11 --> P12
     end
 ```
 
@@ -320,7 +320,7 @@ flowchart TD
 - [x] **Phase 8: CLIP Semantic Search** — Local ONNX CLIP model + Supabase HNSW vector search
 - [x] **Phase 9: Real User Authentication** — NextAuth.js v5 + Google Provider + RBAC
 - [x] **Phase 10: Configurable Replication & Deduplication** — N-way replication controls and SHA-256 deduplication
-- [ ] **Phase 11: Google Drive Library Sync** — Discover and import existing photos from connected Drive accounts
+- [x] **Phase 11: Google Drive Library Sync** — Discover and import existing photos from connected Drive accounts
 - [ ] **Phase 12: Production Polish & Docker** — Containerization, BullMQ retry policies, and skeleton UI loaders
 
 ---

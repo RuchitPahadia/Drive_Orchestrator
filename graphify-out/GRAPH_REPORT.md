@@ -1,29 +1,29 @@
 # Graph Report - Photo_Orchestrator  (2026-09-20)
 
 ## Corpus Check
-- 51 files · ~197,179 words
+- 56 files · ~27,105 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 279 nodes · 392 edges · 26 communities (19 shown, 7 thin omitted)
+- 294 nodes · 440 edges · 26 communities (19 shown, 7 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `a3687de4`
+- Built from commit: `e5b749f5`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
-- drive-client.ts
+- query
 - devDependencies
 - dependencies
 - compilerOptions
-- middleware.ts
-- package.json
+- drive-client.ts
+- scripts
 - Photo Orchestrator — Action Steps & Roadmap
-- AdminDashboard.tsx
-- query
+- auth.ts
+- dashboard/page.tsx
 - browse/page.tsx
 - layout.tsx
 - schema.sql
@@ -41,37 +41,37 @@
 - { GET, POST }
 
 ## God Nodes (most connected - your core abstractions)
-1. `query()` - 39 edges
+1. `query()` - 47 edges
 2. `compilerOptions` - 16 edges
-3. `getDriveClient()` - 12 edges
-4. `indexPhoto()` - 12 edges
-5. `📸 Photo Orchestrator` - 10 edges
-6. `generateImageEmbedding()` - 9 edges
-7. `formatVectorForPostgres()` - 9 edges
-8. `Antigravity Build Prompts — Photo Orchestrator` - 9 edges
-9. `Photo Orchestrator — Action Steps & Roadmap` - 9 edges
-10. `refreshAccountQuota()` - 7 edges
+3. `getDriveClient()` - 14 edges
+4. `indexPhoto()` - 14 edges
+5. `syncAccountPhotos()` - 11 edges
+6. `📸 Photo Orchestrator` - 10 edges
+7. `Photo Orchestrator — Action Steps & Roadmap` - 10 edges
+8. `refreshAccountQuota()` - 9 edges
+9. `generateImageEmbedding()` - 9 edges
+10. `formatVectorForPostgres()` - 9 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `AdminPage()` --calls--> `query()`  [EXTRACTED]
   app/admin/page.tsx → lib/db.ts
-- `GET()` --calls--> `encrypt()`  [EXTRACTED]
-  app/api/accounts/callback/route.ts → lib/crypto.ts
+- `DashboardPage()` --calls--> `query()`  [EXTRACTED]
+  app/dashboard/page.tsx → lib/db.ts
+- `GET()` --calls--> `query()`  [EXTRACTED]
+  app/api/accounts/callback/route.ts → lib/db.ts
 - `GET()` --calls--> `query()`  [EXTRACTED]
   app/api/accounts/route.ts → lib/db.ts
 - `DELETE()` --calls--> `query()`  [EXTRACTED]
   app/api/accounts/route.ts → lib/db.ts
-- `POST()` --calls--> `query()`  [EXTRACTED]
-  app/api/admin/actions/route.ts → lib/db.ts
 
 ## Import Cycles
 - None detected.
 
 ## Communities (26 total, 7 thin omitted)
 
-### Community 0 - "drive-client.ts"
-Cohesion: 0.22
-Nodes (14): POST(), POST(), decrypt(), encrypt(), getEncryptionKey(), getDriveClient(), refreshAccountQuota(), indexPhoto() (+6 more)
+### Community 0 - "query"
+Cohesion: 0.14
+Nodes (26): DELETE(), GET(), POST(), POST(), GET(), GET(), POST(), GET() (+18 more)
 
 ### Community 1 - "devDependencies"
 Cohesion: 0.10
@@ -85,25 +85,25 @@ Nodes (25): bullmq, exifr, googleapis, @huggingface/transformers, ioredis, next,
 Cohesion: 0.07
 Nodes (28): dom, dom.iterable, esnext, **/*.mts, .next/dev/types/**/*.ts, next-env.d.ts, .next/types/**/*.ts, node_modules (+20 more)
 
-### Community 4 - "middleware.ts"
-Cohesion: 0.50
-Nodes (3): authConfig, { auth }, config
+### Community 4 - "drive-client.ts"
+Cohesion: 0.36
+Nodes (7): GET(), GET(), decrypt(), encrypt(), getEncryptionKey(), generateAuthUrl(), getOAuth2Client()
 
-### Community 5 - "package.json"
-Cohesion: 0.20
-Nodes (9): name, private, scripts, build, dev, lint, start, worker (+1 more)
+### Community 5 - "scripts"
+Cohesion: 0.18
+Nodes (10): name, private, scripts, build, dev, lint, start, sync-worker (+2 more)
 
 ### Community 6 - "Photo Orchestrator — Action Steps & Roadmap"
 Cohesion: 0.10
-Nodes (20): 📜 Detailed Session History, Implementation Summary, 📊 Master Phase Tracker, ✅ Phase 10 — Configurable Replication & Deduplication [COMPLETED], 🔄 Phase 11 — Google Drive Library Sync (Import Existing Photos), ⚡ Phase 12 — Polish & Production Readiness, ✅ Phase 8 — Semantic Image Search (CLIP + pgvector) [COMPLETED], ✅ Phase 9 — Real User Authentication [COMPLETED] (+12 more)
+Nodes (20): 📜 Detailed Session History, Implementation Summary, 📊 Master Phase Tracker, ✅ Phase 10 — Configurable Replication & Deduplication [COMPLETED], ✅ Phase 11 — Google Drive Library Sync (Import Existing Photos) [COMPLETED], ⚡ Phase 12 — Polish & Production Readiness, ✅ Phase 8 — Semantic Image Search (CLIP + pgvector) [COMPLETED], ✅ Phase 9 — Real User Authentication [COMPLETED] (+12 more)
 
-### Community 7 - "AdminDashboard.tsx"
-Cohesion: 0.29
-Nodes (6): AccountRecord, AdminDashboard(), AdminDashboardProps, PhotoRecord, SystemStats, UserRecord
+### Community 7 - "auth.ts"
+Cohesion: 0.12
+Nodes (12): AccountRecord, AdminDashboard(), AdminDashboardProps, PhotoRecord, SystemStats, UserRecord, AdminPage(), LoginPageProps (+4 more)
 
-### Community 8 - "query"
-Cohesion: 0.09
-Nodes (25): AdminPage(), GET(), GET(), DELETE(), GET(), GET(), GET(), GET() (+17 more)
+### Community 8 - "dashboard/page.tsx"
+Cohesion: 0.15
+Nodes (12): Account, DashboardPage(), PageProps, RemoveAccountButton(), RemoveAccountButtonProps, StorageSettingsCard(), StorageSettingsCardProps, SyncAccountButton() (+4 more)
 
 ### Community 9 - "browse/page.tsx"
 Cohesion: 0.40
@@ -138,24 +138,24 @@ Cohesion: 0.38
 Nodes (9): GET(), formatVectorForPostgres(), generateImageEmbedding(), generateTextEmbedding(), getTextModel(), getVisionModel(), normalize(), backfill() (+1 more)
 
 ## Knowledge Gaps
-- **133 isolated node(s):** `UserRecord`, `AccountRecord`, `PhotoRecord`, `SystemStats`, `AdminDashboardProps` (+128 more)
+- **136 isolated node(s):** `UserRecord`, `AccountRecord`, `PhotoRecord`, `SystemStats`, `AdminDashboardProps` (+131 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **7 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `query()` connect `query` to `drive-client.ts`, `embeddings.ts`?**
-  _High betweenness centrality (0.048) - this node is a cross-community bridge._
-- **Why does `dependencies` connect `dependencies` to `package.json`?**
-  _High betweenness centrality (0.026) - this node is a cross-community bridge._
-- **Why does `devDependencies` connect `devDependencies` to `package.json`?**
-  _High betweenness centrality (0.023) - this node is a cross-community bridge._
+- **Why does `query()` connect `query` to `dashboard/page.tsx`, `embeddings.ts`, `drive-client.ts`, `auth.ts`?**
+  _High betweenness centrality (0.060) - this node is a cross-community bridge._
+- **Why does `dependencies` connect `dependencies` to `scripts`?**
+  _High betweenness centrality (0.024) - this node is a cross-community bridge._
+- **Why does `devDependencies` connect `devDependencies` to `scripts`?**
+  _High betweenness centrality (0.021) - this node is a cross-community bridge._
 - **What connects `UserRecord`, `AccountRecord`, `PhotoRecord` to the rest of the system?**
-  _133 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _136 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `query` be split into smaller, more focused modules?**
+  _Cohesion score 0.13510520487264674 - nodes in this community are weakly interconnected._
 - **Should `devDependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.09523809523809523 - nodes in this community are weakly interconnected._
 - **Should `dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.08 - nodes in this community are weakly interconnected._
-- **Should `compilerOptions` be split into smaller, more focused modules?**
-  _Cohesion score 0.06896551724137931 - nodes in this community are weakly interconnected._
