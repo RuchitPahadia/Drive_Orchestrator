@@ -1102,28 +1102,6 @@
       "source_location": "L1"
     },
     {
-      "id": "workers_indexer",
-      "label": "workers/indexer.ts",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "query",
-      "file_type": "code",
-      "norm_label": "workers/indexer.ts",
-      "source_file": "workers/indexer.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "workers_indexer_worker",
-      "label": "worker",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "query",
-      "file_type": "code",
-      "norm_label": "worker",
-      "source_file": "workers/indexer.ts",
-      "source_location": "L14"
-    },
-    {
       "id": "workers_sync_worker",
       "label": "sync-worker.ts",
       "_origin": "ast",
@@ -1663,180 +1641,244 @@
       "source_location": "L1"
     },
     {
-      "id": "agents_rules_graphify",
-      "label": "rules/graphify.md",
-      "_origin": "ast",
-      "community": 16,
-      "community_name": "rules/graphify.md",
-      "file_type": "document",
-      "frontmatter": {
-        "trigger": "always_on",
-        "description": "Consult the graphify knowledge graph at graphify-out/ for codebase and architecture questions."
-      },
-      "node_kind": "page",
-      "norm_label": "rules/graphify.md",
-      "source_file": ".agents/rules/graphify.md",
-      "source_location": "L1"
-    },
-    {
-      "id": "agents_rules_graphify_graphify",
-      "label": "graphify",
-      "_origin": "ast",
-      "community": 16,
-      "community_name": "rules/graphify.md",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "graphify",
-      "source_file": ".agents/rules/graphify.md",
-      "source_location": "L6"
-    },
-    {
-      "id": "agents_workflows_graphify",
-      "label": "workflows/graphify.md",
-      "_origin": "ast",
-      "community": 17,
-      "community_name": "workflows/graphify.md",
-      "file_type": "document",
-      "frontmatter": {
-        "name": "graphify",
-        "description": "Turn any folder of files into a navigable knowledge graph"
-      },
-      "node_kind": "page",
-      "norm_label": "workflows/graphify.md",
-      "source_file": ".agents/workflows/graphify.md",
-      "source_location": "L1"
-    },
-    {
-      "id": "agents_workflows_graphify_workflow_graphify",
-      "label": "Workflow: graphify",
-      "_origin": "ast",
-      "community": 17,
-      "community_name": "workflows/graphify.md",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "workflow: graphify",
-      "source_file": ".agents/workflows/graphify.md",
-      "source_location": "L6"
-    },
-    {
-      "id": "antigravity_build_prompts",
+      "id": "agents_antigravity_build_prompts",
       "label": "antigravity-build-prompts.md",
       "_origin": "ast",
-      "community": 18,
+      "community": 16,
       "community_name": "Antigravity Build Prompts \u2014 Photo Orchestrator",
       "file_type": "document",
       "node_kind": "page",
       "norm_label": "antigravity-build-prompts.md",
-      "source_file": "antigravity-build-prompts.md",
+      "source_file": "agents/antigravity-build-prompts.md",
       "source_location": "L1"
     },
     {
-      "id": "antigravity_build_prompts_antigravity_build_prompts_photo_orchestrator",
+      "id": "agents_antigravity_build_prompts_antigravity_build_prompts_photo_orchestrator",
       "label": "Antigravity Build Prompts \u2014 Photo Orchestrator",
       "_origin": "ast",
-      "community": 18,
+      "community": 16,
       "community_name": "Antigravity Build Prompts \u2014 Photo Orchestrator",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "antigravity build prompts \u2014 photo orchestrator",
-      "source_file": "antigravity-build-prompts.md",
+      "source_file": "agents/antigravity-build-prompts.md",
       "source_location": "L1"
     },
     {
-      "id": "antigravity_build_prompts_notes_for_you_not_for_the_agent",
+      "id": "agents_antigravity_build_prompts_notes_for_you_not_for_the_agent",
       "label": "Notes for you (not for the agent)",
       "_origin": "ast",
-      "community": 18,
+      "community": 16,
       "community_name": "Antigravity Build Prompts \u2014 Photo Orchestrator",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "notes for you (not for the agent)",
-      "source_file": "antigravity-build-prompts.md",
+      "source_file": "agents/antigravity-build-prompts.md",
       "source_location": "L214"
     },
     {
-      "id": "antigravity_build_prompts_phase_1_project_scaffold",
+      "id": "agents_antigravity_build_prompts_phase_1_project_scaffold",
       "label": "Phase 1 \u2014 Project scaffold",
       "_origin": "ast",
-      "community": 18,
+      "community": 16,
       "community_name": "Antigravity Build Prompts \u2014 Photo Orchestrator",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "phase 1 \u2014 project scaffold",
-      "source_file": "antigravity-build-prompts.md",
+      "source_file": "agents/antigravity-build-prompts.md",
       "source_location": "L14"
     },
     {
-      "id": "antigravity_build_prompts_phase_2_database_schema",
+      "id": "agents_antigravity_build_prompts_phase_2_database_schema",
       "label": "Phase 2 \u2014 Database schema",
       "_origin": "ast",
-      "community": 18,
+      "community": 16,
       "community_name": "Antigravity Build Prompts \u2014 Photo Orchestrator",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "phase 2 \u2014 database schema",
-      "source_file": "antigravity-build-prompts.md",
+      "source_file": "agents/antigravity-build-prompts.md",
       "source_location": "L43"
     },
     {
-      "id": "antigravity_build_prompts_phase_3_oauth_connect_callback",
+      "id": "agents_antigravity_build_prompts_phase_3_oauth_connect_callback",
       "label": "Phase 3 \u2014 OAuth connect + callback",
       "_origin": "ast",
-      "community": 18,
+      "community": 16,
       "community_name": "Antigravity Build Prompts \u2014 Photo Orchestrator",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "phase 3 \u2014 oauth connect + callback",
-      "source_file": "antigravity-build-prompts.md",
+      "source_file": "agents/antigravity-build-prompts.md",
       "source_location": "L91"
     },
     {
-      "id": "antigravity_build_prompts_phase_4_storage_router_upload",
+      "id": "agents_antigravity_build_prompts_phase_4_storage_router_upload",
       "label": "Phase 4 \u2014 Storage router + upload",
       "_origin": "ast",
-      "community": 18,
+      "community": 16,
       "community_name": "Antigravity Build Prompts \u2014 Photo Orchestrator",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "phase 4 \u2014 storage router + upload",
-      "source_file": "antigravity-build-prompts.md",
+      "source_file": "agents/antigravity-build-prompts.md",
       "source_location": "L124"
     },
     {
-      "id": "antigravity_build_prompts_phase_5_background_indexing_worker",
+      "id": "agents_antigravity_build_prompts_phase_5_background_indexing_worker",
       "label": "Phase 5 \u2014 Background indexing worker",
       "_origin": "ast",
-      "community": 18,
+      "community": 16,
       "community_name": "Antigravity Build Prompts \u2014 Photo Orchestrator",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "phase 5 \u2014 background indexing worker",
-      "source_file": "antigravity-build-prompts.md",
+      "source_file": "agents/antigravity-build-prompts.md",
       "source_location": "L150"
     },
     {
-      "id": "antigravity_build_prompts_phase_6_search_api",
+      "id": "agents_antigravity_build_prompts_phase_6_search_api",
       "label": "Phase 6 \u2014 Search API",
       "_origin": "ast",
-      "community": 18,
+      "community": 16,
       "community_name": "Antigravity Build Prompts \u2014 Photo Orchestrator",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "phase 6 \u2014 search api",
-      "source_file": "antigravity-build-prompts.md",
+      "source_file": "agents/antigravity-build-prompts.md",
       "source_location": "L174"
     },
     {
-      "id": "antigravity_build_prompts_phase_7_frontend_browse_search_ui",
+      "id": "agents_antigravity_build_prompts_phase_7_frontend_browse_search_ui",
       "label": "Phase 7 \u2014 Frontend: browse & search UI",
       "_origin": "ast",
-      "community": 18,
+      "community": 16,
       "community_name": "Antigravity Build Prompts \u2014 Photo Orchestrator",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "phase 7 \u2014 frontend: browse & search ui",
-      "source_file": "antigravity-build-prompts.md",
+      "source_file": "agents/antigravity-build-prompts.md",
       "source_location": "L195"
+    },
+    {
+      "id": "agents_context",
+      "label": "context.md",
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "Photo Orchestrator - Project Context",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "context.md",
+      "source_file": "agents/context.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "agents_context_current_implementation_status_phases_1_7",
+      "label": "\ud83d\udccb Current Implementation Status (Phases 1-7)",
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "Photo Orchestrator - Project Context",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\udccb current implementation status (phases 1-7)",
+      "source_file": "agents/context.md",
+      "source_location": "L18"
+    },
+    {
+      "id": "agents_context_current_state_post_supabase_restart",
+      "label": "\u26a1 Current State (Post-Supabase Restart)",
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "Photo Orchestrator - Project Context",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\u26a1 current state (post-supabase restart)",
+      "source_file": "agents/context.md",
+      "source_location": "L30"
+    },
+    {
+      "id": "agents_context_photo_orchestrator_project_context",
+      "label": "Photo Orchestrator - Project Context",
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "Photo Orchestrator - Project Context",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "photo orchestrator - project context",
+      "source_file": "agents/context.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "agents_context_technology_stack",
+      "label": "\ud83d\udee0\ufe0f Technology Stack",
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "Photo Orchestrator - Project Context",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\udee0\ufe0f technology stack",
+      "source_file": "agents/context.md",
+      "source_location": "L7"
+    },
+    {
+      "id": "agents_context_things_to_finish_next_steps",
+      "label": "\ud83c\udfaf Things to Finish / Next Steps",
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "Photo Orchestrator - Project Context",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83c\udfaf things to finish / next steps",
+      "source_file": "agents/context.md",
+      "source_location": "L41"
+    },
+    {
+      "id": "agents_readme",
+      "label": "agents/README.md",
+      "_origin": "ast",
+      "community": 18,
+      "community_name": "AI Agents Directory & Guidance",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "agents/readme.md",
+      "source_file": "agents/README.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "agents_readme_ai_agents_directory_guidance",
+      "label": "AI Agents Directory & Guidance",
+      "_origin": "ast",
+      "community": 18,
+      "community_name": "AI Agents Directory & Guidance",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "ai agents directory & guidance",
+      "source_file": "agents/README.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "agents_readme_core_architectural_guidelines_for_agents",
+      "label": "\ud83e\udded Core Architectural Guidelines for Agents",
+      "_origin": "ast",
+      "community": 18,
+      "community_name": "AI Agents Directory & Guidance",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83e\udded core architectural guidelines for agents",
+      "source_file": "agents/README.md",
+      "source_location": "L20"
+    },
+    {
+      "id": "agents_readme_directory_contents",
+      "label": "\ud83d\udcc2 Directory Contents",
+      "_origin": "ast",
+      "community": 18,
+      "community_name": "AI Agents Directory & Guidance",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\udcc2 directory contents",
+      "source_file": "agents/README.md",
+      "source_location": "L7"
     },
     {
       "id": "types_next_auth_d",
@@ -2506,76 +2548,28 @@
       "source_location": "L1"
     },
     {
-      "id": "context",
-      "label": "context.md",
+      "id": "agents_agents",
+      "label": "agents/AGENTS.md",
       "_origin": "ast",
       "community": 22,
-      "community_name": "Photo Orchestrator - Project Context",
+      "community_name": "agents/AGENTS.md",
       "file_type": "document",
       "node_kind": "page",
-      "norm_label": "context.md",
-      "source_file": "context.md",
+      "norm_label": "agents/agents.md",
+      "source_file": "agents/AGENTS.md",
       "source_location": "L1"
     },
     {
-      "id": "context_current_implementation_status_phases_1_7",
-      "label": "\ud83d\udccb Current Implementation Status (Phases 1-7)",
+      "id": "agents_agents_this_is_not_the_next_js_you_know",
+      "label": "This is NOT the Next.js you know",
       "_origin": "ast",
       "community": 22,
-      "community_name": "Photo Orchestrator - Project Context",
+      "community_name": "agents/AGENTS.md",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "\ud83d\udccb current implementation status (phases 1-7)",
-      "source_file": "context.md",
-      "source_location": "L18"
-    },
-    {
-      "id": "context_current_state_post_supabase_restart",
-      "label": "\u26a1 Current State (Post-Supabase Restart)",
-      "_origin": "ast",
-      "community": 22,
-      "community_name": "Photo Orchestrator - Project Context",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "\u26a1 current state (post-supabase restart)",
-      "source_file": "context.md",
-      "source_location": "L30"
-    },
-    {
-      "id": "context_photo_orchestrator_project_context",
-      "label": "Photo Orchestrator - Project Context",
-      "_origin": "ast",
-      "community": 22,
-      "community_name": "Photo Orchestrator - Project Context",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "photo orchestrator - project context",
-      "source_file": "context.md",
-      "source_location": "L1"
-    },
-    {
-      "id": "context_technology_stack",
-      "label": "\ud83d\udee0\ufe0f Technology Stack",
-      "_origin": "ast",
-      "community": 22,
-      "community_name": "Photo Orchestrator - Project Context",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "\ud83d\udee0\ufe0f technology stack",
-      "source_file": "context.md",
-      "source_location": "L7"
-    },
-    {
-      "id": "context_things_to_finish_next_steps",
-      "label": "\ud83c\udfaf Things to Finish / Next Steps",
-      "_origin": "ast",
-      "community": 22,
-      "community_name": "Photo Orchestrator - Project Context",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "\ud83c\udfaf things to finish / next steps",
-      "source_file": "context.md",
-      "source_location": "L41"
+      "norm_label": "this is not the next.js you know",
+      "source_file": "agents/AGENTS.md",
+      "source_location": "L3"
     },
     {
       "id": "agents",
@@ -2602,16 +2596,32 @@
       "source_location": "L3"
     },
     {
-      "id": "claude",
-      "label": "CLAUDE.md",
+      "id": "agents_rules_graphify_md_agents_rules_graphify_2f2438",
+      "label": "agents/rules/graphify.md",
       "_origin": "ast",
       "community": 24,
-      "community_name": "CLAUDE.md",
+      "community_name": "agents/rules/graphify.md",
       "file_type": "document",
+      "frontmatter": {
+        "trigger": "always_on",
+        "description": "Consult the graphify knowledge graph at graphify-out/ for codebase and architecture questions."
+      },
       "node_kind": "page",
-      "norm_label": "claude.md",
-      "source_file": "CLAUDE.md",
+      "norm_label": "agents/rules/graphify.md",
+      "source_file": "agents/rules/graphify.md",
       "source_location": "L1"
+    },
+    {
+      "id": "agents_rules_graphify_md_agents_rules_graphify_graphify_2f2438",
+      "label": "graphify",
+      "_origin": "ast",
+      "community": 24,
+      "community_name": "agents/rules/graphify.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "graphify",
+      "source_file": "agents/rules/graphify.md",
+      "source_location": "L6"
     },
     {
       "id": "app_api_photos_search_route",
@@ -3032,6 +3042,102 @@
       "source_location": "L1"
     },
     {
+      "id": "agents_rules_graphify_md_agents_rules_graphify_921859",
+      "label": ".agents/rules/graphify.md",
+      "_origin": "ast",
+      "community": 31,
+      "community_name": ".agents/rules/graphify.md",
+      "file_type": "document",
+      "frontmatter": {
+        "trigger": "always_on",
+        "description": "Consult the graphify knowledge graph at graphify-out/ for codebase and architecture questions."
+      },
+      "node_kind": "page",
+      "norm_label": ".agents/rules/graphify.md",
+      "source_file": ".agents/rules/graphify.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "agents_rules_graphify_md_agents_rules_graphify_graphify_921859",
+      "label": "graphify",
+      "_origin": "ast",
+      "community": 31,
+      "community_name": ".agents/rules/graphify.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "graphify",
+      "source_file": ".agents/rules/graphify.md",
+      "source_location": "L6"
+    },
+    {
+      "id": "agents_workflows_graphify_md_agents_workflows_graphify_26ca4c",
+      "label": ".agents/workflows/graphify.md",
+      "_origin": "ast",
+      "community": 32,
+      "community_name": ".agents/workflows/graphify.md",
+      "file_type": "document",
+      "frontmatter": {
+        "name": "graphify",
+        "description": "Turn any folder of files into a navigable knowledge graph"
+      },
+      "node_kind": "page",
+      "norm_label": ".agents/workflows/graphify.md",
+      "source_file": ".agents/workflows/graphify.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "agents_workflows_graphify_md_agents_workflows_graphify_workflow_graphify_26ca4c",
+      "label": "Workflow: graphify",
+      "_origin": "ast",
+      "community": 32,
+      "community_name": ".agents/workflows/graphify.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "workflow: graphify",
+      "source_file": ".agents/workflows/graphify.md",
+      "source_location": "L6"
+    },
+    {
+      "id": "agents_workflows_graphify_md_agents_workflows_graphify_e6948f",
+      "label": "agents/workflows/graphify.md",
+      "_origin": "ast",
+      "community": 33,
+      "community_name": "agents/workflows/graphify.md",
+      "file_type": "document",
+      "frontmatter": {
+        "name": "graphify",
+        "description": "Turn any folder of files into a navigable knowledge graph"
+      },
+      "node_kind": "page",
+      "norm_label": "agents/workflows/graphify.md",
+      "source_file": "agents/workflows/graphify.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "agents_workflows_graphify_md_agents_workflows_graphify_workflow_graphify_e6948f",
+      "label": "Workflow: graphify",
+      "_origin": "ast",
+      "community": 33,
+      "community_name": "agents/workflows/graphify.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "workflow: graphify",
+      "source_file": "agents/workflows/graphify.md",
+      "source_location": "L6"
+    },
+    {
+      "id": "agents_claude",
+      "label": "CLAUDE.md",
+      "_origin": "ast",
+      "community": 34,
+      "community_name": "CLAUDE.md",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "claude.md",
+      "source_file": "agents/CLAUDE.md",
+      "source_location": "L1"
+    },
+    {
       "id": "app_api_accounts_callback_route",
       "label": "callback/route.ts",
       "_origin": "ast",
@@ -3131,6 +3237,28 @@
       "source_location": "L1"
     },
     {
+      "id": "workers_indexer",
+      "label": "workers/indexer.ts",
+      "_origin": "ast",
+      "community": 5,
+      "community_name": "queue.ts",
+      "file_type": "code",
+      "norm_label": "workers/indexer.ts",
+      "source_file": "workers/indexer.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "workers_indexer_worker",
+      "label": "worker",
+      "_origin": "ast",
+      "community": 5,
+      "community_name": "queue.ts",
+      "file_type": "code",
+      "norm_label": "worker",
+      "source_file": "workers/indexer.ts",
+      "source_location": "L14"
+    },
+    {
       "id": "steps",
       "label": "steps.md",
       "_origin": "ast",
@@ -3165,6 +3293,18 @@
       "norm_label": "implementation summary",
       "source_file": "steps.md",
       "source_location": "L141"
+    },
+    {
+      "id": "steps_maintenance_repository_organization_completed",
+      "label": "\ud83e\uddf9 Maintenance & Repository Organization [COMPLETED]",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "Photo Orchestrator \u2014 Action Steps & Roadmap",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83e\uddf9 maintenance & repository organization [completed]",
+      "source_file": "steps.md",
+      "source_location": "L247"
     },
     {
       "id": "steps_master_phase_tracker",
@@ -3260,7 +3400,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\uddfa\ufe0f roadmap & dependency graph",
       "source_file": "steps.md",
-      "source_location": "L247"
+      "source_location": "L267"
     },
     {
       "id": "steps_session_2026_08_14",
@@ -3357,6 +3497,18 @@
       "norm_label": "specification & steps",
       "source_file": "steps.md",
       "source_location": "L227"
+    },
+    {
+      "id": "steps_specification_steps_250",
+      "label": "Specification & Steps",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "Photo Orchestrator \u2014 Action Steps & Roadmap",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "specification & steps",
+      "source_file": "steps.md",
+      "source_location": "L250"
     },
     {
       "id": "steps_stabilization_pre_phase_status",
@@ -6415,8 +6567,217 @@
       "weight": 1.0
     },
     {
-      "source": "agents_rules_graphify",
-      "target": "agents_rules_graphify_graphify",
+      "source": "agents_agents",
+      "target": "agents_agents_this_is_not_the_next_js_you_know",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "agents/AGENTS.md",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_antigravity_build_prompts",
+      "target": "agents_antigravity_build_prompts_antigravity_build_prompts_photo_orchestrator",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "agents/antigravity-build-prompts.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_antigravity_build_prompts_antigravity_build_prompts_photo_orchestrator",
+      "target": "agents_antigravity_build_prompts_phase_4_storage_router_upload",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "agents/antigravity-build-prompts.md",
+      "source_location": "L124",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_antigravity_build_prompts_antigravity_build_prompts_photo_orchestrator",
+      "target": "agents_antigravity_build_prompts_phase_1_project_scaffold",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "agents/antigravity-build-prompts.md",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_antigravity_build_prompts_antigravity_build_prompts_photo_orchestrator",
+      "target": "agents_antigravity_build_prompts_phase_5_background_indexing_worker",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "agents/antigravity-build-prompts.md",
+      "source_location": "L150",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_antigravity_build_prompts_antigravity_build_prompts_photo_orchestrator",
+      "target": "agents_antigravity_build_prompts_phase_6_search_api",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "agents/antigravity-build-prompts.md",
+      "source_location": "L174",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_antigravity_build_prompts_antigravity_build_prompts_photo_orchestrator",
+      "target": "agents_antigravity_build_prompts_phase_7_frontend_browse_search_ui",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "agents/antigravity-build-prompts.md",
+      "source_location": "L195",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_antigravity_build_prompts_antigravity_build_prompts_photo_orchestrator",
+      "target": "agents_antigravity_build_prompts_notes_for_you_not_for_the_agent",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "agents/antigravity-build-prompts.md",
+      "source_location": "L214",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_antigravity_build_prompts_antigravity_build_prompts_photo_orchestrator",
+      "target": "agents_antigravity_build_prompts_phase_2_database_schema",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "agents/antigravity-build-prompts.md",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_antigravity_build_prompts_antigravity_build_prompts_photo_orchestrator",
+      "target": "agents_antigravity_build_prompts_phase_3_oauth_connect_callback",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "agents/antigravity-build-prompts.md",
+      "source_location": "L91",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_context",
+      "target": "agents_context_photo_orchestrator_project_context",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "agents/context.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_context_photo_orchestrator_project_context",
+      "target": "agents_context_current_implementation_status_phases_1_7",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "agents/context.md",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_context_photo_orchestrator_project_context",
+      "target": "agents_context_current_state_post_supabase_restart",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "agents/context.md",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_context_photo_orchestrator_project_context",
+      "target": "agents_context_things_to_finish_next_steps",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "agents/context.md",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_context_photo_orchestrator_project_context",
+      "target": "agents_context_technology_stack",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "agents/context.md",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_readme",
+      "target": "agents_readme_ai_agents_directory_guidance",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "agents/README.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_readme_ai_agents_directory_guidance",
+      "target": "agents_readme_core_architectural_guidelines_for_agents",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "agents/README.md",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_readme_ai_agents_directory_guidance",
+      "target": "agents_readme_directory_contents",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "agents/README.md",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_rules_graphify_md_agents_rules_graphify_2f2438",
+      "target": "agents_rules_graphify_md_agents_rules_graphify_graphify_2f2438",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "agents/rules/graphify.md",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_rules_graphify_md_agents_rules_graphify_921859",
+      "target": "agents_rules_graphify_md_agents_rules_graphify_graphify_921859",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -6426,8 +6787,8 @@
       "weight": 1.0
     },
     {
-      "source": "agents_workflows_graphify",
-      "target": "agents_workflows_graphify_workflow_graphify",
+      "source": "agents_workflows_graphify_md_agents_workflows_graphify_26ca4c",
+      "target": "agents_workflows_graphify_md_agents_workflows_graphify_workflow_graphify_26ca4c",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -6437,102 +6798,14 @@
       "weight": 1.0
     },
     {
-      "source": "antigravity_build_prompts",
-      "target": "antigravity_build_prompts_antigravity_build_prompts_photo_orchestrator",
+      "source": "agents_workflows_graphify_md_agents_workflows_graphify_e6948f",
+      "target": "agents_workflows_graphify_md_agents_workflows_graphify_workflow_graphify_e6948f",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "antigravity-build-prompts.md",
-      "source_location": "L1",
-      "weight": 1.0
-    },
-    {
-      "source": "antigravity_build_prompts_antigravity_build_prompts_photo_orchestrator",
-      "target": "antigravity_build_prompts_phase_4_storage_router_upload",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "antigravity-build-prompts.md",
-      "source_location": "L124",
-      "weight": 1.0
-    },
-    {
-      "source": "antigravity_build_prompts_antigravity_build_prompts_photo_orchestrator",
-      "target": "antigravity_build_prompts_phase_1_project_scaffold",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "antigravity-build-prompts.md",
-      "source_location": "L14",
-      "weight": 1.0
-    },
-    {
-      "source": "antigravity_build_prompts_antigravity_build_prompts_photo_orchestrator",
-      "target": "antigravity_build_prompts_phase_5_background_indexing_worker",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "antigravity-build-prompts.md",
-      "source_location": "L150",
-      "weight": 1.0
-    },
-    {
-      "source": "antigravity_build_prompts_antigravity_build_prompts_photo_orchestrator",
-      "target": "antigravity_build_prompts_phase_6_search_api",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "antigravity-build-prompts.md",
-      "source_location": "L174",
-      "weight": 1.0
-    },
-    {
-      "source": "antigravity_build_prompts_antigravity_build_prompts_photo_orchestrator",
-      "target": "antigravity_build_prompts_phase_7_frontend_browse_search_ui",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "antigravity-build-prompts.md",
-      "source_location": "L195",
-      "weight": 1.0
-    },
-    {
-      "source": "antigravity_build_prompts_antigravity_build_prompts_photo_orchestrator",
-      "target": "antigravity_build_prompts_notes_for_you_not_for_the_agent",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "antigravity-build-prompts.md",
-      "source_location": "L214",
-      "weight": 1.0
-    },
-    {
-      "source": "antigravity_build_prompts_antigravity_build_prompts_photo_orchestrator",
-      "target": "antigravity_build_prompts_phase_2_database_schema",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "antigravity-build-prompts.md",
-      "source_location": "L43",
-      "weight": 1.0
-    },
-    {
-      "source": "antigravity_build_prompts_antigravity_build_prompts_photo_orchestrator",
-      "target": "antigravity_build_prompts_phase_3_oauth_connect_callback",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "antigravity-build-prompts.md",
-      "source_location": "L91",
+      "source_file": "agents/workflows/graphify.md",
+      "source_location": "L6",
       "weight": 1.0
     },
     {
@@ -7061,61 +7334,6 @@
       "confidence_score": 1.0,
       "source_file": "auth.config.ts",
       "source_location": "L4",
-      "weight": 1.0
-    },
-    {
-      "source": "context",
-      "target": "context_photo_orchestrator_project_context",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "context.md",
-      "source_location": "L1",
-      "weight": 1.0
-    },
-    {
-      "source": "context_photo_orchestrator_project_context",
-      "target": "context_current_implementation_status_phases_1_7",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "context.md",
-      "source_location": "L18",
-      "weight": 1.0
-    },
-    {
-      "source": "context_photo_orchestrator_project_context",
-      "target": "context_current_state_post_supabase_restart",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "context.md",
-      "source_location": "L30",
-      "weight": 1.0
-    },
-    {
-      "source": "context_photo_orchestrator_project_context",
-      "target": "context_things_to_finish_next_steps",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "context.md",
-      "source_location": "L41",
-      "weight": 1.0
-    },
-    {
-      "source": "context_photo_orchestrator_project_context",
-      "target": "context_technology_stack",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "context.md",
-      "source_location": "L7",
       "weight": 1.0
     },
     {
@@ -8296,6 +8514,17 @@
       "weight": 1.0
     },
     {
+      "source": "steps_maintenance_repository_organization_completed",
+      "target": "steps_specification_steps_250",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "steps.md",
+      "source_location": "L250",
+      "weight": 1.0
+    },
+    {
       "source": "steps_phase_10_configurable_replication_deduplication_completed",
       "target": "steps_specification_steps_188",
       "relation": "contains",
@@ -8429,13 +8658,24 @@
     },
     {
       "source": "steps_photo_orchestrator_action_steps_roadmap",
-      "target": "steps_roadmap_dependency_graph",
+      "target": "steps_maintenance_repository_organization_completed",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "steps.md",
       "source_location": "L247",
+      "weight": 1.0
+    },
+    {
+      "source": "steps_photo_orchestrator_action_steps_roadmap",
+      "target": "steps_roadmap_dependency_graph",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "steps.md",
+      "source_location": "L267",
       "weight": 1.0
     },
     {
@@ -8781,5 +9021,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "ba993836304efbe4131960683869eaa5b7ac83b4"
+  "built_at_commit": "46447f2d2b6a3f366f55fac88ca6ef3df3280969"
 }

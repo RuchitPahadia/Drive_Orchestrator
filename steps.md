@@ -244,11 +244,31 @@ All pre-phase prerequisites have been satisfied:
 
 ---
 
+## 🧹 Maintenance & Repository Organization [COMPLETED]
+**Goal**: Clean up transient and unnecessary files, consolidate all AI agent configurations, prompts, and context into a dedicated `agents/` directory.
+
+#### Specification & Steps
+- [x] **Step M.1 — AI Agent Files Consolidation**:
+  - Created [`agents/`](file:///C:/Users/toruc/OneDrive/Desktop/Projects/Photo_Orchestrator/agents) directory to centralize all AI agent instructions, context, rules, and prompts.
+  - Relocated [`antigravity-build-prompts.md`](file:///C:/Users/toruc/OneDrive/Desktop/Projects/Photo_Orchestrator/agents/antigravity-build-prompts.md) into [`agents/`](file:///C:/Users/toruc/OneDrive/Desktop/Projects/Photo_Orchestrator/agents).
+  - Relocated [`context.md`](file:///C:/Users/toruc/OneDrive/Desktop/Projects/Photo_Orchestrator/agents/context.md) into [`agents/`](file:///C:/Users/toruc/OneDrive/Desktop/Projects/Photo_Orchestrator/agents).
+  - Relocated [`CLAUDE.md`](file:///C:/Users/toruc/OneDrive/Desktop/Projects/Photo_Orchestrator/agents/CLAUDE.md) into [`agents/`](file:///C:/Users/toruc/OneDrive/Desktop/Projects/Photo_Orchestrator/agents).
+  - Preserved Next.js conventions in [`agents/AGENTS.md`](file:///C:/Users/toruc/OneDrive/Desktop/Projects/Photo_Orchestrator/agents/AGENTS.md).
+  - Mirrored agent rules in [`agents/rules/`](file:///C:/Users/toruc/OneDrive/Desktop/Projects/Photo_Orchestrator/agents/rules) and workflows in [`agents/workflows/`](file:///C:/Users/toruc/OneDrive/Desktop/Projects/Photo_Orchestrator/agents/workflows).
+  - Created comprehensive index and agent guidelines in [`agents/README.md`](file:///C:/Users/toruc/OneDrive/Desktop/Projects/Photo_Orchestrator/agents/README.md).
+- [x] **Step M.2 — Workspace File Cleanup**:
+  - Removed transient TypeScript incremental build cache (`tsconfig.tsbuildinfo`).
+  - Removed redundant GCP OAuth client secret JSON file from root (credentials safely managed via `.env.local`).
+  - Removed unused boilerplate SVGs (`file.svg`, `globe.svg`, `next.svg`, `vercel.svg`, `window.svg`) from `public/` and added `public/.gitkeep`.
+  - Maintained AST knowledge graph via `graphify update .`.
+
+---
+
 ## 🗺️ Roadmap & Dependency Graph
 
 ```mermaid
 flowchart TD
-    subgraph Completed [Completed Foundations]
+    subgraph Completed [Completed Roadmap (100%)]
         P1[Phase 1: Scaffold] --> P2[Phase 2: Database & Schema]
         P2 --> P3[Phase 3: OAuth & Crypto]
         P3 --> P4[Phase 4: Storage Router]
@@ -257,15 +277,13 @@ flowchart TD
         P6 --> P7[Phase 7: Frontend Browse UI]
         P7 --> P8[Phase 8: CLIP Semantic Search]
         P8 --> P9[Phase 9: Real User Authentication]
-    end
-
-    subgraph Upcoming [Upcoming Roadmap]
         P9 --> P10[Phase 10: Configurable Replication & Dedup]
         P9 --> P11[Phase 11: Google Drive Library Sync]
         P10 --> P12[Phase 12: Production Polish & Docker]
         P11 --> P12
+        P12 --> PM[Maintenance: Agent Consolidation & Cleanup]
     end
 ```
 
-**Recommended Execution Sequence**:
-`Phase 10 (Replication & Dedup)` ➔ `Phase 11 (Drive Sync)` ➔ `Phase 12 (Production Polish)`
+**Status**: All 12 project phases and repository maintenance complete.
+
