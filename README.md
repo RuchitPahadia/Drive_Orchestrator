@@ -38,13 +38,15 @@
 ### 4. 🔐 Real Multi-Tenant Authentication & Access Control (Phase 9)
 - **NextAuth.js v5 (Auth.js)**: Native App Router integration with Edge-safe route guards (`middleware.ts`).
 - **Google OAuth Sign-In**: Seamless authentication for end users with automatic Supabase user syncing.
-- **1-Click Developer Sign-In**: Instant local test sign-in (`dev-login`) for rapid local testing as Administrator.
+- **Developer Sign-In (non-production only)**: A one-click local test sign-in (`dev-login`) for rapid development. It is registered **only when `NODE_ENV !== 'production'`** and never escalates the role of an existing user, so it cannot be used to obtain access on a deployed instance.
 - **Role-Based Access Control (RBAC)**: Enforces role permissions (`admin` vs `user`) protecting `/admin` routes and sensitive pool actions.
 - **Scoped Multi-Tenancy**: Every photo, replica, and Drive account is strictly isolated and queried by `session.user.id`.
+- **CSRF-protected account linking**: The Google Drive OAuth connect flow uses a signed `state` token (httpOnly cookie, constant-time verified) to prevent account-linking CSRF.
 
 ### 5. 🖼️ Gallery & Metadata Extraction
 - **Automatic EXIF Parsing**: Extracts camera make, model, lens settings, exposure, ISO, capture timestamp, and GPS coordinates using `exifr`.
-- **Fast Thumbnails**: Generates 300×300 JPEG thumbnails using `sharp` native bindings (<15 KB per thumbnail).
+- **Fast Thumbnails**: Generates compact 300×300 JPEG thumbnails using `sharp` native bindings, stored inline for quick gallery rendering.
+- **Content-validated uploads**: Uploaded files are verified to be real images by magic-byte inspection (not the client-supplied MIME type) before being stored or indexed.
 - **Interactive Lightbox**: Inspect technical camera details, view replica health, and trigger visual similarity lookups.
 
 ---
@@ -182,7 +184,7 @@ WITH (m = 16, ef_construction = 64);
 
 ### 2. Environment Configuration
 
-Create `.env.local` in the project root:
+Copy [`.env.example`](.env.example) to `.env.local` in the project root and fill in real values:
 
 ```env
 # NextAuth.js v5 Configuration
@@ -196,12 +198,18 @@ GOOGLE_REDIRECT_URI=http://localhost:3000/api/accounts/callback
 
 # PostgreSQL / Supabase Connection Pooler with pgvector
 DATABASE_URL=postgresql://postgres.xxx:password@aws-0-region.pooler.supabase.com:6543/postgres
+# Optional: path to (or inline PEM of) the database CA cert. When set, TLS server-certificate
+# verification is enabled; when unset the connection is encrypted but not verified (prod warns).
+# DATABASE_CA_CERT=/path/to/supabase-ca.pem
 
 # Redis Connection (BullMQ Queue) - Optional
 REDIS_URL=redis://default:password@your-redis-host:6379
 
-# AES-256-GCM Encryption Key (Must be 32 bytes hex string)
+# AES-256-GCM Encryption Key (any sufficiently long secret; hashed to a 32-byte key)
 TOKEN_ENCRYPTION_KEY=0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+
+# Logging verbosity - Optional (debug | info | warn | error; default: warn in production)
+# LOG_LEVEL=info
 ```
 
 > 💡 **Tip to generate keys**:
@@ -257,8 +265,26 @@ npm run worker
 | `npm run build` | Compiles the production Next.js application |
 | `npm run start` | Runs the production Next.js server |
 | `npm run lint` | Validates codebase with ESLint |
+| `npm test` | Runs the unit test suite (Vitest) once |
+| `npm run test:watch` | Runs Vitest in watch mode |
 | `npx tsx scripts/backfill-embeddings.ts` | Backfills CLIP embeddings for any existing photos missing vectors |
 | `npx tsx scripts/test-phase8.ts` | Verifies end-to-end local CLIP inference and pgvector similarity search |
+
+---
+
+## 🧪 Testing
+
+Unit tests run with [Vitest](https://vitest.dev/):
+
+```bash
+npm test          # run once
+npm run test:watch
+```
+
+Current coverage focuses on the security- and correctness-critical pure logic: AES-256-GCM
+token encryption round-trip/tamper detection (`lib/crypto.ts`), magic-byte image-type validation
+(`lib/image-validation.ts`), and query-parameter parsing (`lib/pagination.ts`). The suite also
+runs in CI (`.github/workflows/ci.yml`) alongside `tsc --noEmit` and ESLint.
 
 ---
 
@@ -276,8 +302,8 @@ npm run worker
 - `POST /api/photos/upload`: Multipart batch upload endpoint. Selects optimal storage accounts, writes replicas, and enqueues indexing.
 
 ### 🔍 AI Semantic Search & Similarity
-- `GET /api/photos/search?q={query}&limit={20}&threshold={0.25}`: Converts text into a 512-d CLIP embedding and returns top matching photos with cosine similarity scores.
-- `GET /api/photos/similar?photoId={uuid}&limit={20}`: Finds nearest-neighbor photos visually similar to the specified image.
+- `GET /api/photos/search?q={query}&limit={20}`: Converts text into a 512-d CLIP embedding and returns top matching photos with cosine similarity scores. Validates `q` (required, ≤200 chars) and `limit` (1–100).
+- `GET /api/photos/similar?photoId={uuid}&limit={20}`: Finds nearest-neighbor photos visually similar to the specified image. Validates `photoId` (UUID) and `limit` (1–50).
 
 ### ⚙️ Administration
 - `GET /admin`: Administrator dashboard with cluster storage metrics and user management (requires `role = 'admin'`).
@@ -331,4 +357,5 @@ flowchart TD
 
 ## 📄 License
 
-This project is open-source and available under the [MIT License](LICENSE).
+Intended to be released under the MIT License. A `LICENSE` file is not yet committed to the
+repository — add one before distributing, or update this section to match the chosen license.
