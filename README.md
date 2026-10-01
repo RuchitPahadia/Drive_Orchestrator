@@ -19,11 +19,11 @@ Photo Orchestrator pools storage across **multiple Google Drive accounts**, **re
 
 <p align="center">
   <a href="#-features"><b>Features</b></a> ·
-  <a href="#-architecture"><b>Architecture</b></a> ·
+  <a href="#-semantic-search"><b>Semantic Search</b></a> ·
+  <a href="#-system-design"><b>System Design</b></a> ·
+  <a href="#-google-oauth-setup"><b>OAuth Setup</b></a> ·
   <a href="#-quick-start"><b>Quick Start</b></a> ·
-  <a href="#-api-reference"><b>API</b></a> ·
-  <a href="#-security--privacy"><b>Security</b></a> ·
-  <a href="#-roadmap"><b>Roadmap</b></a>
+  <a href="#-api-reference"><b>API</b></a>
 </p>
 
 </div>
@@ -59,7 +59,53 @@ Photo Orchestrator pools storage across **multiple Google Drive accounts**, **re
 
 </details>
 
-## 🏗️ Architecture
+## 🧠 Semantic Search
+
+The defining feature: **search your photos by what they mean**, not by filename or manual tags — with the AI running entirely on your own hardware.
+
+### The model
+
+**CLIP** (Contrastive Language–Image Pre-training) projects **images and text into the same 512-dimensional space**, so a photo of a beach at dusk and the phrase *"sunset on a beach"* land close together. We run the quantized **`Xenova/clip-vit-base-patch32`** ONNX model locally via `@huggingface/transformers` — **no external AI API, no keys, no per-query cost, full privacy**.
+
+- **Dual encoders** — a vision encoder (photos, at index time) and a text encoder (queries) share one embedding space.
+- **L2-normalized vectors** — unit-length embeddings mean cosine similarity is a dot product, matching pgvector's `vector_cosine_ops`.
+- **Embed once** — each photo is embedded by the background worker and stored as a `vector(512)`; queries only embed the short query string.
+
+### Query → results
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User
+    participant API as /api/photos/search
+    participant CLIP as CLIP text encoder ONNX
+    participant PG as PostgreSQL + pgvector
+    User->>API: GET ?q="golden hour mountains"
+    API->>API: auth · rate-limit · validate (q, limit)
+    API->>CLIP: encode query text
+    CLIP-->>API: 512-d normalized vector
+    API->>PG: HNSW ANN by cosine distance
+    PG-->>API: top-K rows + cosine similarity
+    API-->>User: ranked photos with similarity scores
+```
+
+### The vector math
+
+Similarity is `1 − cosine_distance`, computed with pgvector's `<=>` operator over the **HNSW** index:
+
+```sql
+SELECT id, filename, 1 - (embedding <=> $1::vector) AS similarity
+FROM photos
+WHERE user_id = $2 AND embedding IS NOT NULL
+ORDER BY embedding <=> $1::vector      -- HNSW approximate nearest neighbor
+LIMIT $3;
+```
+
+**Recall tuning** — the index is built with `m = 16, ef_construction = 128`; raise query-time recall with `hnsw.ef_search` (default 40): `SET hnsw.ef_search = 100;`. **Find Similar** uses the same operator against a source photo's stored embedding instead of a text vector.
+
+## 🧩 System Design
+
+A clean separation between the **request path** (fast, user-facing) and the **work path** (slow, background), with Google Drive as the object store and PostgreSQL as the metadata + vector brain.
 
 ```mermaid
 flowchart LR
@@ -78,23 +124,110 @@ flowchart LR
     PG -->|cosine ANN results| APP
 ```
 
-**How it fits together**
+| Component | Responsibility |
+|---|---|
+| **App Router (API routes)** | Auth, validation, rate limiting; orchestrates uploads/search; never does slow work inline. |
+| **Storage Router** (`lib/storage-router`) | Ranks Drive accounts by live free space; selects *N* targets for replication. |
+| **Drive Client** (`lib/drive-client`) | Per-account authenticated client with proactive token refresh (re-encrypted on refresh). |
+| **Indexer** (`workers/` + `lib/indexer`) | Downloads bytes → EXIF → thumbnail → CLIP embedding → writes back. Runs as a BullMQ worker, or inline via `after()` when Redis is absent. |
+| **PostgreSQL + pgvector** | Source of truth for users, accounts, photos, replicas, and 512-d embeddings; HNSW ANN index. |
 
-- **Storage router** ranks connected Drive accounts by free space and writes *N* replicas per the user's replication factor.
-- **Indexer** (BullMQ worker, or inline `after()` fallback) downloads each new photo, extracts EXIF, builds a thumbnail, and computes a normalized 512‑d CLIP embedding.
-- **Search** encodes the query text with the same CLIP model and runs a pgvector cosine‑distance **HNSW** ANN query — typically sub‑millisecond over thousands of photos.
+### Data flow — upload
 
-<details>
-<summary><b>🔍 Semantic search pipeline</b></summary>
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User
+    participant API as /api/photos/upload
+    participant R as Storage Router
+    participant GD as Google Drive xN
+    participant DB as PostgreSQL
+    participant Q as Queue or after
+    User->>API: POST file (multipart)
+    API->>API: auth · rate-limit · size + magic-byte check
+    API->>API: SHA-256 hash → dedup lookup
+    alt duplicate
+        API-->>User: 200 "duplicate" (skipped)
+    else new
+        API->>R: pick N accounts by free space
+        API->>GD: upload replicas in parallel
+        API->>DB: BEGIN · insert photo + replicas · COMMIT
+        API->>Q: schedule indexing (enqueue, else after())
+        API-->>User: 200 uploaded
+        Q->>DB: worker writes EXIF + thumbnail + 512-d embedding
+    end
+```
 
-<br/>
+### Workflow — library sync
 
-1. User enters natural language in `/browse` (e.g. *"golden hour mountains"*).
-2. `GET /api/photos/search?q=…` encodes the text into a 512‑d normalized vector via the local CLIP text encoder.
-3. PostgreSQL runs an HNSW approximate‑nearest‑neighbor query using cosine distance (`<=>`), scoped to the user and tuned via `hnsw.ef_search`.
-4. Results render in the gallery with similarity badges and replica‑health indicators.
+```mermaid
+flowchart TD
+    S([Sync triggered]) --> L[List images per Drive account<br/>paginated]
+    L --> D{Already tracked?<br/>drive_file_id}
+    D -->|yes| SK[Skip]
+    D -->|no| INS[Insert photo + replica rows]
+    INS --> SCH[Collect new photo IDs]
+    SCH --> IDX[Schedule indexing<br/>queue · or after/worker]
+    IDX --> QUO[Refresh account quota]
+```
 
-</details>
+### Design decisions that matter
+
+- **Capacity-aware N-way replication** — survives losing any single Drive account; replication factor is per-user (1–10).
+- **Atomic metadata writes** — the `photos` + `photo_replicas` inserts run in one transaction, so a mid-write failure never leaves partial replica rows.
+- **Serverless-safe background work** — indexing is enqueued to BullMQ, or run via Next's `after()` so it survives the response returning (never a detached promise).
+- **Dedup before upload** — SHA-256 content hashing skips re-uploading identical files.
+- **Secrets sealed** — OAuth tokens are AES-256-GCM encrypted at rest; DB TLS can be fully verified via `DATABASE_CA_CERT`.
+
+## 🔑 Google OAuth Setup
+
+Photo Orchestrator uses Google for **two** things: signing users in, and linking Drive accounts as storage. Both go through one OAuth client. Set it up once in the [Google Cloud Console](https://console.cloud.google.com/):
+
+1. **Create a project** (or pick an existing one).
+2. **Enable the Google Drive API** — *APIs & Services → Library → Google Drive API → Enable*.
+3. **Configure the OAuth consent screen** — *APIs & Services → OAuth consent screen*:
+   - User type **External**; fill in app name + support email.
+   - **Scopes:** add `.../auth/drive.file` (per-file access — never your whole Drive) and `.../auth/userinfo.email`.
+   - While unpublished, add your Google account under **Test users**.
+4. **Create credentials** — *Credentials → Create Credentials → OAuth client ID → Web application*.
+5. **Add Authorized redirect URIs** (both are required):
+
+   | URI | Purpose |
+   |---|---|
+   | `http://localhost:3000/api/auth/callback/google` | NextAuth user **login** |
+   | `http://localhost:3000/api/accounts/callback` | Drive **storage-account linking** |
+
+   For production, add the same two paths on your real origin (e.g. `https://your-app.vercel.app/...`).
+6. **Copy the Client ID and Client Secret** into `.env.local` (`GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`), and set `GOOGLE_REDIRECT_URI` to the `/api/accounts/callback` URL.
+
+> [!TIP]
+> A **refresh token is only returned on first consent.** The linking flow forces `access_type=offline` + `prompt=consent` to always obtain one; if you re-link and it's missing, remove the app under your Google Account → *Security → Third-party access* and try again.
+
+### Account-linking flow (CSRF-protected)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User
+    participant App as /api/accounts/connect
+    participant Google
+    participant CB as /api/accounts/callback
+    participant DB as PostgreSQL
+    User->>App: Connect a Drive account
+    App->>App: generate random state → httpOnly cookie
+    App-->>User: redirect to Google (state, scope=drive.file)
+    User->>Google: grant consent
+    Google-->>CB: redirect with code + state
+    CB->>CB: verify state == cookie (constant-time)
+    CB->>Google: exchange code → access + refresh tokens
+    CB->>DB: AES-256-GCM encrypt → store account
+    CB-->>User: redirect /dashboard (linked)
+```
+
+
+
+
+
 
 ## 🧰 Tech Stack
 
