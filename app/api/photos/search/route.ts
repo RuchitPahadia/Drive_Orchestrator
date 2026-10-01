@@ -9,7 +9,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/db';
 import { generateTextEmbedding, formatVectorForPostgres } from '@/lib/embeddings';
-import { getSessionUser, unauthorized, serverError, parseLimit, MAX_PAGE_LIMIT } from '@/lib/api-utils';
+import { getSessionUser, unauthorized, serverError, tooManyRequests, parseLimit, MAX_PAGE_LIMIT } from '@/lib/api-utils';
+import { rateLimit } from '@/lib/rate-limit';
 
 /** Vercel Serverless Function Max Duration (seconds) */
 export const maxDuration = 60;
@@ -38,6 +39,10 @@ export async function GET(request: NextRequest) {
     const user = await getSessionUser();
     if (!user) return unauthorized();
     const userId = user.id;
+
+    // Rate limit: CLIP inference per request is expensive. 30 searches / minute / user.
+    const rl = rateLimit(`search:${userId}`, 30, 60_000);
+    if (!rl.allowed) return tooManyRequests(rl.retryAfterSeconds);
 
     const searchParams = request.nextUrl.searchParams;
     const rawQuery = searchParams.get('q');

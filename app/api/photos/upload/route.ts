@@ -13,8 +13,9 @@ import { getDriveClient } from '@/lib/drive-client';
 import { Readable } from 'stream';
 import { queue } from '@/lib/queue';
 import { indexPhoto } from '@/lib/indexer';
-import { getSessionUser, unauthorized, serverError } from '@/lib/api-utils';
+import { getSessionUser, unauthorized, serverError, tooManyRequests } from '@/lib/api-utils';
 import { detectImageMime } from '@/lib/image-validation';
+import { rateLimit } from '@/lib/rate-limit';
 import crypto from 'crypto';
 
 /** Vercel Serverless Function Max Duration (seconds) */
@@ -44,6 +45,11 @@ export async function POST(request: NextRequest) {
     const user = await getSessionUser();
     if (!user) return unauthorized();
     const userId = user.id;
+
+    // Rate limit as an abuse ceiling. Generous so normal batch uploads
+    // (client concurrency = 2) are never affected: 200 uploads / minute / user.
+    const rl = rateLimit(`upload:${userId}`, 200, 60_000);
+    if (!rl.allowed) return tooManyRequests(rl.retryAfterSeconds);
 
     // 2. Parse form data to retrieve the file
     const formData = await request.formData();

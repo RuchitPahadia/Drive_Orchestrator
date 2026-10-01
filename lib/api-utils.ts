@@ -28,6 +28,14 @@ export function unauthorized() {
   return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 }
 
+/** Standard 429 JSON response with a Retry-After header. */
+export function tooManyRequests(retryAfterSeconds: number) {
+  return NextResponse.json(
+    { error: 'Too many requests. Please slow down and try again shortly.' },
+    { status: 429, headers: { 'Retry-After': String(retryAfterSeconds) } }
+  );
+}
+
 /**
  * Standard 500 JSON response. Logs the full error server-side and returns a
  * generic message so internal/driver details are never leaked to the client.
