@@ -78,9 +78,12 @@ CREATE TABLE IF NOT EXISTS photo_replicas (
 
 -- HNSW index on photos.embedding for sub-millisecond CLIP semantic search (cosine similarity)
 -- Enables query syntax: ORDER BY p.embedding <=> query_vector ASC
-CREATE INDEX IF NOT EXISTS photos_embedding_hnsw_idx 
-ON photos USING hnsw (embedding vector_cosine_ops) 
-WITH (m = 16, ef_construction = 64);
+-- ef_construction=128 (was 64) improves recall for 512-d CLIP vectors at modest build cost.
+-- Query-time recall/latency is further tunable via `hnsw.ef_search` (default 40); set it per
+-- session/database, e.g. `ALTER DATABASE <db> SET hnsw.ef_search = 100;`.
+CREATE INDEX IF NOT EXISTS photos_embedding_hnsw_idx
+ON photos USING hnsw (embedding vector_cosine_ops)
+WITH (m = 16, ef_construction = 128);
 
 -- Composite B-tree index for chronologically sorted user galleries (ORDER BY taken_at DESC)
 CREATE INDEX IF NOT EXISTS photos_user_taken_at_idx 
