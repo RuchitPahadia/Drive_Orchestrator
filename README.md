@@ -1,361 +1,278 @@
+<div align="center">
+
 # 📸 Photo Orchestrator
 
-[![Next.js 16](https://img.shields.io/badge/Next.js-16.3-black?style=flat-square&logo=next.js)](https://nextjs.org/)
-[![React 19](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
-[![Auth.js v5](https://img.shields.io/badge/Auth.js-v5.0_Beta-purple?style=flat-square&logo=auth0)](https://authjs.dev/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-pgvector-336791?style=flat-square&logo=postgresql)](https://github.com/pgvector/pgvector)
-[![BullMQ](https://img.shields.io/badge/Queue-BullMQ%20%2F%20Redis-DC382D?style=flat-square&logo=redis)](https://bullmq.io/)
-[![Hugging Face](https://img.shields.io/badge/AI-CLIP%20ViT--B%2F32-FFD21E?style=flat-square&logo=huggingface)](https://huggingface.co/Xenova/clip-vit-base-patch32)
-[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4.0-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RuchitPahadia/Drive_Orchestrator/blob/main/notebooks/clip_semantic_search_walkthrough.ipynb)
+### Turn free Google Drive accounts into one unlimited, AI‑searchable photo cloud.
 
-**Photo Orchestrator** is an open-source, self-hosted photo management platform built with Next.js 16 and TypeScript. It pools photo storage across multiple free Google Drive accounts (15 GB each) into a single, unified, high-availability storage cluster with automatic dual-replica backup, asynchronous EXIF extraction, multi-tenant authentication, and **AI-powered semantic image search** using local CLIP embeddings and PostgreSQL `pgvector`.
+Photo Orchestrator pools storage across **multiple Google Drive accounts**, **replicates** every photo for durability, and makes your whole library searchable by **meaning** — not filenames — using a **local CLIP model** and PostgreSQL **`pgvector`**. Self‑hosted, privacy‑first, zero AI API costs.
 
----
+<br/>
 
-## 🌟 Key Features
+[![CI](https://github.com/RuchitPahadia/Drive_Orchestrator/actions/workflows/ci.yml/badge.svg)](https://github.com/RuchitPahadia/Drive_Orchestrator/actions/workflows/ci.yml)
+![Next.js](https://img.shields.io/badge/Next.js-16.3-000000?style=flat-square&logo=next.js)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-pgvector-336791?style=flat-square&logo=postgresql&logoColor=white)
+![CLIP](https://img.shields.io/badge/AI-CLIP%20ViT--B%2F32-FFD21E?style=flat-square&logo=huggingface&logoColor=black)
+![Tests](https://img.shields.io/badge/tests-23%20passing-3fb950?style=flat-square&logo=vitest&logoColor=white)
+![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
 
-### 1. 🗄️ Multi-Account Storage Pooling & Management
-- **Quota Pooling**: Connect multiple Google Drive accounts. The intelligent storage router pools the storage capacity and monitors real-time byte quotas.
-- **Redundant Dual-Replica Backup**: Every photo uploaded is automatically duplicated across distinct Google Drive accounts (primary + secondary) to safeguard against accidental deletion or outages.
-- **Account Disconnection**: Remove connected accounts with 1-click confirmation dialogs and automated replica tracking.
-- **Enterprise-Grade Token Encryption**: Google OAuth refresh tokens are encrypted at rest using **AES-256-GCM** with unique initialization vectors (`iv`) and authentication tags (`authTag`).
+<p align="center">
+  <a href="#-features"><b>Features</b></a> ·
+  <a href="#-architecture"><b>Architecture</b></a> ·
+  <a href="#-quick-start"><b>Quick Start</b></a> ·
+  <a href="#-api-reference"><b>API</b></a> ·
+  <a href="#-security--privacy"><b>Security</b></a> ·
+  <a href="#-roadmap"><b>Roadmap</b></a>
+</p>
 
-### 2. ⚡ High-Throughput Batch Uploading
-- **Multi-File Selection & Drag-and-Drop**: Select dozens of photos at once (`<input multiple>`) or drop folders directly into the browser upload zone.
-- **Parallel Upload Workers**: Managed queue concurrency of 2 parallel uploads prevents browser and network saturation while maximizing throughput.
-- **Real-Time Animated Progress**: Dynamic upload status bar displaying file sequence, file name, and percentage completion (`Uploading X of Y: filename (Z%)`).
-- **Resilient Fallback**: Upload succeeds even if the Redis worker queue is temporarily down, executing metadata extraction and embedding generation inline in the background.
-
-### 3. 🧠 Local AI Semantic Search & Recommendations (Phase 8)
-- **Natural Language Search**: Query photos conceptually (e.g. *"sunset on a beach"*, *"dog running on grass"*, *"birthday celebration"*) with zero manual tags.
-- **Visual Similarity Search ("Find Similar")**: Instant nearest-neighbor visual recommendations from any photo lightbox.
-- **100% Local Inference**: Uses `@huggingface/transformers` running the quantized `Xenova/clip-vit-base-patch32` ONNX model (~80 MB) directly inside Node.js. No API keys, zero cloud costs, and complete privacy.
-- **PostgreSQL HNSW Index**: Blazing-fast approximate nearest-neighbor vector search via PostgreSQL `pgvector` with an HNSW cosine distance index (`vector_cosine_ops`).
-- **Google Colab GPU Walkthrough**: Interactive Colab notebook ([`notebooks/clip_semantic_search_walkthrough.ipynb`](notebooks/clip_semantic_search_walkthrough.ipynb)) detailing CLIP dual-encoders, contrastive loss, mixed-precision (FP16) fine-tuning, and pgvector HNSW search.
-
-### 4. 🔐 Real Multi-Tenant Authentication & Access Control (Phase 9)
-- **NextAuth.js v5 (Auth.js)**: Native App Router integration with Edge-safe route guards (`middleware.ts`).
-- **Google OAuth Sign-In**: Seamless authentication for end users with automatic Supabase user syncing.
-- **Developer Sign-In (non-production only)**: A one-click local test sign-in (`dev-login`) for rapid development. It is registered **only when `NODE_ENV !== 'production'`** and never escalates the role of an existing user, so it cannot be used to obtain access on a deployed instance.
-- **Role-Based Access Control (RBAC)**: Enforces role permissions (`admin` vs `user`) protecting `/admin` routes and sensitive pool actions.
-- **Scoped Multi-Tenancy**: Every photo, replica, and Drive account is strictly isolated and queried by `session.user.id`.
-- **CSRF-protected account linking**: The Google Drive OAuth connect flow uses a signed `state` token (httpOnly cookie, constant-time verified) to prevent account-linking CSRF.
-
-### 5. 🖼️ Gallery & Metadata Extraction
-- **Automatic EXIF Parsing**: Extracts camera make, model, lens settings, exposure, ISO, capture timestamp, and GPS coordinates using `exifr`.
-- **Fast Thumbnails**: Generates compact 300×300 JPEG thumbnails using `sharp` native bindings, stored inline for quick gallery rendering.
-- **Content-validated uploads**: Uploaded files are verified to be real images by magic-byte inspection (not the client-supplied MIME type) before being stored or indexed.
-- **Interactive Lightbox**: Inspect technical camera details, view replica health, and trigger visual similarity lookups.
+</div>
 
 ---
 
-## 🏗️ Architecture & Data Flow
+> [!NOTE]
+> **The problem:** a single free Google Drive account gives you 15 GB. **The idea:** connect several, and Photo Orchestrator treats them as *one* capacity‑pooled, auto‑replicated store — then layers semantic search on top so you can find *"sunset on a beach"* without ever tagging a thing.
 
-```
-                                  +---------------------------------------+
-                                  |         Next.js App Router            |
-                                  |  (/dashboard, /browse, /api/photos)   |
-                                  +-------------------+-------------------+
-                                                      |
-                               1. Batch Upload Photos | 2. Push indexing job
-                               (Concurrency = 2)      v
-                                             +-------------------+
-                                             |    Redis Queue    |
-                                             |     (BullMQ)      |
-                                             +---------+---------+
-                                                       |
-                                                       | 3. Pick up job
-                                                       v
-+------------------------+                  +-------------------+
-|  Google Drive Account  |                  |  Worker Process   |
-|   A (Primary Copy)     |<=================| (workers/indexer) |
-+------------------------+  4. Download     +---------+---------+
-                             Thumbnail Buffer          |
-+------------------------+                             | 5. Generate 512-d
-|  Google Drive Account  |                             |    CLIP Vector Embedding
-|   B (Replica Copy)     |                             v
-+------------------------+                  +---------------------+
-                                            | CLIP ViT-B/32 ONNX  |
-                                            | (Local Transformers)|
-                                            +----------+----------+
-                                                       |
-                                                       | 6. Save Metadata & Vector
-                                                       v
-                                         +-----------------------------+
-                                         |    PostgreSQL + pgvector    |
-                                         | (HNSW Cosine Vector Index)  |
-                                         +-----------------------------+
+## ✨ Features
+
+| | |
+|---|---|
+| 🗄️ **Multi‑Account Storage Pooling** | Connect many Google Drive accounts; a capacity‑aware router picks targets by live free space and pools them into one logical store. |
+| 🛡️ **Configurable Replication** | Every photo is copied across *N* distinct accounts (1–10) so a lost or deleted account never means lost photos. |
+| 🧠 **Local AI Semantic Search** | Query by concept — *"dog on grass"*, *"birthday cake"* — via CLIP ViT‑B/32 running **100% locally** in ONNX. No API keys, no cloud cost, full privacy. |
+| 🔎 **Visual "Find Similar"** | Nearest‑neighbor lookup from any photo using pgvector cosine distance over an HNSW index. |
+| 🔐 **Encrypted at Rest** | Google OAuth tokens are sealed with **AES‑256‑GCM** (unique IV + auth tag) before they touch the database. |
+| ⚡ **Resilient Background Indexing** | EXIF + thumbnail + embedding run via a BullMQ/Redis queue, with a serverless‑safe inline fallback when Redis is absent. |
+| 🧹 **SHA‑256 Deduplication** | Identical uploads are detected by content hash and skipped instantly — no wasted quota. |
+| 👥 **Multi‑Tenant Auth + RBAC** | NextAuth v5 (Google OAuth), per‑user data isolation, and `admin`/`user` roles enforced at the edge. |
+
+<details>
+<summary><b>🔒 Security hardening built in</b> (click to expand)</summary>
+
+<br/>
+
+- **CSRF‑protected account linking** — the Drive OAuth flow uses a signed, httpOnly `state` token verified in constant time.
+- **Content‑validated uploads** — files are checked by magic bytes, not the client‑supplied MIME type, before storage or indexing.
+- **Per‑user rate limiting** — expensive search and upload endpoints are throttled per user.
+- **Parameterized SQL everywhere** — no string‑interpolated queries; least‑privilege Google scope (`drive.file`).
+- **`dev-login` is dev‑only** — the one‑click test login is registered solely when `NODE_ENV !== 'production'`.
+
+</details>
+
+## 🏗️ Architecture
+
+```mermaid
+flowchart LR
+    U([User]) -->|upload / browse / search| APP[Next.js App Router<br/>UI + API routes]
+
+    APP -->|replicate bytes| GD[(Google Drive<br/>Accounts A·B·…·N)]
+    APP -->|metadata + vectors| PG[(PostgreSQL<br/>+ pgvector · HNSW)]
+    APP -->|enqueue index job| Q[[BullMQ · Redis]]
+
+    Q --> W[Indexer Worker]
+    W -->|download| GD
+    W -->|EXIF · thumbnail · CLIP embedding| CLIP{{CLIP ViT-B/32<br/>local ONNX}}
+    W -->|write 512-d vector| PG
+
+    APP -->|text → 512-d vector| CLIP
+    PG -->|cosine ANN results| APP
 ```
 
-### Search Pipeline
-1. User enters natural language query in `/browse` (e.g., *"golden hour mountains"*).
-2. `GET /api/photos/search?q=...` converts the query string into a 512-dimensional normalized vector via local CLIP text encoder.
-3. Supabase PostgreSQL executes an approximate nearest-neighbor query using cosine distance:
-   ```sql
-   SELECT id, filename, 1 - (embedding <=> $1::vector) AS similarity 
-   FROM photos 
-   WHERE user_id = $2 AND embedding IS NOT NULL 
-   ORDER BY embedding <=> $1::vector 
-   LIMIT 20;
-   ```
-4. Results render with visual similarity percentage badges in the gallery.
+**How it fits together**
 
----
+- **Storage router** ranks connected Drive accounts by free space and writes *N* replicas per the user's replication factor.
+- **Indexer** (BullMQ worker, or inline `after()` fallback) downloads each new photo, extracts EXIF, builds a thumbnail, and computes a normalized 512‑d CLIP embedding.
+- **Search** encodes the query text with the same CLIP model and runs a pgvector cosine‑distance **HNSW** ANN query — typically sub‑millisecond over thousands of photos.
 
-## 🗄️ Database Schema
+<details>
+<summary><b>🔍 Semantic search pipeline</b></summary>
 
-The database relies on PostgreSQL 15+ with the [`pgvector`](https://github.com/pgvector/pgvector) extension enabled:
+<br/>
+
+1. User enters natural language in `/browse` (e.g. *"golden hour mountains"*).
+2. `GET /api/photos/search?q=…` encodes the text into a 512‑d normalized vector via the local CLIP text encoder.
+3. PostgreSQL runs an HNSW approximate‑nearest‑neighbor query using cosine distance (`<=>`), scoped to the user and tuned via `hnsw.ef_search`.
+4. Results render in the gallery with similarity badges and replica‑health indicators.
+
+</details>
+
+## 🧰 Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **Framework** | Next.js 16 (App Router, Turbopack) · React 19 · TypeScript (strict) |
+| **Auth** | NextAuth v5 — Google OAuth + role-based access control |
+| **Database** | PostgreSQL + `pgvector` (HNSW cosine index), raw parameterized SQL |
+| **Object storage** | Google Drive (`googleapis`), N-way replication |
+| **AI** | CLIP ViT-B/32 via `@huggingface/transformers` (ONNX, local, 512-d) |
+| **Queue** | BullMQ + Redis (`ioredis`), inline `after()` fallback |
+| **Imaging** | `sharp` (thumbnails) · `exifr` (EXIF/GPS) · SHA-256 dedup |
+| **Testing / CI** | Vitest · ESLint · GitHub Actions (typecheck + lint + tests) |
+| **Deploy** | Docker (web + worker) · docker-compose · Vercel-aware config |
+
+## 🗃️ Data Model
 
 ```mermaid
 erDiagram
     users ||--o{ accounts : owns
     users ||--o{ photos : owns
-    photos ||--o{ photo_replicas : replicates
+    photos ||--o{ photo_replicas : "replicated as"
     accounts ||--o{ photo_replicas : stores
 
     users {
         uuid id PK
         text email UK
-        text name
-        text avatar_url
         text role
-        timestamptz created_at
+        int replication_factor
     }
-
     accounts {
         uuid id PK
-        uuid user_id FK
         text google_email
-        text access_token
-        text refresh_token
-        bigint quota_total_bytes
+        text access_token "AES-256-GCM"
+        text refresh_token "AES-256-GCM"
         bigint quota_used_bytes
-        timestamptz updated_at
     }
-
     photos {
         uuid id PK
-        uuid user_id FK
         text filename
-        timestamptz taken_at
-        float gps_lat
-        float gps_lng
-        text camera_model
-        text thumbnail_url
-        vector_512 embedding
+        text file_hash "SHA-256"
+        vector embedding "512-d CLIP"
         timestamptz indexed_at
     }
-
     photo_replicas {
         uuid id PK
-        uuid photo_id FK
         uuid account_id FK
         text drive_file_id
-        timestamptz created_at
     }
 ```
 
-### Production Vector Index Definition
-```sql
-CREATE INDEX photos_embedding_hnsw_idx 
-ON photos USING hnsw (embedding vector_cosine_ops) 
-WITH (m = 16, ef_construction = 64);
-```
+## 🚀 Quick Start
 
----
-
-## 🚀 Getting Started
-
-### 1. Prerequisites
-- **Node.js**: `v20.x` or `v22.x`
-- **PostgreSQL**: Version 15+ with `pgvector` enabled (e.g. [Supabase](https://supabase.com))
-- **Redis**: Local instance or hosted cloud Redis (e.g. [Upstash](https://upstash.com)) *(Optional: indexing falls back to background inline mode if Redis is absent)*
-- **Google Cloud Console Project**:
-  - OAuth 2.0 Client ID and Secret configured
-  - Authorized Redirect URIs:
-    - `http://localhost:3000/api/auth/callback/google` (NextAuth user login)
-    - `http://localhost:3000/api/accounts/callback` (Google Drive storage account connection)
-  - Enabled API: **Google Drive API**
-  - Scope: `https://www.googleapis.com/auth/drive.file`
-
----
-
-### 2. Environment Configuration
-
-Copy [`.env.example`](.env.example) to `.env.local` in the project root and fill in real values:
-
-```env
-# NextAuth.js v5 Configuration
-AUTH_SECRET=your_nextauth_secret_key_here
-AUTH_URL=http://localhost:3000
-
-# Google OAuth 2.0 Credentials
-GOOGLE_CLIENT_ID=your_client_id.apps.googleusercontent.com
-GOOGLE_CLIENT_SECRET=your_client_secret
-GOOGLE_REDIRECT_URI=http://localhost:3000/api/accounts/callback
-
-# PostgreSQL / Supabase Connection Pooler with pgvector
-DATABASE_URL=postgresql://postgres.xxx:password@aws-0-region.pooler.supabase.com:6543/postgres
-# Optional: path to (or inline PEM of) the database CA cert. When set, TLS server-certificate
-# verification is enabled; when unset the connection is encrypted but not verified (prod warns).
-# DATABASE_CA_CERT=/path/to/supabase-ca.pem
-
-# Redis Connection (BullMQ Queue) - Optional
-REDIS_URL=redis://default:password@your-redis-host:6379
-
-# AES-256-GCM Encryption Key (any sufficiently long secret; hashed to a 32-byte key)
-TOKEN_ENCRYPTION_KEY=0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
-
-# Logging verbosity - Optional (debug | info | warn | error; default: warn in production)
-# LOG_LEVEL=info
-```
-
-> 💡 **Tip to generate keys**:
-> ```bash
-> # Generate AUTH_SECRET or TOKEN_ENCRYPTION_KEY (32-byte hex)
-> node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
-> ```
-
----
-
-### 3. Initialize Database Schema
-
-Apply the schema to your Supabase / PostgreSQL instance:
+**Prerequisites:** Node.js 20+ (22 recommended) · PostgreSQL 15+ with `pgvector` (e.g. [Supabase](https://supabase.com)) · optional Redis · a Google Cloud OAuth client with the **Drive API** enabled.
 
 ```bash
-psql $DATABASE_URL -f db/schema.sql
-```
-*(Or paste the contents of [`db/schema.sql`](db/schema.sql) into the Supabase SQL Editor).*
-
----
-
-### 4. Install Dependencies
-
-```bash
+# 1. Install
 npm install
-```
 
----
+# 2. Configure — copy the template and fill in real values
+cp .env.example .env.local
 
-### 5. Running the Application
+# 3. Create the schema (pgvector + tables + HNSW index)
+psql "$DATABASE_URL" -f db/schema.sql
 
-For full operation, run the web application and optionally the standalone worker in separate terminals:
-
-#### Terminal 1: Web Server
-```bash
+# 4. Run the app  →  http://localhost:3000
 npm run dev
-```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-#### Terminal 2: BullMQ Indexer Worker (Optional if Redis configured)
-```bash
+# 5. (optional) Run the background indexer in a second terminal
 npm run worker
 ```
 
----
+<details>
+<summary><b>⚙️ Environment variables</b></summary>
 
-## 🛠️ Available Scripts
+<br/>
+
+See [`.env.example`](.env.example) for the full, commented list. Key values:
+
+| Variable | Purpose |
+|---|---|
+| `DATABASE_URL` | PostgreSQL + pgvector connection string |
+| `DATABASE_CA_CERT` | *(optional)* CA cert (path or PEM) to enable verified DB TLS |
+| `AUTH_SECRET` | NextAuth session/JWT signing secret |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` / `GOOGLE_REDIRECT_URI` | Google OAuth (login + Drive linking) |
+| `TOKEN_ENCRYPTION_KEY` | Secret for AES-256-GCM token encryption |
+| `REDIS_URL` | *(optional)* BullMQ queue; falls back to inline indexing |
+| `LOG_LEVEL` | *(optional)* `debug` \| `info` \| `warn` \| `error` |
+
+Register **both** redirect URIs in Google Cloud: `/api/auth/callback/google` (login) and `/api/accounts/callback` (Drive linking).
+
+> [!TIP]
+> Generate secrets with: `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`
+
+</details>
+
+## 📜 Scripts
 
 | Command | Description |
 |---|---|
-| `npm run dev` | Starts Next.js development server on `http://localhost:3000` |
-| `npm run worker` | Runs the BullMQ standalone background indexer worker |
-| `npm run build` | Compiles the production Next.js application |
-| `npm run start` | Runs the production Next.js server |
-| `npm run lint` | Validates codebase with ESLint |
-| `npm test` | Runs the unit test suite (Vitest) once |
-| `npm run test:watch` | Runs Vitest in watch mode |
-| `npx tsx scripts/backfill-embeddings.ts` | Backfills CLIP embeddings for any existing photos missing vectors |
-| `npx tsx scripts/test-phase8.ts` | Verifies end-to-end local CLIP inference and pgvector similarity search |
-
----
-
-## 🧪 Testing
-
-Unit tests run with [Vitest](https://vitest.dev/):
-
-```bash
-npm test          # run once
-npm run test:watch
-```
-
-Current coverage focuses on the security- and correctness-critical pure logic: AES-256-GCM
-token encryption round-trip/tamper detection (`lib/crypto.ts`), magic-byte image-type validation
-(`lib/image-validation.ts`), and query-parameter parsing (`lib/pagination.ts`). The suite also
-runs in CI (`.github/workflows/ci.yml`) alongside `tsc --noEmit` and ESLint.
-
----
+| `npm run dev` | Start the dev server on `http://localhost:3000` |
+| `npm run build` / `npm run start` | Production build / serve |
+| `npm run worker` | Run the BullMQ background indexer |
+| `npm run sync-worker` | Scan connected Drives and ingest new photos |
+| `npm test` / `npm run test:watch` | Run the Vitest suite |
+| `npm run lint` | ESLint |
 
 ## 📡 API Reference
 
-### 🔐 Authentication & Accounts
-- `GET /api/auth/[...nextauth]`: NextAuth dynamic auth endpoints (Google sign-in, session verification, sign-out).
-- `GET /api/accounts`: List all connected Google Drive accounts and storage quotas for current user.
-- `GET /api/accounts/connect`: Initiates OAuth 2.0 flow to link a Google Drive storage account.
-- `GET /api/accounts/callback`: Handles Google Drive OAuth token exchange and encrypted credential storage.
-- `DELETE /api/accounts`: Disconnects a storage account and removes replica metadata (`?accountId={uuid}`).
+| Method & Route | Description |
+|---|---|
+| `GET /api/auth/[...nextauth]` | NextAuth sign-in / session / sign-out |
+| `GET /api/accounts` · `DELETE /api/accounts?id=` | List / disconnect connected Drive accounts |
+| `GET /api/accounts/connect` · `GET /api/accounts/callback` | OAuth link flow (CSRF `state`-protected) |
+| `POST /api/accounts/sync` | Discover & ingest existing photos from Drive |
+| `GET /api/photos` | Paginated browse with date / account / camera filters |
+| `POST /api/photos/upload` | Deduplicated, replicated, content-validated upload |
+| `GET /api/photos/search?q=&limit=` | Natural-language semantic search (CLIP → pgvector) |
+| `GET /api/photos/similar?photoId=&limit=` | Visually similar photos for a given image |
+| `POST /api/admin/actions` | Admin-only: quota refresh, re-index, delete *(role `admin`)* |
+| `GET /api/users/settings` · `PATCH` | Read / update replication factor |
 
-### 🖼️ Photos & Upload
-- `GET /api/photos`: Paginated photo retrieval with metadata, replicas, and camera filters.
-- `POST /api/photos/upload`: Multipart batch upload endpoint. Selects optimal storage accounts, writes replicas, and enqueues indexing.
+## 🧪 Testing
 
-### 🔍 AI Semantic Search & Similarity
-- `GET /api/photos/search?q={query}&limit={20}`: Converts text into a 512-d CLIP embedding and returns top matching photos with cosine similarity scores. Validates `q` (required, ≤200 chars) and `limit` (1–100).
-- `GET /api/photos/similar?photoId={uuid}&limit={20}`: Finds nearest-neighbor photos visually similar to the specified image. Validates `photoId` (UUID) and `limit` (1–50).
-
-### ⚙️ Administration
-- `GET /admin`: Administrator dashboard with cluster storage metrics and user management (requires `role = 'admin'`).
-- `POST /api/admin/actions`: Executes system maintenance tasks (e.g. quota refresh, pool health verification).
-
----
-
-## 🗺️ Project Roadmap & Phase Status
-
-```mermaid
-flowchart TD
-    subgraph Completed [Completed Phases]
-        P1[Phase 1: Project Scaffold]
-        P2[Phase 2: Database & Schema]
-        P3[Phase 3: OAuth & Crypto]
-        P4[Phase 4: Storage Router]
-        P5[Phase 5: Background Indexer]
-        P6[Phase 6: Search & Browse API]
-        P7[Phase 7: Frontend Browse UI]
-        P8[Phase 8: CLIP Semantic Search]
-        P9[Phase 9: Real User Authentication]
-        P10[Phase 10: Configurable Replication & Dedup]
-        P11[Phase 11: Google Drive Library Sync]
-        P12[Phase 12: Production Polish & Docker]
-        P1 --> P2 --> P3 --> P4 --> P5 --> P6 --> P7 --> P8 --> P9 --> P10 --> P11 --> P12
-    end
+```bash
+npm test
 ```
 
-- [x] **Phase 1: Project Scaffold** — Next.js 16 + TypeScript + Tailwind CSS
-- [x] **Phase 2: Database & pgvector** — Supabase PostgreSQL schema with 4 core tables
-- [x] **Phase 3: OAuth Connect & Crypto** — Google OAuth flow with AES-256-GCM encryption
-- [x] **Phase 4: Storage Router & Upload** — Multi-account physical replication
-- [x] **Phase 5: Background Indexer** — EXIF parsing + Sharp thumbnail pipeline
-- [x] **Phase 6: Search & Browse API** — Filterable photo search endpoint
-- [x] **Phase 7: Frontend Browse UI** — Interactive gallery, lightbox, and replica indicators
-- [x] **Phase 8: CLIP Semantic Search** — Local ONNX CLIP model + Supabase HNSW vector search
-- [x] **Phase 9: Real User Authentication** — NextAuth.js v5 + Google Provider + RBAC
-- [x] **Phase 10: Configurable Replication & Deduplication** — N-way replication controls and SHA-256 deduplication
-- [x] **Phase 11: Google Drive Library Sync** — Discover and import existing photos from connected Drive accounts
-- [x] **Phase 12: Production Polish & Docker** — Containerization, BullMQ retry policies, and skeleton UI loaders
-
----
+Vitest covers the security- and correctness-critical pure logic: AES-256-GCM token
+encryption (round-trip + tamper), magic-byte image validation, the rate limiter, and
+query-parameter parsing — **23 tests**, run in CI alongside `tsc --noEmit` and ESLint.
 
 ## 🛡️ Security & Privacy
 
-- **Minimal Google Scopes**: Requests only `https://www.googleapis.com/auth/drive.file`. The app can **only** read and modify files that it creates, and has zero access to private documents in Google Drive.
-- **Zero-Trust Token Storage**: Refresh tokens are encrypted with AES-256-GCM before writing to the database.
-- **100% Local AI Inference**: Search queries and image embeddings are computed on your local CPU/GPU using ONNX Runtime. No photos or search queries are sent to external third-party AI APIs.
+- **Least-privilege scope** — requests only `drive.file`; it can touch only files it creates, never your existing Drive.
+- **Encrypted tokens** — OAuth refresh tokens are AES-256-GCM encrypted before storage.
+- **100% local AI** — embeddings and search run on your own CPU/GPU via ONNX; no photo or query ever leaves for a third-party AI API.
+- **Hardened surface** — CSRF-protected linking, magic-byte upload validation, per-user rate limits, generic error responses, and parameterized SQL throughout.
 
----
+> [!IMPORTANT]
+> This is self-hosted software: rotate your secrets, keep `.env.local` out of version control (it already is), and set `DATABASE_CA_CERT` to enable verified database TLS in production.
+
+## 🗺️ Roadmap
+
+**Shipped** — scaffold → DB & pgvector → OAuth & crypto → storage router → background indexer →
+search & browse API → gallery UI → CLIP semantic search → real auth & RBAC → configurable
+replication & dedup → Drive library sync → production polish, Docker & CI.
+
+**Next up** *(see [`IMPROVEMENT_SUGGESTIONS.md`](IMPROVEMENT_SUGGESTIONS.md))* — distributed
+(Redis-backed) rate limiting, batched sync/re-index jobs, hybrid semantic + keyword search,
+object-storage thumbnails, structured error tracking, and promoting NextAuth off beta.
+
+## 🤝 Contributing
+
+Contributions are welcome!
+
+1. Fork and create a branch (`git checkout -b feature/your-idea`).
+2. Make your change — keep it typed and tested (`npm run lint && npm test`).
+3. Ensure the build is clean (`npm run build`).
+4. Open a pull request describing the change and how you verified it.
+
+CI runs typecheck, lint, and tests on every PR to `main`.
 
 ## 📄 License
 
-Intended to be released under the MIT License. A `LICENSE` file is not yet committed to the
-repository — add one before distributing, or update this section to match the chosen license.
+Intended for release under the **MIT License**. A `LICENSE` file is not yet committed —
+add one before distributing, or update this section to match your chosen license.
+
+<div align="center">
+<br/>
+
+**Built with Next.js · PostgreSQL + pgvector · local CLIP.**
+If this project is useful to you, consider leaving a ⭐.
+
+</div>
+
+
+
+
+
+
