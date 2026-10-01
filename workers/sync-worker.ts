@@ -9,6 +9,8 @@
 
 import { query } from '../lib/db';
 import { syncAccountPhotos } from '../lib/drive-scanner';
+import { enqueueIndexing } from '../lib/indexing-scheduler';
+import { indexPhoto } from '../lib/indexer';
 
 /**
  * Background worker execution loop to discover and ingest newly added photos from connected Google Drive accounts.
@@ -38,6 +40,20 @@ export async function runLibrarySync() {
         const result = await syncAccountPhotos(acc.id, acc.user_id);
         totalDiscovered += result.totalDiscovered;
         totalImported += result.syncedCount;
+
+        // Schedule indexing for newly ingested photos: enqueue if Redis is
+        // configured, otherwise index inline (safe here — this is a long-lived worker).
+        for (const photoId of result.newPhotoIds) {
+          const queued = await enqueueIndexing(photoId);
+          if (!queued) {
+            try {
+              await indexPhoto(photoId);
+            } catch (indexErr) {
+              console.error(`[SyncWorker] Inline indexing failed for photo ${photoId}:`, indexErr);
+            }
+          }
+        }
+
         console.log(
           `[SyncWorker] Account ${acc.google_email}: Discovered ${result.totalDiscovered}, ` +
           `Imported ${result.syncedCount} new, Skipped ${result.skippedCount} existing.`

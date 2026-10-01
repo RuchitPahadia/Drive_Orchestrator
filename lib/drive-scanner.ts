@@ -8,8 +8,6 @@
 
 import { getDriveClient, refreshAccountQuota } from './drive-client';
 import { query } from './db';
-import { queue } from './queue';
-import { indexPhoto } from './indexer';
 
 export interface DriveDiscoveredImage {
   id: string;
@@ -122,16 +120,19 @@ export async function syncAccountPhotos(
     `${existingFileIds.size} already tracked. Ingesting ${newFiles.length} new photos...`
   );
 
-  // 5. Ingest each new image into photos and photo_replicas
-  const hasRedis = !!process.env.REDIS_URL;
-
+  // 5. Ingest each new image into photos and photo_replicas.
+  //    Note: indexing is NOT triggered here. This function runs in both a request
+  //    handler and a standalone worker, so it only records rows and returns the new
+  //    photo IDs; the caller schedules indexing (via the queue, or `after()` in a
+  //    request, or awaited in a worker). This avoids detached promises being killed
+  //    when a serverless response returns.
   for (const file of newFiles) {
     try {
       // Record logical photo
       const createdAt = file.createdTime ? new Date(file.createdTime) : new Date();
       const photoRes = await query(
-        `INSERT INTO photos (user_id, filename, mime_type, size_bytes, created_at) 
-         VALUES ($1, $2, $3, $4, $5) 
+        `INSERT INTO photos (user_id, filename, mime_type, size_bytes, created_at)
+         VALUES ($1, $2, $3, $4, $5)
          RETURNING id`,
         [
           userId,
@@ -147,23 +148,10 @@ export async function syncAccountPhotos(
 
       // Record replica linking to this account
       await query(
-        `INSERT INTO photo_replicas (photo_id, account_id, drive_file_id) 
+        `INSERT INTO photo_replicas (photo_id, account_id, drive_file_id)
          VALUES ($1, $2, $3)`,
         [photoId, accountId, file.id]
       );
-
-      // Enqueue indexing job: if Redis is configured, push to BullMQ; otherwise run inline asynchronously
-      if (hasRedis) {
-        queue.add('photo-indexing', { photoId }).catch(queueErr => {
-          console.error(`[DriveSync] Failed to enqueue indexing for photo ${photoId}, running inline:`, queueErr);
-          indexPhoto(photoId).catch(err => console.error(`[Inline Indexer Fail] Photo ${photoId}:`, err));
-        });
-      } else {
-        // Fallback: run indexer inline asynchronously (non-blocking)
-        indexPhoto(photoId).catch(err => {
-          console.error(`[Inline Indexer Fail] Photo ${photoId}:`, err);
-        });
-      }
     } catch (importErr) {
       console.error(`[DriveSync] Failed to ingest file "${file.name}" (${file.id}):`, importErr);
     }
