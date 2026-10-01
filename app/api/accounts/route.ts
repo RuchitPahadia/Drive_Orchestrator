@@ -6,8 +6,8 @@
  */
 
 import { NextResponse } from 'next/server';
-import { auth } from '@/auth';
 import { query } from '@/lib/db';
+import { getSessionUser, unauthorized, serverError } from '@/lib/api-utils';
 
 /**
  * GET: Fetches all connected Google Drive accounts associated with the authenticated user.
@@ -16,26 +16,22 @@ import { query } from '@/lib/db';
  */
 export async function GET() {
   try {
-    const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-    const userId = session.user.id;
+    const user = await getSessionUser();
+    if (!user) return unauthorized();
+    const userId = user.id;
 
     // Fetch all accounts associated with this user, sorted alphabetically by email
     const accountsResult = await query(
-      `SELECT id, google_email, created_at 
-       FROM accounts 
-       WHERE user_id = $1 
+      `SELECT id, google_email, created_at
+       FROM accounts
+       WHERE user_id = $1
        ORDER BY google_email ASC`,
       [userId]
     );
 
     return NextResponse.json(accountsResult.rows);
   } catch (error) {
-    console.error('Error fetching accounts for select list:', error);
-    const errorMsg = error instanceof Error ? error.message : 'Unknown error occurred';
-    return NextResponse.json({ error: errorMsg }, { status: 500 });
+    return serverError('Accounts:list', error, 'Unable to load connected accounts right now');
   }
 }
 
@@ -49,11 +45,9 @@ export async function GET() {
  */
 export async function DELETE(request: Request) {
   try {
-    const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-    const userId = session.user.id;
+    const user = await getSessionUser();
+    if (!user) return unauthorized();
+    const userId = user.id;
 
     const { searchParams } = new URL(request.url);
     const accountId = searchParams.get('id');
@@ -84,8 +78,6 @@ export async function DELETE(request: Request) {
       accountId,
     });
   } catch (error) {
-    console.error('Error removing account:', error);
-    const errorMsg = error instanceof Error ? error.message : 'Failed to remove account';
-    return NextResponse.json({ error: errorMsg }, { status: 500 });
+    return serverError('Accounts:delete', error, 'Failed to remove the account right now');
   }
 }

@@ -6,26 +6,24 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/auth';
 import { query } from '@/lib/db';
+import { getSessionUser, unauthorized, serverError } from '@/lib/api-utils';
 
 /**
  * GET: Fetches the authenticated user's current account preferences and profile metadata.
- * 
+ *
  * @returns NextResponse with `{ settings: { replicationFactor, email, name, role } }`.
  */
 export async function GET() {
   try {
-    const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const user = await getSessionUser();
+    if (!user) return unauthorized();
 
     const res = await query(
-      `SELECT id, email, name, role, replication_factor 
-       FROM users 
+      `SELECT id, email, name, role, replication_factor
+       FROM users
        WHERE id = $1`,
-      [session.user.id]
+      [user.id]
     );
 
     if (res.rows.length === 0) {
@@ -41,8 +39,7 @@ export async function GET() {
       },
     });
   } catch (error) {
-    console.error('Error fetching user settings:', error);
-    return NextResponse.json({ error: 'Failed to fetch settings' }, { status: 500 });
+    return serverError('User Settings:get', error, 'Failed to fetch settings');
   }
 }
 
@@ -55,10 +52,8 @@ export async function GET() {
  */
 export async function PATCH(request: NextRequest) {
   try {
-    const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const user = await getSessionUser();
+    if (!user) return unauthorized();
 
     const body = await request.json();
     const { replicationFactor } = body;
@@ -77,11 +72,11 @@ export async function PATCH(request: NextRequest) {
     }
 
     const res = await query(
-      `UPDATE users 
-       SET replication_factor = $1 
-       WHERE id = $2 
+      `UPDATE users
+       SET replication_factor = $1
+       WHERE id = $2
        RETURNING id, replication_factor`,
-      [replicationFactor, session.user.id]
+      [replicationFactor, user.id]
     );
 
     if (res.rows.length === 0) {
@@ -94,7 +89,6 @@ export async function PATCH(request: NextRequest) {
       replicationFactor: res.rows[0].replication_factor,
     });
   } catch (error) {
-    console.error('Error updating user settings:', error);
-    return NextResponse.json({ error: 'Failed to update settings' }, { status: 500 });
+    return serverError('User Settings:update', error, 'Failed to update settings');
   }
 }

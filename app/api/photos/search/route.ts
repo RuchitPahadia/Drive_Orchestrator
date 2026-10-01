@@ -7,9 +7,9 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/auth';
 import { query } from '@/lib/db';
 import { generateTextEmbedding, formatVectorForPostgres } from '@/lib/embeddings';
+import { getSessionUser, unauthorized, serverError, parseLimit, MAX_PAGE_LIMIT } from '@/lib/api-utils';
 
 /** Vercel Serverless Function Max Duration (seconds) */
 export const maxDuration = 60;
@@ -31,25 +31,13 @@ export const maxDuration = 60;
  *   - `limit`: Maximum photos to return (default: 30, max: 100).
  * @returns NextResponse with `{ query, total, photos }`.
  */
-const DEFAULT_LIMIT = 30;
-const MAX_LIMIT = 100;
 const MAX_QUERY_LENGTH = 200;
-
-function parseLimit(value: string | null): number | null {
-  if (value === null) return DEFAULT_LIMIT;
-  if (!/^\d+$/.test(value)) return null;
-
-  const parsed = Number(value);
-  return Number.isSafeInteger(parsed) && parsed >= 1 && parsed <= MAX_LIMIT ? parsed : null;
-}
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-    const userId = session.user.id;
+    const user = await getSessionUser();
+    if (!user) return unauthorized();
+    const userId = user.id;
 
     const searchParams = request.nextUrl.searchParams;
     const rawQuery = searchParams.get('q');
@@ -57,7 +45,7 @@ export async function GET(request: NextRequest) {
 
     if (limit === null) {
       return NextResponse.json(
-        { error: `Parameter "limit" must be an integer between 1 and ${MAX_LIMIT}` },
+        { error: `Parameter "limit" must be an integer between 1 and ${MAX_PAGE_LIMIT}` },
         { status: 400 }
       );
     }
@@ -125,7 +113,6 @@ export async function GET(request: NextRequest) {
       photos: results.rows,
     });
   } catch (error) {
-    console.error('[Semantic Search] Error executing search:', error);
-    return NextResponse.json({ error: 'Unable to complete photo search right now' }, { status: 500 });
+    return serverError('Semantic Search', error, 'Unable to complete photo search right now');
   }
 }

@@ -6,8 +6,8 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/auth';
 import { query } from '@/lib/db';
+import { getSessionUser, unauthorized, serverError, parseLimit } from '@/lib/api-utils';
 
 /** Vercel Serverless Function Max Duration (seconds) */
 export const maxDuration = 60;
@@ -30,25 +30,15 @@ const DEFAULT_LIMIT = 20;
 const MAX_LIMIT = 50;
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-function parseLimit(value: string | null): number | null {
-  if (value === null) return DEFAULT_LIMIT;
-  if (!/^\d+$/.test(value)) return null;
-
-  const parsed = Number(value);
-  return Number.isSafeInteger(parsed) && parsed >= 1 && parsed <= MAX_LIMIT ? parsed : null;
-}
-
 export async function GET(request: NextRequest) {
   try {
-    const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-    const userId = session.user.id;
+    const user = await getSessionUser();
+    if (!user) return unauthorized();
+    const userId = user.id;
 
     const searchParams = request.nextUrl.searchParams;
     const photoId = searchParams.get('photoId');
-    const limit = parseLimit(searchParams.get('limit'));
+    const limit = parseLimit(searchParams.get('limit'), { def: DEFAULT_LIMIT, max: MAX_LIMIT });
 
     if (!photoId) {
       return NextResponse.json({ error: 'Parameter "photoId" is required' }, { status: 400 });
@@ -127,7 +117,6 @@ export async function GET(request: NextRequest) {
       photos: results.rows,
     });
   } catch (error) {
-    console.error('[Similar Photos] Error finding similar photos:', error);
-    return NextResponse.json({ error: 'Unable to find similar photos right now' }, { status: 500 });
+    return serverError('Similar Photos', error, 'Unable to find similar photos right now');
   }
 }

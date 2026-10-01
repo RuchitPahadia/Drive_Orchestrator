@@ -6,8 +6,8 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/auth';
 import { query } from '@/lib/db';
+import { getSessionUser, unauthorized, serverError } from '@/lib/api-utils';
 
 /**
  * GET: Retrieves a paginated list of photos matching user-specified filter criteria.
@@ -23,11 +23,9 @@ import { query } from '@/lib/db';
  */
 export async function GET(request: NextRequest) {
   try {
-    const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-    const userId = session.user.id;
+    const user = await getSessionUser();
+    if (!user) return unauthorized();
+    const userId = user.id;
 
     const searchParams = request.nextUrl.searchParams;
     const startDate = searchParams.get('startDate');
@@ -84,14 +82,28 @@ export async function GET(request: NextRequest) {
     paginatedValues.push(offset);
     const offsetPlaceholder = `$${paginatedValues.length}`;
 
-    // Sort by taken_at DESC with fallback to created_at DESC for deterministic pagination
+    // Sort by taken_at DESC with fallback to created_at DESC for deterministic pagination.
+    // Replica details come from LEFT JOIN LATERAL (deterministic primary replica), matching
+    // the pattern used by the search/similar routes.
     const dataQuery = `
       SELECT p.id, p.filename, p.mime_type, p.size_bytes, p.taken_at, p.gps_lat, p.gps_lng, p.camera_model, p.thumbnail_url, p.created_at,
-             (SELECT r.account_id FROM photo_replicas r WHERE r.photo_id = p.id LIMIT 1) as account_id,
-             (SELECT r.drive_file_id FROM photo_replicas r WHERE r.photo_id = p.id LIMIT 1) as drive_file_id,
-             ARRAY(SELECT r.account_id::text FROM photo_replicas r WHERE r.photo_id = p.id) as replica_account_ids
+             primary_replica.account_id,
+             primary_replica.drive_file_id,
+             COALESCE(replica_list.replica_account_ids, '{}') AS replica_account_ids
       FROM photos p
-      ${whereClause} 
+      LEFT JOIN LATERAL (
+        SELECT r.account_id, r.drive_file_id
+        FROM photo_replicas r
+        WHERE r.photo_id = p.id
+        ORDER BY r.created_at ASC, r.id ASC
+        LIMIT 1
+      ) primary_replica ON TRUE
+      LEFT JOIN LATERAL (
+        SELECT ARRAY_AGG(r.account_id::text ORDER BY r.created_at ASC, r.id ASC) AS replica_account_ids
+        FROM photo_replicas r
+        WHERE r.photo_id = p.id
+      ) replica_list ON TRUE
+      ${whereClause}
       ORDER BY p.taken_at DESC NULLS LAST, p.created_at DESC
       LIMIT ${limitPlaceholder} OFFSET ${offsetPlaceholder}
     `;
@@ -105,8 +117,6 @@ export async function GET(request: NextRequest) {
       pageSize,
     });
   } catch (error) {
-    console.error('Error fetching photos list:', error);
-    const errorMsg = error instanceof Error ? error.message : 'Unknown error occurred during fetch';
-    return NextResponse.json({ error: errorMsg }, { status: 500 });
+    return serverError('Photos:list', error, 'Unable to load photos right now');
   }
 }

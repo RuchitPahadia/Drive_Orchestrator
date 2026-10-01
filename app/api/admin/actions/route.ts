@@ -7,10 +7,10 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/auth';
 import { query } from '@/lib/db';
 import { refreshAccountQuota, getDriveClient } from '@/lib/drive-client';
 import { indexPhoto } from '@/lib/indexer';
+import { getSessionUser, serverError } from '@/lib/api-utils';
 
 /**
  * POST: Handles administrative cluster actions.
@@ -28,8 +28,8 @@ import { indexPhoto } from '@/lib/indexer';
  */
 export async function POST(request: NextRequest) {
   try {
-    const session = await auth();
-    if (!session?.user?.id || session.user.role !== 'admin') {
+    const user = await getSessionUser();
+    if (!user || user.role !== 'admin') {
       return NextResponse.json({ error: 'Unauthorized. Admin access required.' }, { status: 403 });
     }
 
@@ -105,8 +105,6 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ error: 'Invalid action requested' }, { status: 400 });
   } catch (error) {
-    console.error('Error handling admin action:', error);
-    const errorMsg = error instanceof Error ? error.message : 'Unknown error occurred';
-    return NextResponse.json({ error: errorMsg }, { status: 500 });
+    return serverError('Admin Action', error, 'Unable to complete the admin action right now');
   }
 }
