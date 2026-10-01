@@ -6,6 +6,7 @@
  */
 
 import NextAuth from 'next-auth';
+import type { Provider } from 'next-auth/providers';
 import { authConfig } from './auth.config';
 import Google from 'next-auth/providers/google';
 import Credentials from 'next-auth/providers/credentials';
@@ -14,49 +15,66 @@ import { query } from '@/lib/db';
 /** Default developer email used for local test login */
 const DEV_DEFAULT_EMAIL = 'toruchitpahadia@gmail.com';
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
-  ...authConfig,
-  providers: [
+/**
+ * Build the provider list. The Google OAuth provider is always available.
+ *
+ * @security The `dev-login` password-less provider is registered ONLY outside
+ * production (`NODE_ENV !== 'production'`). Previously it was unconditional,
+ * which allowed anyone to obtain an admin session on a deployed instance
+ * (full authentication bypass). It is now unreachable in production builds.
+ */
+function buildProviders() {
+  const providers: Provider[] = [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
-    /**
-     * @security Developer Test Login Provider.
-     * Allows one-click sign-in with admin role during local development and automated testing.
-     * In production environments, this provider can be disabled or restricted behind NODE_ENV checks.
-     */
-    Credentials({
-      id: 'dev-login',
-      name: 'Developer Test Login',
-      credentials: {
-        email: { label: 'Email', type: 'email' },
-      },
-      async authorize(credentials) {
-        const email = (credentials?.email as string) || DEV_DEFAULT_EMAIL;
-        try {
-          const res = await query(
-            `INSERT INTO users (email, name, role)
-             VALUES ($1, 'Mr. Ruchit', 'admin')
-             ON CONFLICT (email) 
-             DO UPDATE SET role = 'admin', name = COALESCE(users.name, 'Mr. Ruchit')
-             RETURNING id, email, name, role`,
-            [email]
-          );
-          const user = res.rows[0];
-          return {
-            id: user.id,
-            email: user.email,
-            name: user.name,
-            role: user.role,
-          };
-        } catch (err) {
-          console.error('[Dev Auth] Error creating/fetching dev user:', err);
-          return null;
-        }
-      },
-    }),
-  ],
+  ];
+
+  if (process.env.NODE_ENV !== 'production') {
+    providers.push(
+      Credentials({
+        id: 'dev-login',
+        name: 'Developer Test Login',
+        credentials: {
+          email: { label: 'Email', type: 'email' },
+        },
+        async authorize(credentials) {
+          const email = (credentials?.email as string) || DEV_DEFAULT_EMAIL;
+          try {
+            // Create new dev users as admin for local convenience, but NEVER
+            // escalate the role of an existing user (prevents a real Google
+            // user being silently promoted to admin via dev-login).
+            const res = await query(
+              `INSERT INTO users (email, name, role)
+               VALUES ($1, 'Mr. Ruchit', 'admin')
+               ON CONFLICT (email)
+               DO UPDATE SET name = COALESCE(users.name, 'Mr. Ruchit')
+               RETURNING id, email, name, role`,
+              [email]
+            );
+            const user = res.rows[0];
+            return {
+              id: user.id,
+              email: user.email,
+              name: user.name,
+              role: user.role,
+            };
+          } catch (err) {
+            console.error('[Dev Auth] Error creating/fetching dev user:', err);
+            return null;
+          }
+        },
+      })
+    );
+  }
+
+  return providers;
+}
+
+export const { handlers, signIn, signOut, auth } = NextAuth({
+  ...authConfig,
+  providers: buildProviders(),
   callbacks: {
     ...authConfig.callbacks,
     /**

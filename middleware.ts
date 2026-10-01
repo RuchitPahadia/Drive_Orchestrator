@@ -64,6 +64,8 @@ export const config = {
     '/admin/:path*',     // System administration & metrics
     '/api/photos/:path*', // Photo upload, search, similarity APIs
     '/api/accounts/:path*', // Google Drive account connection and sync APIs
+    '/api/admin/:path*',  // Admin-only mutation APIs (defense-in-depth; handler also checks role)
+    '/api/users/:path*',  // Per-user settings APIs
     '/login',            // Authentication page
   ],
 };
