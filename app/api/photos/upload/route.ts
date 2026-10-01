@@ -7,13 +7,14 @@
  */
 
 import { NextRequest, NextResponse, after } from 'next/server';
-import { auth } from '@/auth';
-import { query } from '@/lib/db';
+import { query, withTransaction } from '@/lib/db';
 import { pickAccountsForUpload } from '@/lib/storage-router';
 import { getDriveClient } from '@/lib/drive-client';
 import { Readable } from 'stream';
 import { queue } from '@/lib/queue';
 import { indexPhoto } from '@/lib/indexer';
+import { getSessionUser, unauthorized, serverError } from '@/lib/api-utils';
+import { detectImageMime } from '@/lib/image-validation';
 import crypto from 'crypto';
 
 /** Vercel Serverless Function Max Duration (seconds) */
@@ -39,7 +40,12 @@ const MAX_UPLOAD_SIZE_BYTES = 50 * 1024 * 1024;
  */
 export async function POST(request: NextRequest) {
   try {
-    // 1. Parse form data to retrieve the file
+    // 1. Authenticate first — avoid parsing attacker-controlled bodies pre-auth
+    const user = await getSessionUser();
+    if (!user) return unauthorized();
+    const userId = user.id;
+
+    // 2. Parse form data to retrieve the file
     const formData = await request.formData();
     const file = formData.get('file') as File | null;
 
@@ -47,7 +53,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'No file provided in the upload request' }, { status: 400 });
     }
 
-    // 2. Enforce the 50MB file size limit
+    // 3. Enforce the 50MB file size limit
     if (file.size > MAX_UPLOAD_SIZE_BYTES) {
       const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
       return NextResponse.json(
@@ -56,16 +62,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 3. Resolve currently authenticated user session
-    const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-    const userId = session.user.id;
-
-    // 4. Compute SHA-256 hash for instantaneous deduplication
+    // 4. Read bytes and validate that the content is actually an image.
+    //    @security The client-supplied MIME type is not trusted; the real type is
+    //    derived from magic bytes so non-image/malicious payloads are rejected
+    //    before they reach Drive and the sharp/exifr indexing pipeline.
     const fileArrayBuffer = await file.arrayBuffer();
     const fileBuffer = Buffer.from(fileArrayBuffer);
+
+    const detectedMime = detectImageMime(fileBuffer);
+    if (!detectedMime) {
+      return NextResponse.json(
+        { error: 'Unsupported file type. Only image files (JPEG, PNG, GIF, WebP, TIFF, BMP, HEIC/HEIF) are allowed.' },
+        { status: 400 }
+      );
+    }
+
+    // 5. Compute SHA-256 hash for instantaneous deduplication
     const fileHash = crypto.createHash('sha256').update(fileBuffer).digest('hex');
 
     // 5. Deduplication check: Has this exact file content already been uploaded by this user?
@@ -115,10 +127,10 @@ export async function POST(request: NextRequest) {
         const driveResponse = await drive.files.create({
           requestBody: {
             name: file.name,
-            mimeType: file.type || 'application/octet-stream',
+            mimeType: detectedMime,
           },
           media: {
-            mimeType: file.type || 'application/octet-stream',
+            mimeType: detectedMime,
             body: stream,
           },
           fields: 'id, name, mimeType, size',
@@ -146,30 +158,30 @@ export async function POST(request: NextRequest) {
 
     console.log(`Successfully uploaded "${file.name}" to ${uploadResults.length} accounts.`);
 
-    // 8. Record metadata in the photos database table (logical photo) with file_hash
-    const photoResult = await query(
-      `INSERT INTO photos (user_id, filename, mime_type, size_bytes, file_hash) 
-       VALUES ($1, $2, $3, $4, $5) 
-       RETURNING id, user_id, filename, mime_type, size_bytes, file_hash, created_at`,
-      [
-        userId,
-        file.name,
-        file.type || 'application/octet-stream',
-        file.size,
-        fileHash,
-      ]
-    );
-
-    const photoId = photoResult.rows[0].id;
-
-    // 9. Record each physical copy in the photo_replicas table
-    for (const replica of uploadResults) {
-      await query(
-        `INSERT INTO photo_replicas (photo_id, account_id, drive_file_id) 
-         VALUES ($1, $2, $3)`,
-        [photoId, replica.accountId, replica.driveFileId]
+    // 8-9. Atomically record the logical photo row and its physical replica rows.
+    //      Wrapped in a single transaction so a mid-loop failure can't leave the
+    //      photo with a partial set of replica records.
+    const photoRow = await withTransaction(async (tx) => {
+      const photoResult = await tx(
+        `INSERT INTO photos (user_id, filename, mime_type, size_bytes, file_hash)
+         VALUES ($1, $2, $3, $4, $5)
+         RETURNING id, user_id, filename, mime_type, size_bytes, file_hash, created_at`,
+        [userId, file.name, detectedMime, file.size, fileHash]
       );
-    }
+      const inserted = photoResult.rows[0];
+
+      for (const replica of uploadResults) {
+        await tx(
+          `INSERT INTO photo_replicas (photo_id, account_id, drive_file_id)
+           VALUES ($1, $2, $3)`,
+          [inserted.id, replica.accountId, replica.driveFileId]
+        );
+      }
+
+      return inserted;
+    });
+
+    const photoId = photoRow.id;
 
     // 10. Enqueue a background photo-indexing job or run inline if Redis is not configured
     const hasRedis = !!process.env.REDIS_URL;
@@ -202,7 +214,7 @@ export async function POST(request: NextRequest) {
 
     // Return the response with compatibility fields (mapping first replica's details)
     const compatibilityPhoto = {
-      ...photoResult.rows[0],
+      ...photoRow,
       account_id: uploadResults[0].accountId,
       drive_file_id: uploadResults[0].driveFileId,
       replicasCount: uploadResults.length,
@@ -215,8 +227,6 @@ export async function POST(request: NextRequest) {
       photo: compatibilityPhoto,
     });
   } catch (error) {
-    console.error('Error handling upload request:', error);
-    const errorMsg = error instanceof Error ? error.message : 'Unknown error occurred during upload';
-    return NextResponse.json({ error: errorMsg }, { status: 500 });
+    return serverError('Upload', error, 'Unable to complete the upload right now');
   }
 }
