@@ -6,7 +6,8 @@
  * @phase Phase 2: Database Schema & Client
  */
 
-import { Pool, QueryResult, QueryResultRow } from 'pg';
+import { Pool, QueryResult, QueryResultRow, PoolConfig } from 'pg';
+import { existsSync, readFileSync } from 'fs';
 
 const connectionString = process.env.DATABASE_URL;
 
@@ -17,25 +18,48 @@ declare global {
 
 let pool: Pool;
 
+const isLocalDb =
+  connectionString?.includes('localhost') || connectionString?.includes('127.0.0.1');
+
+/**
+ * Build the pg SSL configuration.
+ *
+ * @security Previously this used `rejectUnauthorized: false` for every remote
+ * database, which encrypts the connection but does NOT authenticate the server
+ * (vulnerable to MITM). We now prefer full verification when a CA certificate
+ * is provided via `DATABASE_CA_CERT` (either an inline PEM string or a path to
+ * a .pem/.crt file). If no CA is configured we fall back to the previous
+ * behavior but emit a warning, so remote deployments keep working while being
+ * nudged toward a verified TLS setup. Supabase/Neon publish a downloadable CA.
+ */
+function buildSslConfig(): PoolConfig['ssl'] {
+  if (isLocalDb) return false;
+
+  const caSource = process.env.DATABASE_CA_CERT;
+  if (caSource) {
+    const ca =
+      existsSync(caSource) && !caSource.includes('-----BEGIN')
+        ? readFileSync(caSource, 'utf8')
+        : caSource;
+    return { ca, rejectUnauthorized: true };
+  }
+
+  if (process.env.NODE_ENV === 'production') {
+    console.warn(
+      '[db] DATABASE_CA_CERT is not set — TLS server certificate verification is DISABLED ' +
+        '(rejectUnauthorized: false). Set DATABASE_CA_CERT to your database CA to enable verification.'
+    );
+  }
+  return { rejectUnauthorized: false };
+}
+
 // Production: Instantiate a clean single pool for the container/process lifecycle
 if (process.env.NODE_ENV === 'production') {
-  pool = new Pool({
-    connectionString,
-    // Disable SSL for local database instances; enable with rejectUnauthorized: false for Supabase/Neon cloud instances
-    ssl: connectionString?.includes('localhost') || connectionString?.includes('127.0.0.1')
-      ? false
-      : { rejectUnauthorized: false }
-  });
+  pool = new Pool({ connectionString, ssl: buildSslConfig() });
 } else {
   // Development: Use a global singleton so pool is preserved across Next.js fast-refresh cycles
   if (!global.pgPool) {
-    global.pgPool = new Pool({
-      connectionString,
-      // Supabase uses self-signed/managed certificates requiring rejectUnauthorized: false
-      ssl: connectionString?.includes('localhost') || connectionString?.includes('127.0.0.1')
-        ? false
-        : { rejectUnauthorized: false }
-    });
+    global.pgPool = new Pool({ connectionString, ssl: buildSslConfig() });
   }
   pool = global.pgPool;
 }
@@ -56,5 +80,37 @@ export async function query<T extends QueryResultRow = any>(
   return pool.query<T>(text, params);
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */
+
+/**
+ * Run a set of queries inside a single transaction on one pooled client.
+ * The callback receives a bound `query` function; the transaction is committed
+ * if the callback resolves and rolled back if it throws. The client is always
+ * released back to the pool.
+ */
+export async function withTransaction<R>(
+  fn: (
+    tx: <T extends QueryResultRow = QueryResultRow>(
+      text: string,
+      params?: unknown[]
+    ) => Promise<QueryResult<T>>
+  ) => Promise<R>
+): Promise<R> {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    const result = await fn((text, params) => client.query(text, params as never[]));
+    await client.query('COMMIT');
+    return result;
+  } catch (err) {
+    try {
+      await client.query('ROLLBACK');
+    } catch (rollbackErr) {
+      console.error('[db] ROLLBACK failed:', rollbackErr);
+    }
+    throw err;
+  } finally {
+    client.release();
+  }
+}
 
 export { pool };
