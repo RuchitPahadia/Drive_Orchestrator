@@ -148,8 +148,9 @@ export async function indexPhoto(photoId: string): Promise<void> {
     }
 
     // 6. Update database record
-    // The CASE WHEN expression handles conditional pgvector casting: avoids syntax errors
-    // if embeddingVector is null while casting properly to vector(512) when present.
+    // Keep prior derived data when a transient thumbnail/embedding failure occurs. A failed
+    // embedding intentionally leaves indexed_at unchanged (NULL for new photos), allowing the
+    // worker/admin retry path to discover and repair the photo instead of silently hiding it.
     console.log(`[Indexer] Saving metadata and embedding to photos table...`);
     await query(
       `UPDATE photos 
@@ -157,9 +158,9 @@ export async function indexPhoto(photoId: string): Promise<void> {
            gps_lat = $2, 
            gps_lng = $3, 
            camera_model = $4, 
-           thumbnail_url = $5, 
-           embedding = CASE WHEN $6::text IS NOT NULL THEN $6::vector ELSE NULL END, 
-           indexed_at = NOW() 
+           thumbnail_url = CASE WHEN $5::text IS NOT NULL THEN $5 ELSE thumbnail_url END, 
+           embedding = CASE WHEN $6::text IS NOT NULL THEN $6::vector ELSE embedding END, 
+           indexed_at = CASE WHEN $6::text IS NOT NULL THEN NOW() ELSE indexed_at END
        WHERE id = $7`,
       [takenAt, gpsLat, gpsLng, cameraModel, thumbnailUrl, embeddingVector, photoId]
     );

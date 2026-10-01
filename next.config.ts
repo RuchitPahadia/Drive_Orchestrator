@@ -8,8 +8,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Output standalone server bundle for optimized Docker containerization
-  output: 'standalone',
+  // Output standalone server bundle for containerization when not on Vercel
+  ...(process.env.VERCEL ? {} : { output: 'standalone' }),
+  serverExternalPackages: [
+    '@huggingface/transformers',
+    'onnxruntime-node',
+    'sharp',
+    'pg',
+  ],
 };
 
 export default nextConfig;

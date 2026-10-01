@@ -54,3 +54,7 @@ venv/
 Test_images/
 graphify-out/2026-*/
 
+# Agent temporary metadata
+__agent__/
+.omnirush/
+

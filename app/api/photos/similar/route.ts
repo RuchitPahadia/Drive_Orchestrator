@@ -9,6 +9,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { query } from '@/lib/db';
 
+/** Vercel Serverless Function Max Duration (seconds) */
+export const maxDuration = 60;
+
 /**
  * GET: Finds visually similar photos for a given source photo.
  * 
@@ -23,6 +26,18 @@ import { query } from '@/lib/db';
  *   - `limit`: Maximum similar photos to return (default: 20, max: 50).
  * @returns NextResponse with `{ sourcePhotoId, sourceFilename, total, photos }`.
  */
+const DEFAULT_LIMIT = 20;
+const MAX_LIMIT = 50;
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+function parseLimit(value: string | null): number | null {
+  if (value === null) return DEFAULT_LIMIT;
+  if (!/^\d+$/.test(value)) return null;
+
+  const parsed = Number(value);
+  return Number.isSafeInteger(parsed) && parsed >= 1 && parsed <= MAX_LIMIT ? parsed : null;
+}
+
 export async function GET(request: NextRequest) {
   try {
     const session = await auth();
@@ -33,11 +48,19 @@ export async function GET(request: NextRequest) {
 
     const searchParams = request.nextUrl.searchParams;
     const photoId = searchParams.get('photoId');
-    const limitParam = searchParams.get('limit') || '20';
-    const limit = Math.min(Math.max(parseInt(limitParam, 10) || 20, 1), 50);
+    const limit = parseLimit(searchParams.get('limit'));
 
     if (!photoId) {
       return NextResponse.json({ error: 'Parameter "photoId" is required' }, { status: 400 });
+    }
+    if (!UUID_PATTERN.test(photoId)) {
+      return NextResponse.json({ error: 'Parameter "photoId" must be a valid UUID' }, { status: 400 });
+    }
+    if (limit === null) {
+      return NextResponse.json(
+        { error: `Parameter "limit" must be an integer between 1 and ${MAX_LIMIT}` },
+        { status: 400 }
+      );
     }
 
     // 1. Fetch source photo's embedding (scoped to authenticated user)
@@ -71,29 +94,27 @@ export async function GET(request: NextRequest) {
         p.camera_model,
         p.thumbnail_url,
         p.created_at,
-        ROUND((1 - (p.embedding <=> $1))::numeric, 4) AS similarity,
-        (
-          SELECT r.account_id 
-          FROM photo_replicas r 
-          WHERE r.photo_id = p.id 
-          LIMIT 1
-        ) AS account_id,
-        (
-          SELECT r.drive_file_id 
-          FROM photo_replicas r 
-          WHERE r.photo_id = p.id 
-          LIMIT 1
-        ) AS drive_file_id,
-        (
-          SELECT ARRAY_AGG(r.account_id) 
-          FROM photo_replicas r 
-          WHERE r.photo_id = p.id
-        ) AS replica_account_ids
+        ROUND(GREATEST(0::numeric, LEAST(1::numeric, (1 - (p.embedding <=> $1::vector))::numeric)), 4) AS similarity,
+        primary_replica.account_id,
+        primary_replica.drive_file_id,
+        replica_list.replica_account_ids
       FROM photos p
+      LEFT JOIN LATERAL (
+        SELECT r.account_id, r.drive_file_id
+        FROM photo_replicas r
+        WHERE r.photo_id = p.id
+        ORDER BY r.created_at ASC, r.id ASC
+        LIMIT 1
+      ) primary_replica ON TRUE
+      LEFT JOIN LATERAL (
+        SELECT ARRAY_AGG(r.account_id::text ORDER BY r.created_at ASC, r.id ASC) AS replica_account_ids
+        FROM photo_replicas r
+        WHERE r.photo_id = p.id
+      ) replica_list ON TRUE
       WHERE p.id != $2
         AND p.user_id = $3
         AND p.embedding IS NOT NULL
-      ORDER BY p.embedding <=> $1 ASC
+      ORDER BY p.embedding <=> $1::vector ASC, p.taken_at DESC NULLS LAST, p.id ASC
       LIMIT $4;
     `;
 
@@ -107,7 +128,6 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error('[Similar Photos] Error finding similar photos:', error);
-    const errorMsg = error instanceof Error ? error.message : 'Failed to find similar photos';
-    return NextResponse.json({ error: errorMsg }, { status: 500 });
+    return NextResponse.json({ error: 'Unable to find similar photos right now' }, { status: 500 });
   }
 }

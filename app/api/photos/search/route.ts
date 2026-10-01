@@ -11,6 +11,9 @@ import { auth } from '@/auth';
 import { query } from '@/lib/db';
 import { generateTextEmbedding, formatVectorForPostgres } from '@/lib/embeddings';
 
+/** Vercel Serverless Function Max Duration (seconds) */
+export const maxDuration = 60;
+
 /**
  * GET: Executes semantic vector similarity search for a text query.
  * 
@@ -28,6 +31,18 @@ import { generateTextEmbedding, formatVectorForPostgres } from '@/lib/embeddings
  *   - `limit`: Maximum photos to return (default: 30, max: 100).
  * @returns NextResponse with `{ query, total, photos }`.
  */
+const DEFAULT_LIMIT = 30;
+const MAX_LIMIT = 100;
+const MAX_QUERY_LENGTH = 200;
+
+function parseLimit(value: string | null): number | null {
+  if (value === null) return DEFAULT_LIMIT;
+  if (!/^\d+$/.test(value)) return null;
+
+  const parsed = Number(value);
+  return Number.isSafeInteger(parsed) && parsed >= 1 && parsed <= MAX_LIMIT ? parsed : null;
+}
+
 export async function GET(request: NextRequest) {
   try {
     const session = await auth();
@@ -37,17 +52,32 @@ export async function GET(request: NextRequest) {
     const userId = session.user.id;
 
     const searchParams = request.nextUrl.searchParams;
-    const q = searchParams.get('q');
-    const limitParam = searchParams.get('limit') || '30';
-    const limit = Math.min(Math.max(parseInt(limitParam, 10) || 30, 1), 100);
+    const rawQuery = searchParams.get('q');
+    const limit = parseLimit(searchParams.get('limit'));
 
-    if (!q || !q.trim()) {
+    if (limit === null) {
+      return NextResponse.json(
+        { error: `Parameter "limit" must be an integer between 1 and ${MAX_LIMIT}` },
+        { status: 400 }
+      );
+    }
+
+    if (!rawQuery || !rawQuery.trim()) {
       return NextResponse.json({ error: 'Search query parameter "q" is required' }, { status: 400 });
     }
 
+    // Collapse repeated whitespace so equivalent searches use the same model input.
+    const searchQuery = rawQuery.trim().replace(/\s+/g, ' ');
+    if (searchQuery.length > MAX_QUERY_LENGTH) {
+      return NextResponse.json(
+        { error: `Search query must be ${MAX_QUERY_LENGTH} characters or fewer` },
+        { status: 400 }
+      );
+    }
+
     // 2. Generate 512-dim embedding for the search query using local ONNX model
-    console.log(`[Semantic Search] Generating embedding for query: "${q.trim()}"...`);
-    const queryVector = await generateTextEmbedding(q.trim());
+    console.log(`[Semantic Search] Generating embedding for query: "${searchQuery}"...`);
+    const queryVector = await generateTextEmbedding(searchQuery);
     const vectorStr = formatVectorForPostgres(queryVector);
 
     // 3. Query photos by cosine similarity using the pgvector HNSW index
@@ -64,41 +94,38 @@ export async function GET(request: NextRequest) {
         p.camera_model,
         p.thumbnail_url,
         p.created_at,
-        ROUND((1 - (p.embedding <=> $1::vector))::numeric, 4) AS similarity,
-        (
-          SELECT r.account_id 
-          FROM photo_replicas r 
-          WHERE r.photo_id = p.id 
-          LIMIT 1
-        ) AS account_id,
-        (
-          SELECT r.drive_file_id 
-          FROM photo_replicas r 
-          WHERE r.photo_id = p.id 
-          LIMIT 1
-        ) AS drive_file_id,
-        (
-          SELECT ARRAY_AGG(r.account_id) 
-          FROM photo_replicas r 
-          WHERE r.photo_id = p.id
-        ) AS replica_account_ids
+        ROUND(GREATEST(0::numeric, LEAST(1::numeric, (1 - (p.embedding <=> $1::vector))::numeric)), 4) AS similarity,
+        primary_replica.account_id,
+        primary_replica.drive_file_id,
+        replica_list.replica_account_ids
       FROM photos p
+      LEFT JOIN LATERAL (
+        SELECT r.account_id, r.drive_file_id
+        FROM photo_replicas r
+        WHERE r.photo_id = p.id
+        ORDER BY r.created_at ASC, r.id ASC
+        LIMIT 1
+      ) primary_replica ON TRUE
+      LEFT JOIN LATERAL (
+        SELECT ARRAY_AGG(r.account_id::text ORDER BY r.created_at ASC, r.id ASC) AS replica_account_ids
+        FROM photo_replicas r
+        WHERE r.photo_id = p.id
+      ) replica_list ON TRUE
       WHERE p.user_id = $2
         AND p.embedding IS NOT NULL
-      ORDER BY p.embedding <=> $1::vector ASC
+      ORDER BY p.embedding <=> $1::vector ASC, p.taken_at DESC NULLS LAST, p.id ASC
       LIMIT $3;
     `;
 
     const results = await query(sql, [vectorStr, userId, limit]);
 
     return NextResponse.json({
-      query: q,
+      query: searchQuery,
       total: results.rows.length,
       photos: results.rows,
     });
   } catch (error) {
     console.error('[Semantic Search] Error executing search:', error);
-    const errorMsg = error instanceof Error ? error.message : 'Failed to execute semantic search';
-    return NextResponse.json({ error: errorMsg }, { status: 500 });
+    return NextResponse.json({ error: 'Unable to complete photo search right now' }, { status: 500 });
   }
 }

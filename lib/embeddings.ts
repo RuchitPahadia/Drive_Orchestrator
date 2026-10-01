@@ -12,10 +12,23 @@ import {
   CLIPTextModelWithProjection,
   CLIPVisionModelWithProjection,
   RawImage,
+  env,
 } from '@huggingface/transformers';
+import path from 'path';
+import os from 'os';
+
+// Configure transformers cache directory for serverless environments (e.g. Vercel Lambda /tmp)
+// Prevents EROFS (read-only file system) error on AWS Lambda / Vercel
+if (process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME || process.env.NODE_ENV === 'production') {
+  env.cacheDir = process.env.HF_HOME || path.join(os.tmpdir(), '.transformers-cache');
+  if (env.backends?.onnx?.wasm) {
+    env.backends.onnx.wasm.numThreads = 1;
+  }
+}
 
 /** Pretrained HuggingFace ONNX-quantized model repository ID */
 const MODEL_ID = 'Xenova/clip-vit-base-patch32';
+export const EMBEDDING_DIMENSIONS = 512;
 
 // Note: @huggingface/transformers does not export explicit TypeScript interfaces for model instances
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -36,8 +49,17 @@ let visionModel: any = null;
  * @returns Normalized float array with L2 length equal to 1.0.
  */
 function normalize(vector: number[]): number[] {
+  if (vector.length !== EMBEDDING_DIMENSIONS) {
+    throw new Error(`Expected a ${EMBEDDING_DIMENSIONS}-dimensional embedding, received ${vector.length}`);
+  }
+  if (!vector.every(Number.isFinite)) {
+    throw new Error('Embedding contains a non-finite value');
+  }
+
   const norm = Math.sqrt(vector.reduce((sum, v) => sum + v * v, 0));
-  if (norm === 0) return vector;
+  if (!Number.isFinite(norm) || norm <= Number.EPSILON) {
+    throw new Error('Embedding has no usable magnitude');
+  }
   return vector.map((v) => v / norm);
 }
 
@@ -107,5 +129,11 @@ export async function generateImageEmbedding(imageBuffer: Buffer): Promise<numbe
  * @returns PostgreSQL vector literal string suitable for parameterized queries.
  */
 export function formatVectorForPostgres(vector: number[]): string {
+  if (vector.length !== EMBEDDING_DIMENSIONS) {
+    throw new Error(`Expected a ${EMBEDDING_DIMENSIONS}-dimensional embedding, received ${vector.length}`);
+  }
+  if (!vector.every(Number.isFinite)) {
+    throw new Error('Cannot format an embedding containing non-finite values');
+  }
   return `[${vector.join(',')}]`;
 }

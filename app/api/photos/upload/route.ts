@@ -6,7 +6,7 @@
  * @phase Phase 4: Storage Router & Upload & Phase 10: Deduplication & Replication
  */
 
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse, after } from 'next/server';
 import { auth } from '@/auth';
 import { query } from '@/lib/db';
 import { pickAccountsForUpload } from '@/lib/storage-router';
@@ -15,6 +15,9 @@ import { Readable } from 'stream';
 import { queue } from '@/lib/queue';
 import { indexPhoto } from '@/lib/indexer';
 import crypto from 'crypto';
+
+/** Vercel Serverless Function Max Duration (seconds) */
+export const maxDuration = 60;
 
 /** Maximum permissible photo upload size: 50 Megabytes */
 const MAX_UPLOAD_SIZE_BYTES = 50 * 1024 * 1024;
@@ -176,16 +179,24 @@ export async function POST(request: NextRequest) {
         await queue.add('photo-indexing', { photoId });
       } catch (queueError) {
         console.error(`Failed to enqueue indexing job for photo ${photoId}, falling back to inline indexing:`, queueError);
-        // Fallback to inline background processing if Redis connection fails
-        indexPhoto(photoId).catch(err => {
-          console.error(`[Inline Indexer Fail] Photo ${photoId}:`, err);
+        // Fallback to inline background processing using after() for serverless safety
+        after(async () => {
+          try {
+            await indexPhoto(photoId);
+          } catch (err) {
+            console.error(`[Inline Indexer Fail] Photo ${photoId}:`, err);
+          }
         });
       }
     } else {
-      console.log(`Redis not configured (REDIS_URL is empty). Executing indexer inline for photo ID ${photoId}...`);
-      // Run indexing inline in the background (non-blocking for HTTP response)
-      indexPhoto(photoId).catch(err => {
-        console.error(`[Inline Indexer Fail] Photo ${photoId}:`, err);
+      console.log(`Redis not configured (REDIS_URL is empty). Executing indexer via after() for photo ID ${photoId}...`);
+      // Run indexing inline in the background using after() (serverless-compatible, keeps lambda alive)
+      after(async () => {
+        try {
+          await indexPhoto(photoId);
+        } catch (err) {
+          console.error(`[Inline Indexer Fail] Photo ${photoId}:`, err);
+        }
       });
     }
 

@@ -10,6 +10,9 @@ import { auth } from '@/auth';
 import { query } from '@/lib/db';
 import { syncAccountPhotos, SyncAccountResult } from '@/lib/drive-scanner';
 
+/** Vercel Serverless Function Max Duration (seconds) */
+export const maxDuration = 60;
+
 /**
  * POST: Initiates a library sync across one or all connected Google Drive accounts.
  * 
