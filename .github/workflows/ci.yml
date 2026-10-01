@@ -28,3 +28,6 @@ jobs:
 
       - name: ESLint Validation
         run: npm run lint
+
+      - name: Unit Tests
+        run: npm test
