@@ -45,7 +45,12 @@ export default auth((req) => {
   }
 
   // === Section 3: Admin Role Authorization Check ===
-  // Restrict access to /admin routes strictly to users with the 'admin' role
+  // Restrict admin surfaces to users with the 'admin' role. Defense in depth: the
+  // /api/admin handlers also enforce this, but gating at the edge too means a future
+  // handler that forgets the check is not silently exposed.
+  if (pathname.startsWith('/api/admin') && req.auth?.user?.role !== 'admin') {
+    return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
+  }
   if (pathname.startsWith('/admin') && req.auth?.user?.role !== 'admin') {
     return NextResponse.redirect(new URL('/dashboard?error=Unauthorized', req.nextUrl));
   }
