@@ -9,8 +9,9 @@ import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { logger } from '@/lib/logger';
 
-export const DEFAULT_PAGE_LIMIT = 30;
-export const MAX_PAGE_LIMIT = 100;
+// Re-export the pure pagination helpers so existing route imports from
+// '@/lib/api-utils' keep working, while they remain independently testable.
+export { DEFAULT_PAGE_LIMIT, MAX_PAGE_LIMIT, parseLimit } from '@/lib/pagination';
 
 /**
  * Resolve the authenticated user from the session, or `null` if unauthenticated.
@@ -34,20 +35,4 @@ export function unauthorized() {
 export function serverError(context: string, error: unknown, clientMessage = 'Something went wrong. Please try again.') {
   logger.error(`[${context}]`, error);
   return NextResponse.json({ error: clientMessage }, { status: 500 });
-}
-
-/**
- * Parse and validate a `limit` query parameter.
- *
- * @returns the parsed limit, or `null` if the value is present but invalid
- * (non-integer, out of range). A missing value yields `def`.
- */
-export function parseLimit(
-  value: string | null,
-  { def = DEFAULT_PAGE_LIMIT, max = MAX_PAGE_LIMIT }: { def?: number; max?: number } = {}
-): number | null {
-  if (value === null) return def;
-  if (!/^\d+$/.test(value)) return null;
-  const parsed = Number(value);
-  return Number.isSafeInteger(parsed) && parsed >= 1 && parsed <= max ? parsed : null;
 }
