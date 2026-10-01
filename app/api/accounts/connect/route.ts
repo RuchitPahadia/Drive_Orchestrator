@@ -9,9 +9,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { randomBytes } from 'crypto';
 import { auth } from '@/auth';
 import { generateAuthUrl } from '@/lib/google-oauth';
-
-/** Name of the short-lived httpOnly cookie holding the OAuth anti-CSRF state token. */
-export const OAUTH_STATE_COOKIE = 'oauth_state';
+import { OAUTH_STATE_COOKIE } from '@/lib/oauth';
 
 /**
  * GET: Verifies the session and redirects the browser to Google's OAuth consent screen.

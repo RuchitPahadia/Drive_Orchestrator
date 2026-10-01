@@ -9,31 +9,18 @@ import { NextRequest, NextResponse, after } from 'next/server';
 import { query } from '@/lib/db';
 import { syncAccountPhotos, SyncAccountResult } from '@/lib/drive-scanner';
 import { getSessionUser, unauthorized, serverError } from '@/lib/api-utils';
-import { enqueueIndexing } from '@/lib/indexing-scheduler';
-import { indexPhoto } from '@/lib/indexer';
+import { runIndexing } from '@/lib/indexing-scheduler';
 
 /** Vercel Serverless Function Max Duration (seconds) */
 export const maxDuration = 60;
 
 /**
- * Schedule indexing for newly ingested photos after the response is sent.
- * Uses the durable queue when available; otherwise runs indexing inline inside
- * `after()` so the work is not killed when the serverless response returns.
+ * Schedule indexing for newly ingested photos after the response is sent, so the
+ * work is not killed when the serverless response returns.
  */
 function scheduleIndexing(photoIds: string[]) {
   if (photoIds.length === 0) return;
-  after(async () => {
-    for (const photoId of photoIds) {
-      const queued = await enqueueIndexing(photoId);
-      if (!queued) {
-        try {
-          await indexPhoto(photoId);
-        } catch (err) {
-          console.error(`[Sync Indexer Fail] Photo ${photoId}:`, err);
-        }
-      }
-    }
-  });
+  after(() => runIndexing(photoIds));
 }
 
 /**

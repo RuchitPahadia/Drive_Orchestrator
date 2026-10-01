@@ -37,10 +37,18 @@ function buildSslConfig(): PoolConfig['ssl'] {
 
   const caSource = process.env.DATABASE_CA_CERT;
   if (caSource) {
-    const ca =
-      existsSync(caSource) && !caSource.includes('-----BEGIN')
-        ? readFileSync(caSource, 'utf8')
-        : caSource;
+    let ca: string;
+    if (caSource.includes('-----BEGIN')) {
+      ca = caSource; // inline PEM content
+    } else if (existsSync(caSource)) {
+      ca = readFileSync(caSource, 'utf8'); // path to a PEM/CRT file
+    } else {
+      // Fail loud rather than silently passing a bad path to pg as if it were a PEM,
+      // which would otherwise surface as an opaque TLS handshake error at connect time.
+      throw new Error(
+        `DATABASE_CA_CERT is set to "${caSource}" but no such file exists and it is not an inline PEM certificate.`
+      );
+    }
     return { ca, rejectUnauthorized: true };
   }
 

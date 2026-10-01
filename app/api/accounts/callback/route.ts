@@ -10,7 +10,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { timingSafeEqual } from 'crypto';
 import { auth } from '@/auth';
 import { getOAuth2Client } from '@/lib/google-oauth';
-import { OAUTH_STATE_COOKIE } from '@/app/api/accounts/connect/route';
+import { OAUTH_STATE_COOKIE } from '@/lib/oauth';
 import { encrypt } from '@/lib/crypto';
 import { query } from '@/lib/db';
 import { google } from 'googleapis';
