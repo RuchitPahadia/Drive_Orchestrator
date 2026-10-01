@@ -7,15 +7,24 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { timingSafeEqual } from 'crypto';
 import { auth } from '@/auth';
 import { getOAuth2Client } from '@/lib/google-oauth';
+import { OAUTH_STATE_COOKIE } from '@/app/api/accounts/connect/route';
 import { encrypt } from '@/lib/crypto';
 import { query } from '@/lib/db';
 import { google } from 'googleapis';
 
+/** Constant-time comparison of two state tokens (avoids length/timing leaks). */
+function statesMatch(a: string, b: string): boolean {
+  const bufA = Buffer.from(a);
+  const bufB = Buffer.from(b);
+  return bufA.length === bufB.length && timingSafeEqual(bufA, bufB);
+}
+
 /**
  * GET: Handles the redirect callback from Google OAuth consent flow.
- * 
+ *
  * @param request - Next.js request with 'code' or 'error' query parameters.
  * @returns NextResponse redirecting back to /dashboard with success or error alerts.
  */
@@ -23,18 +32,43 @@ export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const code = searchParams.get('code');
   const errorParam = searchParams.get('error');
+  const returnedState = searchParams.get('state');
+
+  // @security Verify the anti-CSRF state token echoed by Google against the cookie
+  // set when the flow was initiated. A missing or mismatched token means the
+  // callback was not initiated by this user's connect request — reject it.
+  const expectedState = request.cookies.get(OAUTH_STATE_COOKIE)?.value;
+  const clearStateCookie = (res: NextResponse) => {
+    res.cookies.delete(OAUTH_STATE_COOKIE);
+    return res;
+  };
+
+  if (!errorParam) {
+    if (!returnedState || !expectedState || !statesMatch(returnedState, expectedState)) {
+      console.error('OAuth callback rejected: missing or mismatched state token');
+      return clearStateCookie(
+        NextResponse.redirect(
+          new URL(`/dashboard?error=${encodeURIComponent('Invalid or expired authorization request. Please try connecting again.')}`, request.url)
+        )
+      );
+    }
+  }
 
   // Handle errors emitted by Google (e.g. user cancelled consent)
   if (errorParam) {
     console.error('Google OAuth redirect error:', errorParam);
-    return NextResponse.redirect(
-      new URL(`/dashboard?error=${encodeURIComponent(`Google login error: ${errorParam}`)}`, request.url)
+    return clearStateCookie(
+      NextResponse.redirect(
+        new URL(`/dashboard?error=${encodeURIComponent(`Google login error: ${errorParam}`)}`, request.url)
+      )
     );
   }
 
   if (!code) {
-    return NextResponse.redirect(
-      new URL(`/dashboard?error=${encodeURIComponent('No authorization code provided by Google.')}`, request.url)
+    return clearStateCookie(
+      NextResponse.redirect(
+        new URL(`/dashboard?error=${encodeURIComponent('No authorization code provided by Google.')}`, request.url)
+      )
     );
   }
 
@@ -74,8 +108,8 @@ export async function GET(request: NextRequest) {
     // 1. Resolve currently authenticated user session
     const session = await auth();
     if (!session?.user?.id) {
-      return NextResponse.redirect(
-        new URL('/login?error=PleaseSignInFirst', request.url)
+      return clearStateCookie(
+        NextResponse.redirect(new URL('/login?error=PleaseSignInFirst', request.url))
       );
     }
     const userId = session.user.id;
@@ -103,14 +137,18 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    return NextResponse.redirect(
-      new URL('/dashboard?success=Account connected successfully!', request.url)
+    return clearStateCookie(
+      NextResponse.redirect(
+        new URL('/dashboard?success=Account connected successfully!', request.url)
+      )
     );
   } catch (error) {
+    // @security Log full detail server-side only; return a generic message to the client.
     console.error('OAuth callback error details:', error);
-    const errorMsg = error instanceof Error ? error.message : 'Unknown error occurred during token exchange';
-    return NextResponse.redirect(
-      new URL(`/dashboard?error=${encodeURIComponent(errorMsg)}`, request.url)
+    return clearStateCookie(
+      NextResponse.redirect(
+        new URL(`/dashboard?error=${encodeURIComponent('Failed to connect Google account. Please try again.')}`, request.url)
+      )
     );
   }
 }

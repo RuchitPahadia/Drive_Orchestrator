@@ -34,14 +34,18 @@ export function getOAuth2Client() {
  *   ONLY to files created or opened by this application. Unlike the broad `drive` scope which
  *   requests read/write to the user's entire Drive, `drive.file` protects existing private files.
  * - `https://www.googleapis.com/auth/userinfo.email`: Used to identify the connected account email.
- * 
+ *
+ * @param state - Opaque anti-CSRF token echoed back by Google on the callback. The caller stores
+ *   the same value in a short-lived httpOnly cookie and verifies it in the callback to prevent
+ *   OAuth login/account-linking CSRF.
  * @returns Fully formatted Google OAuth authorization URL redirecting to Google's consent dialog.
  */
-export function generateAuthUrl() {
+export function generateAuthUrl(state?: string) {
   const oauth2Client = getOAuth2Client();
   return oauth2Client.generateAuthUrl({
     access_type: 'offline', // Request offline access to guarantee a refresh token is returned
     prompt: 'consent',      // Force consent screen to always receive a fresh refresh token on reconnect
+    ...(state ? { state } : {}),
     scope: [
       'https://www.googleapis.com/auth/drive.file',
       'https://www.googleapis.com/auth/userinfo.email',
